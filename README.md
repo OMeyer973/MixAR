@@ -1,7 +1,7 @@
-#MixAR unity project
+# MixAR unity project
 --------------------------------------
 
-##how to install
+## how to install
 
 - clone the project in you windows computer
 
@@ -44,6 +44,8 @@ other folders are configuration stuff specific to visual studio, unity, and the 
 - please have variables names in english (french comments are okay)
 
 - Class names are written in UpperCamelCase
+
+- functions names are written in UpperCamelCase (C# code guideline apparently)
 
 - variables names are written in lowerCamelCase
 
