@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="Vtrefle" size="0.085000 0.055613" />
+    <ImageTarget name="VCoeur" size="0.085000 0.054505" />
+    <ImageTarget name="Vcarreau" size="0.085000 0.054742" />
+    <ImageTarget name="RPique" size="0.085000 0.055203" />
+    <ImageTarget name="DCarreau" size="0.085000 0.053481" />
+  </Tracking>
+</QCARConfig>
