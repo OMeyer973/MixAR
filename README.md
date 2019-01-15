@@ -5,7 +5,9 @@
 
 - clone the project in you windows computer
 
-- add the streaming assets folder that you will find on the google drive folder
+- add the ProductionAssets folder that you will find on the google drive folder (folder containing all comics animations and textures)
+
+- download the vuforia database from https://developer.vuforia.com/targetmanager and add the package into your project
 
 - if you have trouble with the vuforia database, go to vuforia, login, download the unity package corresponding to the vuforia database
 
