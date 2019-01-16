@@ -5,6 +5,7 @@
 [Bb]uilds/
 ProductionAssets/
 Assets/AssetStoreTools*
+Assets/Editor/Vuforia
 
 # Visual Studio cache directory
 .vs/

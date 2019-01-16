@@ -1,11 +1,13 @@
-#MixAR unity project
+# MixAR unity project
 --------------------------------------
 
-##how to install
+## how to install
 
 - clone the project in you windows computer
 
-- add the streaming assets folder that you will find on the google drive folder
+- add the ProductionAssets folder that you will find on the google drive folder (folder containing all comics animations and textures)
+
+- download the vuforia database from https://developer.vuforia.com/targetmanager and add the package into your project
 
 - if you have trouble with the vuforia database, go to vuforia, login, download the unity package corresponding to the vuforia database
 
@@ -44,6 +46,8 @@ other folders are configuration stuff specific to visual studio, unity, and the 
 - please have variables names in english (french comments are okay)
 
 - Class names are written in UpperCamelCase
+
+- functions names are written in UpperCamelCase (C# code guideline apparently)
 
 - variables names are written in lowerCamelCase
 
