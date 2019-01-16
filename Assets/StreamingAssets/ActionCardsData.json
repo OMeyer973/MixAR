@@ -1,4 +1,13 @@
-{
- "id": 9,
- "cardName": "VTrefle"
-}
+
+	[
+		{
+		 "cardName": "VTrefle",
+		 "playerId": 0,
+		 "actionId": 0
+		},
+		{
+		 "cardName": "VPique",
+		 "playerId": 1,
+		 "actionId": 2
+		}
+	]

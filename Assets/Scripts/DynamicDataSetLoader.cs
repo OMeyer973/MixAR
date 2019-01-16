@@ -36,34 +36,29 @@ public class DynamicDataSetLoader : MonoBehaviour
         VuforiaARController.Instance.RegisterVuforiaStartedCallback(LoadDataSet);
     }
 
+    // full processus of loading a card : 
+    // class CardStats loads all the cards stats from json as arrays of  ActionCardData, ScenarioCardData and TrapCardData
+    // LoadDataset() creates the vuforia targets object from the database
+    // InitializeCard() Initializes the card data
+    // - attach a ActionCard, ScenarioCard or TrapCard component in function of the card name in the db
+    // - these [type]Card components are then initialized with their respective [type]CardData as parameter
     void InitializeCard(GameObject card)
     {
         GameObject augmentation = new GameObject();
         // if the card name starts with action (if it is an action card)
         if (System.Text.RegularExpressions.Regex.Match(card.name.ToLower(), "^action*").Success)
         {
-            card.AddComponent<ActionCard>();
-            card.GetComponent<ActionCard>().Initialize(cardsScanner);
-
-            // instantiate augmentation object and parent to trackable
+            InitializeActionCard(card);
             augmentation = (GameObject)GameObject.Instantiate(actionCardPrefab);
         }
         else if (System.Text.RegularExpressions.Regex.Match(card.name.ToLower(), "^scenario*").Success)
         {
-            card.AddComponent<ScenarioCard>();
-            // TODO : implement initialise method;
-            card.GetComponent<ScenarioCard>().Initialize(cardsScanner);
-
-            // instantiate augmentation object and parent to trackable
+            InitializeScenarioCard(card);
             augmentation = (GameObject)GameObject.Instantiate(scenarioCardPrefab);
         }
         else if (System.Text.RegularExpressions.Regex.Match(card.name.ToLower(), "^trap*").Success)
         {
-            card.AddComponent<TrapCard>();
-            // TODO : implement initialize method;
-            card.GetComponent<TrapCard>().Initialize(cardsScanner);
-
-            // instantiate augmentation object and parent to trackable
+            InitializeTrapCard(card);
             augmentation = (GameObject)GameObject.Instantiate(trapCardPrefab);
         }
 
@@ -75,6 +70,27 @@ public class DynamicDataSetLoader : MonoBehaviour
 
         // required vuforia component
         card.AddComponent<TurnOffBehaviour>();
+    }
+
+    void InitializeActionCard(GameObject actionCard)
+    {
+        actionCard.AddComponent<ActionCard>();
+        actionCard.GetComponent<ActionCard>().Initialize(cardsScanner);
+    }
+
+    void InitializeScenarioCard(GameObject scenarioCard)
+    {
+        scenarioCard.AddComponent<ScenarioCard>();
+        // TODO : implement initialise method;            
+        scenarioCard.GetComponent<ScenarioCard>().Initialize(cardsScanner);
+
+    }
+
+    void InitializeTrapCard(GameObject trapCard)
+    {
+        trapCard.AddComponent<TrapCard>();
+        // TODO : implement initialize method;
+        trapCard.GetComponent<TrapCard>().Initialize(cardsScanner);
     }
 
     void LoadDataSet()

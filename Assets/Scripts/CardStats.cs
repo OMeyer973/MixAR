@@ -1,10 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+// json deserializer used : https://github.com/SaladLab/Json.Net.Unity3D
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
-// class that will load the cards from json and instantiate them
+
+// class that will load the cards statistics from json and instantiate them
 public class CardStats : MonoBehaviour {
 
     #region PROTECTED_MEMBERS
@@ -13,17 +18,40 @@ public class CardStats : MonoBehaviour {
     protected string _TrapCardsDataFileName = "TrapCardsData.json";
     protected string _ScenarioCardsDataFileName = "ScenarioCardsData.json";
 
-    #endregion // PROTECTED8MEMBERS
+    protected ActionCardStats[] _actionCardStats = null;
+    protected ScenarioCardStats[] _scenarioCardStats = null;
+    protected TrapCardStats[] _trapCardStats = null;
+    
+    #endregion // PROTECTED_MEMBERS
 
 
     #region PUBLIC_METHODS
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
         LoadActionCardsData();
         // LoadTrapCardsData();
         // LoadScenarioCardsData();
+    }
+
+    // return the ActionStats corresponding to the given cardName
+    public ActionCardStats ActionStat(string cardName)
+    {
+        if (_actionCardStats == null)
+        {
+            Debug.LogError("trying to get action card stat before it has been loaded correctly");
+            return null;
+        }
+
+        foreach (ActionCardStats a in _actionCardStats)
+        {
+            if (a.cardName == cardName)
+                return a;
+        }
+
+        Debug.LogError("can't find card name in action stats - check the json file");
+        return null;
     }
 
     #endregion // PUBLIC_METHODS
@@ -33,11 +61,10 @@ public class CardStats : MonoBehaviour {
 
     protected void LoadActionCardsData()
     {
-        string actionCardsData = ReadFile(_ActionCardsDataFileName);
-        Debug.Log(actionCardsData);
-        ActionCardData loadedCardData = JsonUtility.FromJson<ActionCardData>(actionCardsData);
+        string actionCardsFile = ReadFile(_ActionCardsDataFileName);
+        Debug.Log(actionCardsFile);
 
-        //instantiatedCard.GetComponent<ImageTargetBehaviour>().Initialize(cardsScanner, loadedCardData);
+        ActionCardStats[] _actionCardStats = JsonConvert.DeserializeObject<ActionCardStats[]>(actionCardsFile);
     }
 
     // reads a file in  the streamingAssets folder and returns it's content
@@ -62,3 +89,4 @@ public class CardStats : MonoBehaviour {
     #endregion // PROTECTED_METHODS
 
 }
+

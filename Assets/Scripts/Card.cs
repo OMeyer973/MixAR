@@ -25,7 +25,7 @@ public class Card : DefaultTrackableEventHandler
     {
         base.OnTrackingLost();
         _isOnScreen = false;
-        _cardsScanner.UpdateCardsList();
+        _cardsScanner.UpdateCardsList(this);
     }
 
 }

@@ -30,8 +30,9 @@ public class CardsScanner : MonoBehaviour
                 if (c is ActionCard)
                     nbActionCard ++;
             }
-            
+
             // if the configuration is good, proceed
+            // TODO : check if each action card belongs to a different player thanks to it's statistics
             if (nbTrapCard == 1 && nbScenarioCard == 1 && nbActionCard == 3)
             {
                 Debug.Log("Cards are good !");
@@ -67,12 +68,12 @@ public class CardsScanner : MonoBehaviour
         {
             _trackedCards.Add(card);
         }
-        // else if one card in the lis is off screen, pop it and add the new card
-        else foreach (Card c in _trackedCards)
+        // else if one card in the list is off screen, pop it and add the new card
+        else for (int i = _trackedCards.Count - 1; i >= 0; i--)
         {
-            if (!c.IsOnScreen())
+            if (!_trackedCards[i].IsOnScreen())
             {
-                _trackedCards.Remove(c);
+                _trackedCards.RemoveAt(i);
                 _trackedCards.Add(card);
             }
         }
@@ -81,16 +82,22 @@ public class CardsScanner : MonoBehaviour
     }
 
     // updates the card list and empties it if all the cards are off-screen
-    public void UpdateCardsList()
+    public void UpdateCardsList(Card ca)
     {
+
+        //_trackedCards.Remove(ca);
         int cardsOnScreen = 0;
         foreach (Card c in _trackedCards)
         {
             if(c.IsOnScreen())
                 cardsOnScreen++;
         }
+
+        // if no cards are on screen : clear the list 
         if (cardsOnScreen <= 0)
+        {
             _trackedCards.Clear();
+        }
     }
 
     #endregion // PUBLIC_METHODS
