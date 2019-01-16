@@ -13,19 +13,23 @@ public class ActionCardStats
 
 public class ActionCard : Card {
 
-    protected int _id;
-    protected int playerId;
+    public int _cardName;
+    public int _actionId;
+    public int _playerId;
 
     // initialize the card members according to the parsed json cardData and points to the cardScanner in the scene
-    public void Initialize(CardsScanner cardsScanner/*, ActionCardStats cardStats*/)
+    public void Initialize(CardsScanner cardsScanner, ActionCardStats cardStats)
     {
         _cardsScanner = cardsScanner;
-        //_id = cardData.id;
+        _actionId = cardStats.actionId;
+        _playerId = cardStats.playerId;
+        Debug.Log("Initializing action card ");
+        Print();
     }
 
 
     public void Print()
     {
-        Debug.Log("ActionCard : " + _id);
+        Debug.Log("ActionCard : " + _cardName + " - action : " + _actionId + " by player " + _playerId);
     }
 }

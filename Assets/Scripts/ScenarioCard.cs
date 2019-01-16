@@ -11,18 +11,21 @@ public class ScenarioCardStats
 
 public class ScenarioCard : Card {
 
-    protected int _id;
+    protected int _cardName;
+    protected int _scenarioId;
 
     // initialize the card members according to the parsed json cardData and points to the cardScanner in the scene
-    public void Initialize(CardsScanner cardsScanner/*, ActionCardStats cardStats*/)
+    public void Initialize(CardsScanner cardsScanner, ScenarioCardStats cardStats)
     {
         _cardsScanner = cardsScanner;
-        //_id = cardData.id;
+        _scenarioId = cardStats.scenarioId;
+        Debug.Log("Initializing scenario card ");
+        Print();
     }
 
 
     public void Print()
     {
-        Debug.Log("ActionCard : " + _id);
+        Debug.Log("ScenarioCard : " + _cardName + " scenario " + _scenarioId);
     }
 }
