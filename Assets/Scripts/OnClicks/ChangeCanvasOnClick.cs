@@ -17,7 +17,6 @@ public class ChangeCanvasOnClick : MonoBehaviour
         if (gameObject == null)
             throw new System.Exception(MAIN_MENU_CANVAS_NAME + " not found");
         _activeMenu = gameObject.GetComponent<Menu>();
-        Debug.Log("test " + _activeMenu);
     }
     #endregion
 
