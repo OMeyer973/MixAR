@@ -3,7 +3,7 @@
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
-Assets/ProductionAssets*
+Assets/Resources/ProductionAssets*
 Assets/AssetStoreTools*
 Assets/Editor/Vuforia
 s
