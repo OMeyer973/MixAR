@@ -1,0 +1,19 @@
+
+[
+	{
+	 "cardName": "trap0",
+	 "trapId": 0
+	},
+	{
+	 "cardName": "trap1",
+	 "trapId": 2
+	},
+	{
+	 "cardName": "trap2",
+	 "trapId": 3
+	},
+	{
+	 "cardName": "trap3",
+	 "trapId": 1
+	}
+]

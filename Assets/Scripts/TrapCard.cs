@@ -11,18 +11,21 @@ public class TrapCardStats
 
 public class TrapCard : Card {
 
-    protected int _id;
+    public int CardName { get; private set; }
+    public int TrapId { get; private set; }
 
     // initialize the card members according to the parsed json cardData and points to the cardScanner in the scene
-    public void Initialize(CardsScanner cardsScanner/*, ActionCardStats cardStats*/)
+    public void Initialize(CardsScanner cardsScanner, TrapCardStats cardStats)
     {
         _cardsScanner = cardsScanner;
-        //_id = cardData.id;
+        TrapId = cardStats.trapId;
+        Debug.Log("Initializing trap card ");
+        Print();
     }
 
 
     public void Print()
     {
-        Debug.Log("ActionCard : " + _id);
+        Debug.Log("TrapCard : " + CardName + " trap id " + TrapId);
     }
 }

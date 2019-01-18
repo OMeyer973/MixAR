@@ -17,15 +17,18 @@ public class DynamicDataSetLoader : MonoBehaviour
 
     #region PUBLIC_MEMBERS
 
+    // card scanner that each card will keep a reference on
+    public CardsScanner cardsScanner;
+
+    // card stats loader to retrieve the corrects stats for each card from the json
+    public CardStatsLoader cardStatsLoader;
+
+    public string dataSetName = "";  //  Assets/StreamingAssets/QCAR/DataSetName
+
     // specify these in Unity Inspector    // base prefabs for the different cards types
     public GameObject actionCardPrefab;
     public GameObject trapCardPrefab;
     public GameObject scenarioCardPrefab;
-
-    // card scanner that each card will keep a reference on
-    public CardsScanner cardsScanner;
-
-    public string dataSetName = "";  //  Assets/StreamingAssets/QCAR/DataSetName
 
     #endregion // PUBLIC_MEMBERS
 
@@ -75,22 +78,20 @@ public class DynamicDataSetLoader : MonoBehaviour
     void InitializeActionCard(GameObject actionCard)
     {
         actionCard.AddComponent<ActionCard>();
-        actionCard.GetComponent<ActionCard>().Initialize(cardsScanner);
+        actionCard.GetComponent<ActionCard>().Initialize(cardsScanner, cardStatsLoader.GetActionStats(actionCard.name));
     }
 
     void InitializeScenarioCard(GameObject scenarioCard)
     {
-        scenarioCard.AddComponent<ScenarioCard>();
-        // TODO : implement initialise method;            
-        scenarioCard.GetComponent<ScenarioCard>().Initialize(cardsScanner);
+        scenarioCard.AddComponent<ScenarioCard>();     
+        scenarioCard.GetComponent<ScenarioCard>().Initialize(cardsScanner, cardStatsLoader.GetScenarioStats(scenarioCard.name));
 
     }
 
     void InitializeTrapCard(GameObject trapCard)
     {
         trapCard.AddComponent<TrapCard>();
-        // TODO : implement initialize method;
-        trapCard.GetComponent<TrapCard>().Initialize(cardsScanner);
+        trapCard.GetComponent<TrapCard>().Initialize(cardsScanner, cardStatsLoader.GetTrapStats(trapCard.name));
     }
 
     void LoadDataSet()
