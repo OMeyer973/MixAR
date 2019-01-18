@@ -16,9 +16,9 @@ public class CardsScanner : MonoBehaviour
     // check if the cards in the list are good to proceed (1 scenario, 1 trap & 3 actions)
     protected void CheckCards()
     {
-        if (_trackedCards.Count >= 5) // 5 : numbeer of cards that need to be scanned at once
+        if (_trackedCards.Count >= 5) // 5 : number of cards that need to be scanned at once
         {
-            int nbTrapCard = 0, nbScenarioCard = 0, nbActionCard = 0;
+            int nbTrapCard = 0, nbScenarioCard = 0, nbActionCardPlayer0 = 0, nbActionCardPlayer1 = 0, nbActionCardPlayer2 = 0;
 
             // count the number of action, scenario & trap cards in the list
             foreach (Card c in _trackedCards)
@@ -28,19 +28,27 @@ public class CardsScanner : MonoBehaviour
                 else if (c is ScenarioCard)
                     nbScenarioCard ++;
                 if (c is ActionCard)
-                    nbActionCard ++;
+                {
+                    dynamic tmpCard = c;
+                    if (tmpCard.PlayerId == 0)
+                        nbActionCardPlayer0++;
+                    else if (tmpCard.PlayerId == 1)
+                        nbActionCardPlayer1++;
+                    else if (tmpCard.PlayerId == 2)
+                        nbActionCardPlayer2++;
+                }
             }
 
             // if the configuration is good, proceed
             // TODO : check if each action card belongs to a different player thanks to it's statistics
-            if (nbTrapCard == 1 && nbScenarioCard == 1 && nbActionCard == 3)
+            if (nbTrapCard == 1 && nbScenarioCard == 1 && nbActionCardPlayer0 == 1 && nbActionCardPlayer1 == 1 && nbActionCardPlayer2 == 1)
             {
                 Debug.Log("Cards are good !");
                 validationObject.SetActive(true);
             }
             else
             {
-                Debug.Log("please scan 3 action cards, 1 scenario card and 1 Trap card");
+                Debug.Log("please scan 3 action cards (1 per character), 1 scenario card and 1 Trap card");
             }
         }
     }

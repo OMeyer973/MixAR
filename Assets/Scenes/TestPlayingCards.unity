@@ -378,46 +378,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 439063594}
   m_Mesh: {fileID: 0}
---- !u!1 &912615446
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 912615447}
-  - component: {fileID: 912615448}
-  m_Layer: 0
-  m_Name: cardsStatsLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &912615447
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 912615446}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &912615448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 912615446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea98a9a546bab14cb7f9f4fb7e6f375, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &956138173
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,50 +480,8 @@ Transform:
   m_Children:
   - {fileID: 439063595}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1630542027
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1630542028}
-  - component: {fileID: 1630542029}
-  m_Layer: 0
-  m_Name: CardsScanner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1630542028
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1630542027}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1630542029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1630542027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 453c63dc9ec687e48aa709fea0a82658, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  validationObject: {fileID: 439063594}
-  _trackedCards: []
 --- !u!1 &1995379202
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,8 +491,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1995379204}
   - component: {fileID: 1995379203}
+  - component: {fileID: 1995379205}
+  - component: {fileID: 1995379206}
   m_Layer: 0
-  m_Name: DynamicDataSetLoader
+  m_Name: CardScanningManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,8 +511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc1023904f841047aac3984cc7b5b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardsScanner: {fileID: 1630542029}
-  cardStatsLoader: {fileID: 912615448}
+  cardsScanner: {fileID: 1995379206}
+  cardStatsLoader: {fileID: 1995379205}
   dataSetName: playing_cards
   actionCardPrefab: {fileID: 1055964236583102, guid: 961bf0d428877704ab56fe9627a4dcd5,
     type: 2}
@@ -613,3 +533,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1995379205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1995379202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ea98a9a546bab14cb7f9f4fb7e6f375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1995379206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1995379202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 453c63dc9ec687e48aa709fea0a82658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  validationObject: {fileID: 439063594}
+  _trackedCards: []

@@ -11,14 +11,14 @@ public class ScenarioCardStats
 
 public class ScenarioCard : Card {
 
-    protected int _cardName;
-    protected int _scenarioId;
+    protected int CardName { get; private set; }
+    protected int ScenarioId { get; private set; }
 
     // initialize the card members according to the parsed json cardData and points to the cardScanner in the scene
     public void Initialize(CardsScanner cardsScanner, ScenarioCardStats cardStats)
     {
         _cardsScanner = cardsScanner;
-        _scenarioId = cardStats.scenarioId;
+        ScenarioId = cardStats.scenarioId;
         Debug.Log("Initializing scenario card ");
         Print();
     }
@@ -26,6 +26,6 @@ public class ScenarioCard : Card {
 
     public void Print()
     {
-        Debug.Log("ScenarioCard : " + _cardName + " scenario " + _scenarioId);
+        Debug.Log("ScenarioCard : " + CardName + " scenario " + ScenarioId);
     }
 }

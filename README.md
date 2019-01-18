@@ -52,10 +52,12 @@ other folders are configuration stuff specific to visual studio, unity, and the 
 
 - variables names are written in lowerCamelCase
 
-- public class members are allowed (but do not put everything in public if not necessary !)
-note : it is possible to change a private variable via inspector with a certain [flag] in the code (written between brackets[])
+- class property names are written in UpperCamelCase - eg : public int CardId { get; private set; }
 
-- private class members variables are written with " _ " as a prefix.
+- public class members are allowed (but do not put everything in public if not necessary !)
+note : I think it is possible to change a private variable via inspector with a certain [flag] in the code (written between brackets[])
+
+- private / protected class members variables are written with " _ " as a prefix.
 
 ### Comic boxes Animations production process
 #### for each animation
