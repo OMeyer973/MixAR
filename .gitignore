@@ -3,10 +3,10 @@
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
-ProductionAssets/
+Assets/Resources/ProductionAssets*
 Assets/AssetStoreTools*
 Assets/Editor/Vuforia
-
+s
 # Visual Studio cache directory
 .vs/
 
