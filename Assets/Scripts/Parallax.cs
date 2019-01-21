@@ -8,7 +8,7 @@ using UnityEngine.Animations;
 public class Parallax : MonoBehaviour
 {
 
-    public const float GIRO_SPEED = 15.0f;
+    public const float GIRO_SPEED = 10.0f;
     public const float SPACING = 6.0f;
     public const float CAMERA_MARGIN = 22.0f;
     public const float CENTERING_SPEED = 40.0f;
@@ -59,8 +59,8 @@ public class Parallax : MonoBehaviour
     void Start()
     {
         //Setting initial phone position
-        _centerGiroReference.x = Input.mousePosition.x;
-        _centerGiroReference.y = Input.mousePosition.y;
+        //_centerGiroReference.x = Input.mousePosition.x;
+        //_centerGiroReference.y = Input.mousePosition.y;
         _centerGiroReference.x = Input.acceleration.x;
         _centerGiroReference.y = Input.acceleration.y;
 
@@ -83,18 +83,18 @@ public class Parallax : MonoBehaviour
     {
         //Getting giroscope current values
         Vector3 giro = Vector3.zero;
-        giro.x = Input.mousePosition.x/100;
-        giro.y = Input.mousePosition.y/100;
+        //giro.x = Input.mousePosition.x/100;
+        //giro.y = Input.mousePosition.y/100;
         giro.x = Input.acceleration.x;
         giro.y = Input.acceleration.y;
         
         //Calculating relative mouvement of giro
-        _centerGiroReference += (giro - _centerGiroReference) / 20;
+        _centerGiroReference += (giro - _centerGiroReference) / 10;
         giro = _centerGiroReference - giro;
         
         //Set new position of camera
         Vector3 newPos = transform.position + giro * GIRO_SPEED;
-        newPos = _originalPosition*0.1f + newPos *0.9f;
+        newPos = _originalPosition*0.2f + newPos *0.8f;
         
 
         //Clamping position
