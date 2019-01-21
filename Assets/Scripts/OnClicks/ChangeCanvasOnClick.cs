@@ -34,5 +34,15 @@ public class ChangeCanvasOnClick : MonoBehaviour
         _activeMenu = canvas.GetComponent<Menu>();
         _activeMenu.setActive();
     }
+
+    public void show(Canvas canvas)
+    {
+        canvas.GetComponent<Menu>().setActive();
+    }
+
+    public void hide(Canvas canvas)
+    {
+        canvas.GetComponent<Menu>().setInactive();
+    }
     #endregion
 }
