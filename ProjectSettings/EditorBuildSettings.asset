@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: c65ae2cfd1e2aa9438afee43993b30f3
-  - enabled: 0
-    path: Assets/Scenes/TestPlayingCards.unity
-    guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/TestParallax.unity
     guid: 9ac54b97fd5ae904c80bf563154cd099
+  - enabled: 1
+    path: Assets/Scenes/TestPlayingCards.unity
+    guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}
