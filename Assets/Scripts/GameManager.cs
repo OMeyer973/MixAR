@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
     public void begin() {
 		menu.SetActive(false);
         animation.SetActive(true);
+
+        parallax.GetComponent<Parallax>().addSprite(0, 0, 0);
     }
 	
 	// Update is called once per frame

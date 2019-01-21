@@ -10,45 +10,72 @@ public class Parallax : MonoBehaviour
     public Camera camera;
 
     public const float GIRO_SPEED = 10.0f;
-    public const float SPACING = 6.0f;
-    public const float CAMERA_MARGIN = 22.0f;
+    public const float SPACING = 4.0f;
+    public const float CAMERA_MARGIN = 7.0f;
     public const float CENTERING_SPEED = 40.0f;
     public const float MAX_CAMERA_POSITION = 30.0f;
     
     private Vector3 _centerGiroReference;
     private Vector3 _originalPosition;
 
-    private const string PARALLAX_SPRITE_FOLDER = "ProductionAssets/";
+    private const string PARALLAX_SPRITE_FOLDER = "Animations/";
     private List<GameObject> _spriteList = new List<GameObject>();
 
 
     #region PUBLIC_METHODS
 
+    public void resetGiro()
+    {
+        //Setting initial phone position
+        //_centerGiroReference.x = Input.mousePosition.x;
+        //_centerGiroReference.y = Input.mousePosition.y;
+        _centerGiroReference.x = Input.acceleration.x;
+        _centerGiroReference.y = Input.acceleration.y;
+        _originalPosition = camera.transform.position;
+    }
+
     //@brief Add a sprite to the current scene in front of the caméra following Parallax parameters
     //@param SpriteFilename : Filename of the sprite without extention
-    public void addSprite(string spriteFilename) {
-        //Creating and positionning The GameObject
-        float zAxis = CAMERA_MARGIN + SPACING * _spriteList.Count;
-        GameObject go = new GameObject(spriteFilename);
-        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-        go.transform.position = new Vector3(0, 0, zAxis);
-
-        //Loading sprite
-        Sprite sprite = Resources.Load(PARALLAX_SPRITE_FOLDER + spriteFilename, typeof(Sprite)) as Sprite;
-        renderer.sprite = sprite;
-        _spriteList.Add(go);
-
-        //Setting camera LookAtConstraint cible
-        ConstraintSource cible = new ConstraintSource();
-        cible.sourceTransform = _spriteList[_spriteList.Count - 1].transform;
-        cible.weight = 1;
-        try
+    public void addSprite(int charNumber, int actionId, int SucessId) {
+        resetGiro();
+        int layer = 0;
+        bool spriteFound = true;
+        string spriteFilename = "A_char"+charNumber+"_actionId"+actionId+"_SuccessId"+SucessId+"_layer";
+        while (spriteFound == true)
         {
-            camera.GetComponent<LookAtConstraint>().SetSource(0,cible);
+            //Loading sprite
+            Sprite sprite = Resources.Load(PARALLAX_SPRITE_FOLDER + spriteFilename + layer, typeof(Sprite)) as Sprite;
+            
+            if (sprite == null)
+                spriteFound = false;
+            else
+            {
+                //Creating and positionning The GameObject
+                float zAxis = CAMERA_MARGIN + SPACING * _spriteList.Count;
+                GameObject go = new GameObject(spriteFilename + layer);
+                SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+                go.transform.position = new Vector3(0, 0, zAxis);
+
+                //Applying sprite on gameObject
+                renderer.sprite = sprite;
+                _spriteList.Add(go);
+            }
+            layer++;
         }
-        catch (System.InvalidOperationException e) //If source is null
+        if(_spriteList.Count > 1)
         {
-            camera.GetComponent<LookAtConstraint>().AddSource(cible);
+            //Setting camera LookAtConstraint cible
+            ConstraintSource cible = new ConstraintSource();
+            cible.sourceTransform = _spriteList[1].transform;
+            cible.weight = 1;
+            try
+            {
+                camera.GetComponent<LookAtConstraint>().SetSource(0,cible);
+            }
+            catch (System.InvalidOperationException e) //If source is null
+            {
+                camera.GetComponent<LookAtConstraint>().AddSource(cible);
+            }
         }
 
     }
@@ -56,23 +83,11 @@ public class Parallax : MonoBehaviour
 
     #region PRIVATE_METHODS
 
-    // Use this for initialization
-    void Start()
+    void clear()
     {
-        
-        //Setting initial phone position
-        //_centerGiroReference.x = Input.mousePosition.x;
-        //_centerGiroReference.y = Input.mousePosition.y;
-        _centerGiroReference.x = Input.acceleration.x;
-        _centerGiroReference.y = Input.acceleration.y;
-
-        _originalPosition = camera.transform.position;
-
-        //Adding sprite manualy for testing
-        addSprite("Parallax3");
-        addSprite("Parallax1");
-        addSprite("Parallax2");
-
+        foreach(GameObject sprite in _spriteList){
+            Destroy(sprite);
+        }
     }
 
     // Update is called once per frame
