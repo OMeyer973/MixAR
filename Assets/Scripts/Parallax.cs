@@ -7,6 +7,7 @@ using UnityEngine.Animations;
 
 public class Parallax : MonoBehaviour
 {
+    public Camera camera;
 
     public const float GIRO_SPEED = 10.0f;
     public const float SPACING = 6.0f;
@@ -43,11 +44,11 @@ public class Parallax : MonoBehaviour
         cible.weight = 1;
         try
         {
-            GetComponent<LookAtConstraint>().SetSource(0,cible);
+            camera.GetComponent<LookAtConstraint>().SetSource(0,cible);
         }
         catch (System.InvalidOperationException e) //If source is null
         {
-            GetComponent<LookAtConstraint>().AddSource(cible);
+            camera.GetComponent<LookAtConstraint>().AddSource(cible);
         }
 
     }
@@ -58,19 +59,20 @@ public class Parallax : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        
         //Setting initial phone position
         //_centerGiroReference.x = Input.mousePosition.x;
         //_centerGiroReference.y = Input.mousePosition.y;
         _centerGiroReference.x = Input.acceleration.x;
         _centerGiroReference.y = Input.acceleration.y;
 
-        _originalPosition = transform.position;
+        _originalPosition = camera.transform.position;
 
         //Adding sprite manualy for testing
         addSprite("Parallax3");
         addSprite("Parallax1");
         addSprite("Parallax2");
-        
+
     }
 
     // Update is called once per frame
@@ -81,6 +83,7 @@ public class Parallax : MonoBehaviour
 
     private void updateCamera()
     {
+        
         //Getting giroscope current values
         Vector3 giro = Vector3.zero;
         //giro.x = Input.mousePosition.x/100;
@@ -93,7 +96,7 @@ public class Parallax : MonoBehaviour
         giro = _centerGiroReference - giro;
         
         //Set new position of camera
-        Vector3 newPos = transform.position + giro * GIRO_SPEED;
+        Vector3 newPos = camera.transform.position + giro * GIRO_SPEED;
         newPos = _originalPosition*0.2f + newPos *0.8f;
         
 
@@ -102,7 +105,7 @@ public class Parallax : MonoBehaviour
         newPos.y = Mathf.Clamp(newPos.y, -MAX_CAMERA_POSITION, MAX_CAMERA_POSITION);
 
         // Move camera
-        transform.position = newPos;
+        camera.transform.position = newPos;
     }
 
     #endregion
