@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="Mire" size="0.085000 0.055396" />
     <ImageTarget name="trap3" size="0.085000 0.054005" />
     <ImageTarget name="trap2" size="0.085000 0.053481" />
     <ImageTarget name="trap1" size="0.085000 0.053559" />

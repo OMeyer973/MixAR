@@ -30,7 +30,7 @@ other folders are configuration stuff specific to visual studio, unity, and the 
 
 - Models : 3D models only.  no unity prefabs
 
-- ProductionAssets : put here all of the stuff related to the story - models, comics and animations stuff. They will not be pushed in git, so put all the heavy stuff here.
+- ProductionAssets : put here all of the stuff related to the story - models, comics and animations stuff. They will not be pushed in git, so put all the heavy stuff here. if you make prefabs using these things, put them in the Assets/Prefabs folder ! (so they are correctly pushed)
 
 - Ressources : Vuforia configuration stuff
 
@@ -67,7 +67,7 @@ note : I think it is possible to change a private variable via inspector with a 
 
 - rename it to your new animation name [animName]
 
-- create a folder [animName] in Assets/ProductionAssets/
+- create a folder [animName] in Assets/ProductionAssets/ComicAnimations
 
 - paste your 4 png textures corresponding to the animation layers
 
