@@ -37,8 +37,6 @@ public class CardStatsLoader : MonoBehaviour {
             Debug.Log("Loading action cards data from json");
             LoadActionCardsData();
         }
-        if (_actionCardStats == null)
-            Debug.LogError("couldn't load LoadActionCardsData() properly");
 
         foreach (ActionCardStats a in _actionCardStats)
         {
@@ -49,7 +47,7 @@ public class CardStatsLoader : MonoBehaviour {
         Debug.LogError("can't find card " + cardName + " in action stats - check the json file");
         return null;
     }
-    
+
     // return the ScenarioStats corresponding to the given cardName
     public ScenarioCardStats GetScenarioStats(string cardName)
     {
@@ -58,8 +56,6 @@ public class CardStatsLoader : MonoBehaviour {
             Debug.Log("Loading scenario cards data from json");
             LoadScenarioCardsData();
         }
-        if (_scenarioCardStats == null)
-            Debug.LogError("couldn't load LoadScenarioCardsData() properly");
 
         foreach (ScenarioCardStats a in _scenarioCardStats)
         {
@@ -79,8 +75,6 @@ public class CardStatsLoader : MonoBehaviour {
             Debug.Log("Loading trap cards data from json");
             LoadTrapCardsData();
         }
-        if (_trapCardStats == null)
-            Debug.LogError("couldn't load LoadTrapCardsData() properly");
 
         foreach (TrapCardStats a in _trapCardStats)
         {
@@ -101,8 +95,10 @@ public class CardStatsLoader : MonoBehaviour {
     {
         string actionCardsFile = ReadFile(_actionCardsDataFileName);
         // Debug.Log(actionCardsFile);
-
         _actionCardStats = JsonConvert.DeserializeObject<ActionCardStats[]>(actionCardsFile);
+
+        if (_actionCardStats == null)
+            Debug.LogError("couldn't load LoadActionCardsData() properly");
     }
 
 
@@ -110,8 +106,10 @@ public class CardStatsLoader : MonoBehaviour {
     {
         string scenarioCardsFile = ReadFile(_scenarioCardsDataFileName);
         // Debug.Log(scenarioCardsFile);
-
         _scenarioCardStats = JsonConvert.DeserializeObject<ScenarioCardStats[]>(scenarioCardsFile);
+
+        if (_scenarioCardStats == null)
+            Debug.LogError("couldn't load LoadScenarioCardsData() properly");
     }
 
 
@@ -119,8 +117,10 @@ public class CardStatsLoader : MonoBehaviour {
     {
         string trapCardsFile = ReadFile(_trapCardsDataFileName);
         // Debug.Log(trapCardsFile);
-
         _trapCardStats = JsonConvert.DeserializeObject<TrapCardStats[]>(trapCardsFile);
+
+        if (_trapCardStats == null)
+            Debug.LogError("couldn't load LoadTrapCardsData() properly");
     }
 
 
