@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Menu : MonoBehaviour {
+   
     public GameObject _canvas;
 
     public void setActive()

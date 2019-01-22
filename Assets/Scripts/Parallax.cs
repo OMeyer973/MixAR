@@ -24,18 +24,10 @@ public class Parallax : MonoBehaviour
     private const string PARALLAX_ANIMATED_GAMEOBJECT_FOLDER = "Animations/";
     private List<GameObject> _bdElemList = new List<GameObject>();
     public GameObject cameraCible;
-    
-    #region PUBLIC_METHODS
 
-    public void resetGiro()
-    {
-        //Setting initial phone position²
-        //_centerGiroReference.x = Input.mousePosition.x;
-        //_centerGiroReference.y = Input.mousePosition.y;
-        _centerGiroReference.x = Input.acceleration.x;
-        _centerGiroReference.y = Input.acceleration.y;
-        _originalPosition = camera.transform.position;
-    }
+
+    #region PUBLIC_METHODS
+    
 
     public void addSprite(GameObject prefab)
     {
@@ -62,9 +54,22 @@ public class Parallax : MonoBehaviour
             Destroy(sprite);
     }
 
+
     #endregion
 
     #region PRIVATE_METHODS
+
+    void resetGiro()
+    {
+        //Setting initial phone position²
+        //_centerGiroReference.x = Input.mousePosition.x;
+        //_centerGiroReference.y = Input.mousePosition.y;
+        _centerGiroReference.x = Input.acceleration.x;
+        _centerGiroReference.y = Input.acceleration.y;
+        _originalPosition = camera.transform.position;
+    }
+
+    
 
     void createParallaxSprite(GameObject animatedBdElement)
     {
