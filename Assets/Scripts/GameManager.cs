@@ -11,22 +11,22 @@ public class GameManager : Singleton<GameManager> {
     public PlayerSettings settings;
 
     public GameObject menu;
-
     public GameObject comicAnimation;
     public GameObject parallax;
+
+    public GameObject introPrefab;
+
 
     // current state of the game Variables - 0 = initial state, high number = danger (>= 2 death)
     public List<int> gameVariables = new List<int>(nbGameVariables);
     
     // Use this for initialization
-    public void Awake() {
+    public void begin() {
         ResetVariables();
         menu.SetActive(false);
         comicAnimation.SetActive(true);
        
-        parallax.GetComponent<Parallax>().addSprite(0, 0, 0);
-        parallax.GetComponent<Parallax>().addSprite(0, 0, 0);
-        parallax.GetComponent<Parallax>().addSprite(0, 0, 0);
+        parallax.GetComponent<Parallax>().addSprite(introPrefab);
 
     }
 

@@ -37,6 +37,13 @@ public class Parallax : MonoBehaviour
         _originalPosition = camera.transform.position;
     }
 
+    public void addSprite(GameObject prefab)
+    {
+        resetGiro();
+        GameObject animatedBdElement = Instantiate(prefab);
+        createParallaxSprite(animatedBdElement);
+    }
+    
     //@brief Add a sprite to the current scene in front of the caméra following Parallax parameters
     //@param SpriteFilename : Filename of the sprite without extention
     public void addSprite(int charNumber, int actionId, int SucessId) {
@@ -45,7 +52,22 @@ public class Parallax : MonoBehaviour
         //Loading animated element
         string spriteFilename = "A_char"+charNumber+"_actionId"+actionId+"_SuccessId"+SucessId;
         GameObject animatedBdElement = Instantiate(Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject);
-        
+
+        createParallaxSprite(animatedBdElement);
+    }
+
+    public void clear()
+    {
+        foreach (GameObject sprite in _bdElemList)
+            Destroy(sprite);
+    }
+
+    #endregion
+
+    #region PRIVATE_METHODS
+
+    void createParallaxSprite(GameObject animatedBdElement)
+    {
         //Positionning sprite
         float zPos = CAMERA_MARGIN;
         foreach (Transform child in animatedBdElement.transform)
@@ -60,20 +82,10 @@ public class Parallax : MonoBehaviour
         //Set camera cible
         if (_bdElemList.Count == 0)
             setCameraCible(animatedBdElement.transform.GetChild(0));
-        
+
         //Adding to stored GameObject
-        _bdElemList.Add(animatedBdElement);   
+        _bdElemList.Add(animatedBdElement);
     }
-
-    public void clear()
-    {
-        foreach (GameObject sprite in _bdElemList)
-            Destroy(sprite);
-    }
-
-    #endregion
-
-    #region PRIVATE_METHODS
 
     void setCameraCible(Transform transform)
     {
