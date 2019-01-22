@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager> {
 
     public static readonly int nbCharacters = 3;
+    public static readonly int nbActionsPerCharacter = 4;
     public static readonly int nbGameVariables = 3;
     public static readonly int nbGameVariablesStates = 3;
 
@@ -20,7 +21,10 @@ public class GameManager : Singleton<GameManager> {
     // all the cards that will be used to compute the fate and play animations for this turn
     public ScenarioCard currentScenarioCard;
     public TrapCard currentTrapCard;
-    public List<ActionCard> currentCharactersCard = new List<ActionCard>(nbCharacters);
+    // ActionCard[id] is the card played by the character id
+    public ActionCard[] currentActionCards = new ActionCard[nbCharacters];
+
+
     private enum State
     {
         WaitingForStart,
@@ -43,7 +47,8 @@ public class GameManager : Singleton<GameManager> {
         manageStatusAction();
     }
     // current state of the game Variables - 0 = initial state, high number = danger (>= 2 death)
-    public List<int> gameVariables = new List<int>(nbGameVariables);
+    // gameVariables[0] == 1 -> the variable number 0 is at the state 1
+    public int[] gameVariables = new int[nbGameVariables];
 
     // Use this for initialization
     public void Awake()
@@ -59,10 +64,9 @@ public class GameManager : Singleton<GameManager> {
 
     public void ResetVariables()
     {
-        gameVariables.Clear();
         for (int i=0; i<nbGameVariables; i++)
         {
-            gameVariables.Add(0);
+            gameVariables[i] = 0;
         }
         // test !! Todo : remove
         gameVariables[0] = 1;
@@ -73,6 +77,23 @@ public class GameManager : Singleton<GameManager> {
 
     public void SetCardsForNextTurn(List<Card> scannedCards)
     {
+        foreach (Card c in scannedCards)
+        {
+            if (c is TrapCard)                
+                currentTrapCard = (TrapCard)c;
+            else if (c is ScenarioCard)
+                currentScenarioCard = (ScenarioCard)c;
+            if (c is ActionCard)
+            {
+                ActionCard tmpCard = (ActionCard)c;
+                currentActionCards[tmpCard.CharacterId] = tmpCard;
+            }
+        }
+    }
+
+    void ComputeFate()
+    {
+        // roll dice
 
     }
 

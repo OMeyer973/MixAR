@@ -19,7 +19,8 @@ public class CardsScanner : MonoBehaviour
         if (_trackedCards.Count >= 5) // 5 : number of cards that need to be scanned at once
         {
             // TODO : replace nbActionCardCharacter0-1-2 with a list of size GameManager.nbCharacters
-            int nbTrapCard = 0, nbScenarioCard = 0, nbActionCardCharacter0 = 0, nbActionCardCharacter1 = 0, nbActionCardCharacter2 = 0;
+            int nbTrapCard = 0, nbScenarioCard = 0;
+            int[] nbCharacterCards = new int[GameManager.nbCharacters];
 
             // count the number of action, scenario & trap cards in the list
             foreach (Card c in _trackedCards)
@@ -30,22 +31,23 @@ public class CardsScanner : MonoBehaviour
                     nbScenarioCard ++;
                 if (c is ActionCard)
                 {
-                    dynamic tmpCard = c;
-                    if (tmpCard.CharacterId == 0)
-                        nbActionCardCharacter0++;
-                    else if (tmpCard.CharacterId == 1)
-                        nbActionCardCharacter1++;
-                    else if (tmpCard.CharacterId == 2)
-                        nbActionCardCharacter2++;
+                    ActionCard tmpCard = (ActionCard)c;
+                    nbCharacterCards[tmpCard.CharacterId] += 1;
                 }
             }
 
             // if the configuration is good, proceed
-            // TODO : check if each action card belongs to a different player thanks to it's statistics
-            if (nbTrapCard == 1 && nbScenarioCard == 1 && nbActionCardCharacter0 == 1 && nbActionCardCharacter1 == 1 && nbActionCardCharacter2 == 1)
+            bool cardsAreGood = (nbTrapCard == 1) && (nbScenarioCard == 1);
+
+            for (int i=0; i<GameManager.nbCharacters; i++)
+            {
+                cardsAreGood = cardsAreGood && (nbCharacterCards[i] == 1);
+            }
+
+            if (cardsAreGood)
             {
                 Debug.Log("Cards are good !");
-                GameManager.SetCardsForNextTurn(_trackedCards);
+                GameManager.Instance.SetCardsForNextTurn(_trackedCards);
                 validationObject.SetActive(true);
             }
             else

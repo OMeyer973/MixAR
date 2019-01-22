@@ -33,14 +33,14 @@ public class ScenarioCard : Card {
         for (int i = 0; i < GameManager.nbCharacters; i++)
         {
             List<int> tmpCharActions = new List<int>();
-            for (int j = 0; j < GameManager.nbGameVariables; j++)
+            for (int j = 0; j < GameManager.nbActionsPerCharacter; j++)
             {
                 tmpCharActions.Add(cardStats.fateMatrix[j][i]);
             }
             FateMatrix.Add(tmpCharActions);
         }
         
-        Print();
+        // Print();
     }
 
     public void Print()
@@ -48,9 +48,9 @@ public class ScenarioCard : Card {
         Debug.Log
         (
             "ScenarioCard : " + CardName + " scenario " + ScenarioId + "\n" +
-            "FateMatrix : char 0 : " + FateMatrix[0][0] + " " + FateMatrix[0][1] + " " + FateMatrix[0][2] + " " + FateMatrix[0][3] + "\n" +
-            "             char 1 : " + FateMatrix[1][0] + " " + FateMatrix[1][1] + " " + FateMatrix[1][2] + " " + FateMatrix[1][3] + "\n" +
-            "             char 2 : " + FateMatrix[2][0] + " " + FateMatrix[2][1] + " " + FateMatrix[2][2] + " " + FateMatrix[2][2] + "\n"
+            "FateMatrix :   char 0 : " + FateMatrix[0][0] + " " + FateMatrix[0][1] + " " + FateMatrix[0][2] + " " + FateMatrix[0][3] + "\n" +
+            "               char 1 : " + FateMatrix[1][0] + " " + FateMatrix[1][1] + " " + FateMatrix[1][2] + " " + FateMatrix[1][3] + "\n" +
+            "               char 2 : " + FateMatrix[2][0] + " " + FateMatrix[2][1] + " " + FateMatrix[2][2] + " " + FateMatrix[2][3] + "\n"
         );
     }
 }
