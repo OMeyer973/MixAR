@@ -117,15 +117,11 @@ public class Parallax : MonoBehaviour
                 float clampedX = Mathf.Clamp(deltaX * SCROLLSPEED + camera.transform.position.x, _bdElemList[0].transform.GetChild(0).position.x, _bdElemList[_bdElemList.Count - 1].transform.GetChild(0).position.x);
                 camera.transform.position = new Vector3(clampedX, camera.transform.position.y, camera.transform.position.z);
                 _originalPosition = new Vector3(clampedX, _originalPosition.y, _originalPosition.z);
-                cameraCible.transform.position = new Vector3(clampedX, 0.0f, cameraCible.transform.position.z);
-
+                cameraCible.transform.position = new Vector3(clampedX, cameraCible.transform.position.y, cameraCible.transform.position.z);
             }
             else if (touch.phase == TouchPhase.Ended)
                 lastTouchDetected = new Touch();
         }
-
-        
-
     }
 
     private void updateCameraPositionForGyroscopEffect()
@@ -141,16 +137,15 @@ public class Parallax : MonoBehaviour
         //Calculating relative mouvement of giro
         _centerGiroReference += (giro - _centerGiroReference) / 10;
         giro = _centerGiroReference - giro;
-        
+
         //Set new position of camera
         Vector3 newPos = camera.transform.position + giro * GIRO_SPEED;
-        newPos = _originalPosition*0.2f + newPos *0.8f;
+        newPos = _originalPosition * 0.2f + newPos * 0.8f;
         
-
         //Clamping position
         newPos.x = Mathf.Clamp(newPos.x, _originalPosition.x - MAX_CAMERA_POSITION, _originalPosition.x + MAX_CAMERA_POSITION);
-        newPos.y = Mathf.Clamp(newPos.y, _originalPosition.x - MAX_CAMERA_POSITION, _originalPosition.x + MAX_CAMERA_POSITION);
-
+        newPos.y =  Mathf.Clamp(newPos.y, _originalPosition.y - MAX_CAMERA_POSITION, _originalPosition.y + MAX_CAMERA_POSITION);
+        
         // Move camera
         camera.transform.position = newPos;
     }
