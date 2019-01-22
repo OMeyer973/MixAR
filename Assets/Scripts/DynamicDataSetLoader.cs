@@ -17,6 +17,7 @@ public class DynamicDataSetLoader : MonoBehaviour
 
     #region PUBLIC_MEMBERS
 
+    public GameManager gameManager;
     // card scanner that each card will keep a reference on
     public CardsScanner cardsScanner;
 
@@ -29,6 +30,8 @@ public class DynamicDataSetLoader : MonoBehaviour
     public GameObject actionCardPrefab;
     public GameObject trapCardPrefab;
     public GameObject scenarioCardPrefab;
+    // prefab for the visualization of the game variables in AR
+    public GameObject gameVariablesPrefab;
 
     #endregion // PUBLIC_MEMBERS
 
@@ -42,26 +45,31 @@ public class DynamicDataSetLoader : MonoBehaviour
     // full processus of loading a card : 
     // class CardStats loads all the cards stats from json as arrays of  ActionCardData, ScenarioCardData and TrapCardData
     // LoadDataset() creates the vuforia targets object from the database
-    // InitializeCard() Initializes the card data
+    // InitializeTarget() Initializes the card data
     // - attach a ActionCard, ScenarioCard or TrapCard component in function of the card name in the db
     // - these [type]Card components are then initialized with their respective [type]CardData as parameter
-    void InitializeCard(GameObject card)
+    void InitializeTarget(GameObject target)
     {
         GameObject augmentation = new GameObject();
         // if the card name starts with action (if it is an action card)
-        if (System.Text.RegularExpressions.Regex.Match(card.name.ToLower(), "^action*").Success)
+        if (System.Text.RegularExpressions.Regex.Match(target.name.ToLower(), "^maintarget*").Success)
         {
-            InitializeActionCard(card);
+            InitializeMainTarget(target);
+            augmentation = (GameObject)GameObject.Instantiate(gameVariablesPrefab);
+        }
+        else if (System.Text.RegularExpressions.Regex.Match(target.name.ToLower(), "^action*").Success)
+        {
+            InitializeActionCard(target);
             augmentation = (GameObject)GameObject.Instantiate(actionCardPrefab);
         }
-        else if (System.Text.RegularExpressions.Regex.Match(card.name.ToLower(), "^scenario*").Success)
+        else if (System.Text.RegularExpressions.Regex.Match(target.name.ToLower(), "^scenario*").Success)
         {
-            InitializeScenarioCard(card);
+            InitializeScenarioCard(target);
             augmentation = (GameObject)GameObject.Instantiate(scenarioCardPrefab);
         }
-        else if (System.Text.RegularExpressions.Regex.Match(card.name.ToLower(), "^trap*").Success)
+        else if (System.Text.RegularExpressions.Regex.Match(target.name.ToLower(), "^trap*").Success)
         {
-            InitializeTrapCard(card);
+            InitializeTrapCard(target);
             augmentation = (GameObject)GameObject.Instantiate(trapCardPrefab);
         }
 
@@ -69,10 +77,15 @@ public class DynamicDataSetLoader : MonoBehaviour
         augmentation.transform.localRotation = Quaternion.identity;
         augmentation.transform.localScale = new Vector3(_defaultCardLength, _defaultCardLength, _defaultCardLength);
         augmentation.gameObject.SetActive(true);
-        augmentation.transform.parent = card.transform;
+        augmentation.transform.parent = target.transform;
 
         // required vuforia component
-        card.AddComponent<TurnOffBehaviour>();
+        target.AddComponent<TurnOffBehaviour>();
+    }
+    void InitializeMainTarget(GameObject target)
+    {
+        target.AddComponent<MainTarget>();
+        //target.GetComponent<MainTarget>().Initialize(gameManager); // decomment in case we can't make GameManager a Singleton
     }
 
     void InitializeActionCard(GameObject actionCard)
@@ -122,7 +135,7 @@ public class DynamicDataSetLoader : MonoBehaviour
                 {
                     // change generic name to include trackable name
                     tb.gameObject.name = tb.TrackableName;
-                    InitializeCard(tb.gameObject);
+                    InitializeTarget(tb.gameObject);
                 }
             }
         }
