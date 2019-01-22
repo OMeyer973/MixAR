@@ -4,29 +4,32 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEngine.Animations;
+using UnityEngine.EventSystems;
 
 public class Parallax : MonoBehaviour
 {
     public Camera camera;
 
-    public const float GIRO_SPEED = 10.0f;
+    public const float GIRO_SPEED = 2.0f;
     public const float SPACING = 4.0f;
     public const float CAMERA_MARGIN = 7.0f;
     public const float CENTERING_SPEED = 40.0f;
-    public const float MAX_CAMERA_POSITION = 30.0f;
-    
+    public const float MAX_CAMERA_POSITION = 15.0f;
+    public const float SCROLLSPEED = 0.01f;
+
+
     private Vector3 _centerGiroReference;
     private Vector3 _originalPosition;
-
-    private const string PARALLAX_SPRITE_FOLDER = "Animations/";
-    private List<GameObject> _spriteList = new List<GameObject>();
-
-
+    
+    private const string PARALLAX_ANIMATED_GAMEOBJECT_FOLDER = "Animations/";
+    private List<GameObject> _bdElemList = new List<GameObject>();
+    public GameObject cameraCible;
+    
     #region PUBLIC_METHODS
 
     public void resetGiro()
     {
-        //Setting initial phone position
+        //Setting initial phone position²
         //_centerGiroReference.x = Input.mousePosition.x;
         //_centerGiroReference.y = Input.mousePosition.y;
         _centerGiroReference.x = Input.acceleration.x;
@@ -38,65 +41,94 @@ public class Parallax : MonoBehaviour
     //@param SpriteFilename : Filename of the sprite without extention
     public void addSprite(int charNumber, int actionId, int SucessId) {
         resetGiro();
-        int layer = 0;
-        bool spriteFound = true;
-        string spriteFilename = "A_char"+charNumber+"_actionId"+actionId+"_SuccessId"+SucessId+"_layer";
-        while (spriteFound == true)
-        {
-            //Loading sprite
-            Sprite sprite = Resources.Load(PARALLAX_SPRITE_FOLDER + spriteFilename + layer, typeof(Sprite)) as Sprite;
-            
-            if (sprite == null)
-                spriteFound = false;
-            else
-            {
-                //Creating and positionning The GameObject
-                float zAxis = CAMERA_MARGIN + SPACING * _spriteList.Count;
-                GameObject go = new GameObject(spriteFilename + layer);
-                SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-                go.transform.position = new Vector3(0, 0, zAxis);
 
-                //Applying sprite on gameObject
-                renderer.sprite = sprite;
-                _spriteList.Add(go);
-            }
-            layer++;
-        }
-        if(_spriteList.Count > 1)
+        //Loading animated element
+        string spriteFilename = "A_char"+charNumber+"_actionId"+actionId+"_SuccessId"+SucessId;
+        GameObject animatedBdElement = Instantiate(Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject);
+        
+        //Positionning sprite
+        float zPos = CAMERA_MARGIN;
+        foreach (Transform child in animatedBdElement.transform)
         {
-            //Setting camera LookAtConstraint cible
-            ConstraintSource cible = new ConstraintSource();
-            cible.sourceTransform = _spriteList[1].transform;
-            cible.weight = 1;
-            try
-            {
-                camera.GetComponent<LookAtConstraint>().SetSource(0,cible);
-            }
-            catch (System.InvalidOperationException e) //If source is null
-            {
-                camera.GetComponent<LookAtConstraint>().AddSource(cible);
-            }
+            float xPos = 0;
+            foreach (GameObject go in _bdElemList)
+                xPos += go.transform.GetChild(0).GetComponent<Collider>().bounds.size.y;
+            child.position = new Vector3(xPos, 0, zPos);
+            zPos += SPACING;
         }
 
+        //Set camera cible
+        if (_bdElemList.Count == 0)
+            setCameraCible(animatedBdElement.transform.GetChild(0));
+        
+        //Adding to stored GameObject
+        _bdElemList.Add(animatedBdElement);   
     }
+
+    public void clear()
+    {
+        foreach (GameObject sprite in _bdElemList)
+            Destroy(sprite);
+    }
+
     #endregion
 
     #region PRIVATE_METHODS
 
-    void clear()
+    void setCameraCible(Transform transform)
     {
-        foreach(GameObject sprite in _spriteList){
-            Destroy(sprite);
+        ConstraintSource cible = new ConstraintSource();
+        cameraCible.transform.position = transform.position; 
+        cible.sourceTransform = cameraCible.transform;
+        cible.weight = 1;
+        try
+        {
+            camera.GetComponent<LookAtConstraint>().SetSource(0, cible);
         }
-    }
+        catch (System.InvalidOperationException) //If source is null
+        {
+            camera.GetComponent<LookAtConstraint>().AddSource(cible);
+        }
+    } 
 
+    private bool _swipeAlreadyDetected; //Save if swipe is currently running
     // Update is called once per frame
     void Update()
     {
-        updateCamera();
+        detectSwapBetweenBDElements();
+        updateCameraPositionForGyroscopEffect();
     }
 
-    private void updateCamera()
+    private Touch lastTouchDetected;
+    private void detectSwapBetweenBDElements()
+    {
+        float deltaX = 0; //deltaY = 0;
+        foreach (var touch in Input.touches)
+        {
+            if (touch.phase == TouchPhase.Began)
+                lastTouchDetected = touch;
+            if (touch.phase == TouchPhase.Moved)
+            {
+                deltaX = lastTouchDetected.position.x - touch.position.x; //greater than 0 is right and less than zero is left
+                //deltaY = touch.position.y - lastTouchDetected.position.y; //greater than 0 is up and less than zero is down
+                lastTouchDetected = touch;
+
+                //Moving camera
+                float clampedX = Mathf.Clamp(deltaX * SCROLLSPEED + camera.transform.position.x, _bdElemList[0].transform.GetChild(0).position.x, _bdElemList[_bdElemList.Count - 1].transform.GetChild(0).position.x);
+                camera.transform.position = new Vector3(clampedX, camera.transform.position.y, camera.transform.position.z);
+                _originalPosition = new Vector3(clampedX, _originalPosition.y, _originalPosition.z);
+                cameraCible.transform.position = new Vector3(clampedX, 0.0f, cameraCible.transform.position.z);
+
+            }
+            else if (touch.phase == TouchPhase.Ended)
+                lastTouchDetected = new Touch();
+        }
+
+        
+
+    }
+
+    private void updateCameraPositionForGyroscopEffect()
     {
         
         //Getting giroscope current values
@@ -116,8 +148,8 @@ public class Parallax : MonoBehaviour
         
 
         //Clamping position
-        newPos.x = Mathf.Clamp(newPos.x, -MAX_CAMERA_POSITION, MAX_CAMERA_POSITION);
-        newPos.y = Mathf.Clamp(newPos.y, -MAX_CAMERA_POSITION, MAX_CAMERA_POSITION);
+        newPos.x = Mathf.Clamp(newPos.x, _originalPosition.x - MAX_CAMERA_POSITION, _originalPosition.x + MAX_CAMERA_POSITION);
+        newPos.y = Mathf.Clamp(newPos.y, _originalPosition.x - MAX_CAMERA_POSITION, _originalPosition.x + MAX_CAMERA_POSITION);
 
         // Move camera
         camera.transform.position = newPos;
