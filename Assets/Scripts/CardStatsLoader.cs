@@ -105,7 +105,7 @@ public class CardStatsLoader : MonoBehaviour {
     protected void LoadScenarioCardsData()
     {
         string scenarioCardsFile = ReadFile(_scenarioCardsDataFileName);
-        // Debug.Log(scenarioCardsFile);
+        Debug.Log(scenarioCardsFile);
         _scenarioCardStats = JsonConvert.DeserializeObject<ScenarioCardStats[]>(scenarioCardsFile);
 
         if (_scenarioCardStats == null)

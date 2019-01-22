@@ -17,8 +17,7 @@ public class DynamicDataSetLoader : MonoBehaviour
 
     #region PUBLIC_MEMBERS
 
-    public GameManager gameManager;
-    // card scanner that each card will keep a reference on
+   // card scanner that each card will keep a reference on
     public CardsScanner cardsScanner;
 
     // card stats loader to retrieve the corrects stats for each card from the json
@@ -85,7 +84,6 @@ public class DynamicDataSetLoader : MonoBehaviour
     void InitializeMainTarget(GameObject target)
     {
         target.AddComponent<MainTarget>();
-        //target.GetComponent<MainTarget>().Initialize(gameManager); // decomment in case we can't make GameManager a Singleton
     }
 
     void InitializeActionCard(GameObject actionCard)

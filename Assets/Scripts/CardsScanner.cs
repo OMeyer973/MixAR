@@ -45,6 +45,7 @@ public class CardsScanner : MonoBehaviour
             if (nbTrapCard == 1 && nbScenarioCard == 1 && nbActionCardCharacter0 == 1 && nbActionCardCharacter1 == 1 && nbActionCardCharacter2 == 1)
             {
                 Debug.Log("Cards are good !");
+                GameManager.SetCardsForNextTurn(_trackedCards);
                 validationObject.SetActive(true);
             }
             else

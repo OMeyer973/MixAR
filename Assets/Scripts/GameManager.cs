@@ -17,6 +17,10 @@ public class GameManager : Singleton<GameManager> {
 
     public GameObject introPrefab;
 
+    // all the cards that will be used to compute the fate and play animations for this turn
+    public ScenarioCard currentScenarioCard;
+    public TrapCard currentTrapCard;
+    public List<ActionCard> currentCharactersCard = new List<ActionCard>(nbCharacters);
     private enum State
     {
         WaitingForStart,
@@ -40,10 +44,14 @@ public class GameManager : Singleton<GameManager> {
     }
     // current state of the game Variables - 0 = initial state, high number = danger (>= 2 death)
     public List<int> gameVariables = new List<int>(nbGameVariables);
-    
+
     // Use this for initialization
-    public void begin() {
+    public void Awake()
+    {
         ResetVariables();
+    }
+
+    public void begin() {
         menu.SetActive(false);
         comicAnimation.SetActive(true);
         nextState();
@@ -58,9 +66,14 @@ public class GameManager : Singleton<GameManager> {
         }
         // test !! Todo : remove
         gameVariables[0] = 1;
-        gameVariables[1] = 1;
-        gameVariables[2] = 1;
+        gameVariables[1] = 2;
+        gameVariables[2] = 0;
         // end test !! Todo : remove
+    }
+
+    public void SetCardsForNextTurn(List<Card> scannedCards)
+    {
+
     }
 
     // Update is called once per frame
