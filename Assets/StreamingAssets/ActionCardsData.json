@@ -2,22 +2,22 @@
 [
 	{
 	 "cardName": "action0",
-	 "playerId": 0,
+	 "CharacterId": 0,
 	 "actionId": 0
 	},
 	{
 	 "cardName": "action1",
-	 "playerId": 1,
+	 "CharacterId": 1,
 	 "actionId": 2
 	},
 	{
 	 "cardName": "action2",
-	 "playerId": 2,
+	 "CharacterId": 2,
 	 "actionId": 3
 	},
 	{
 	 "cardName": "action3",
-	 "playerId": 0,
+	 "CharacterId": 0,
 	 "actionId": 1
 	}
 ]

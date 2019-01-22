@@ -6,7 +6,7 @@ public class ActionCardStats
 {
     // members need to be public to be deserialized by JsonUtility
     public string cardName;
-    public int playerId;
+    public int CharacterId;
     public int actionId;
 }
 
@@ -15,14 +15,14 @@ public class ActionCard : Card {
 
     public int CardName { get; private set; }
     public int ActionId { get; private set; }
-    public int PlayerId { get; private set; }
+    public int CharacterId { get; private set; }
 
     // initialize the card members according to the parsed json cardData and points to the cardScanner in the scene
     public void Initialize(CardsScanner cardsScanner, ActionCardStats cardStats)
     {
-        _cardsScanner = cardsScanner;
+        _cardsScanner = cardsScanner; 
         ActionId = cardStats.actionId;
-        PlayerId = cardStats.playerId;
+        CharacterId = cardStats.CharacterId;
         Debug.Log("Initializing action card ");
         Print();
     }
@@ -30,6 +30,6 @@ public class ActionCard : Card {
 
     public void Print()
     {
-        Debug.Log("ActionCard : " + CardName + " - action : " + ActionId + " by player " + PlayerId);
+        Debug.Log("ActionCard : " + CardName + " - action : " + ActionId + " by player " + CharacterId);
     }
 }
