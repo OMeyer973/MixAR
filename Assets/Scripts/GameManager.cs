@@ -23,6 +23,11 @@ public class GameManager : Singleton<GameManager> {
         ResetVariables();
         menu.SetActive(false);
         comicAnimation.SetActive(true);
+       
+        parallax.GetComponent<Parallax>().addSprite(0, 0, 0);
+        parallax.GetComponent<Parallax>().addSprite(0, 0, 0);
+        parallax.GetComponent<Parallax>().addSprite(0, 0, 0);
+
     }
 
     public void ResetVariables()
