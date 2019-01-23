@@ -54,17 +54,7 @@ public class CardsScanner : MonoBehaviour
             if (cardsAreGood)
             {
                 Debug.Log("Cards are good !");
-<<<<<<< HEAD
-                GameManager.Instance.SetCardsForNextTurn(_trackedCards);
-                
-                // todo : remove validationObject. validation handling will be done in the gamemanager
-                validationObject.SetActive(true);
-
-                // todo : remove this from here, it will probably be handled elsewhere
-                GameManager.Instance.nextState();
-=======
                 ShowSuccessCanvas();
->>>>>>> origin/master
             }
             else
             {

@@ -29,8 +29,7 @@ public class GameManager : Singleton<GameManager> {
     // ActionCard[id] is the card played by the character id
     public ActionCard[] currentActionCards = new ActionCard[nbCharacters];
 
-<<<<<<< HEAD
-=======
+
     protected float[] currentCharacterDices = new float[nbCharacters];
     protected float[] currentCharacterScores = new float[nbCharacters];
     protected float currentScenarioScore = 0;
@@ -38,7 +37,6 @@ public class GameManager : Singleton<GameManager> {
     // current state of the game Variables - 0 = initial state, high number = danger (>= 2 death)
     // gameVariables[0] == 1 -> the variable number 0 is at the state 1
     public int[] gameVariables;
->>>>>>> origin/master
 
     private enum State
     {
@@ -94,12 +92,12 @@ public class GameManager : Singleton<GameManager> {
             }
         }
     }
+    
 
-<<<<<<< HEAD
-=======
     // play a game turn after the players have scanned the cards and CardsScanner has sent the scanned cards to the Gamemanager
     public void PlayTurn()
     {
+        nextState();
         ComputeFate();
         // TODO :
         // deactivate AR camera (whole scan gameobj)
@@ -110,7 +108,6 @@ public class GameManager : Singleton<GameManager> {
         // show AR variables
     }
 
->>>>>>> origin/master
     void ComputeFate()
     {
         // roll dice
