@@ -48,10 +48,16 @@ public class CardsScanner : MonoBehaviour
             {
                 Debug.Log("Cards are good !");
                 GameManager.Instance.SetCardsForNextTurn(_trackedCards);
+                
+                // todo : remove validationObject. validation handling will be done in the gamemanager
                 validationObject.SetActive(true);
+
+                // todo : remove this from here, it will probably be handled elsewhere
+                GameManager.Instance.PlayTurn();
             }
             else
             {
+                // todo : have a screen pop up to say "hey, scan good cards !"
                 Debug.Log("please scan 3 action cards (1 per character), 1 scenario card and 1 Trap card");
             }
         }
