@@ -52,6 +52,7 @@ public class Parallax : MonoBehaviour
     {
         foreach (GameObject sprite in _bdElemList)
             Destroy(sprite);
+        _bdElemList.Clear();
     }
 
 

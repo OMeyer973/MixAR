@@ -15,7 +15,7 @@ public class ScenarioCard : Card {
 
     protected int CardName { get; private set; }
     protected int ScenarioId { get; private set; }
-    public float[,] FateMatrix { get; private set; } = new float[GameManager.nbCharacters, GameManager.nbActionsPerCharacter];
+    public float[,] FateMatrix = new float[GameManager.nbCharacters, GameManager.nbActionsPerCharacter];
 
     // initialize the card members according to the parsed json cardData and points to the cardScanner in the scene
     public void Initialize(CardsScanner cardsScanner, ScenarioCardStats cardStats)

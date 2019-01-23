@@ -53,7 +53,7 @@ public class CardsScanner : MonoBehaviour
                 validationObject.SetActive(true);
 
                 // todo : remove this from here, it will probably be handled elsewhere
-                GameManager.Instance.PlayTurn();
+                GameManager.Instance.nextState();
             }
             else
             {
