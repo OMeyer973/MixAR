@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class GameManager : Singleton<GameManager> {
 
@@ -11,10 +13,12 @@ public class GameManager : Singleton<GameManager> {
 
     public PlayerSettings settings;
 
-    public GameObject menu;
-    public GameObject comicAnimation;
-    public GameObject parallax;
-    public GameObject scanner;
+    public GameObject menuGroup;
+    public GameObject animationGroup;
+    public GameObject parallaxGameObject;
+    public GameObject scanGroup;
+    public GameObject textsGroup;
+    public Text textToChange;
 
     public GameObject introPrefab;
 
@@ -41,6 +45,7 @@ public class GameManager : Singleton<GameManager> {
         End //End of game
     }
     private State _gameStatus = State.WaitingForStart;
+    private uint nbTour = 0;
 
     #region PUBLIC_METHODS
 
@@ -58,12 +63,6 @@ public class GameManager : Singleton<GameManager> {
     public void Awake()
     {
         ResetVariables();
-    }
-
-    public void begin() {
-        menu.SetActive(false);
-        comicAnimation.SetActive(true);
-        nextState();
     }
 
     public void ResetVariables()
@@ -154,20 +153,26 @@ public class GameManager : Singleton<GameManager> {
         switch (_gameStatus)
         {
             case State.Intro:
-                parallax.GetComponent<Parallax>().addSprite(introPrefab);
+                menuGroup.SetActive(false);
+                animationGroup.SetActive(true);
+                parallaxGameObject.GetComponent<Parallax>().addSprite(introPrefab);
                 break;
             case State.Draw:
-                nextState();
+                animationGroup.SetActive(false);
+                animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
+                textsGroup.SetActive(true);
+                Debug.Log(textsGroup.transform.Find("CanvasText"));
+                textToChange.GetComponent<Text>().text = "Piochez svp (Faudra faire un vrai texte tout beau tout joli, bsx)";
                 break;
             case State.BadGuyPlaying:
-                nextState();
+                textToChange.GetComponent<Text>().text = "Au tour du bad guy";
                 break;
             case State.PlayersPlaying:
-                nextState();
+                textToChange.GetComponent<Text>().text = "Au tour des gentils :)";
                 break;
             case State.Scan:
-                comicAnimation.SetActive(false);
-                scanner.SetActive(true);
+                textsGroup.SetActive(false);
+                scanGroup.SetActive(true);
                 break;
             case State.Animation:
                 break;
