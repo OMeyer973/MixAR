@@ -45,7 +45,7 @@ public class GameManager : Singleton<GameManager> {
         End //End of game
     }
     private State _gameStatus = State.WaitingForStart;
-    private uint nbTour = 0;
+    private uint nbTour = 1;
 
     #region PUBLIC_METHODS
 
@@ -161,7 +161,6 @@ public class GameManager : Singleton<GameManager> {
                 animationGroup.SetActive(false);
                 animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
                 textsGroup.SetActive(true);
-                Debug.Log(textsGroup.transform.Find("CanvasText"));
                 textToChange.GetComponent<Text>().text = "Piochez svp (Faudra faire un vrai texte tout beau tout joli, bsx)";
                 break;
             case State.BadGuyPlaying:
@@ -175,6 +174,26 @@ public class GameManager : Singleton<GameManager> {
                 scanGroup.SetActive(true);
                 break;
             case State.Animation:
+                animationGroup.SetActive(true);
+                break;
+            case State.End:
+                animationGroup.SetActive(false);
+                animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
+                textsGroup.SetActive(true);
+
+                if (true && nbTour < 2) //If noboby won
+                {
+                    textToChange.GetComponent<Text>().text = "C la fin du tour";
+
+                    nbTour++;
+                    _gameStatus = State.Draw;
+                    manageStatusAction();
+                }
+                else //If someone won
+                {
+                    textToChange.GetComponent<Text>().text = "C la fin du jeu";
+
+                }
                 break;
         }
         
