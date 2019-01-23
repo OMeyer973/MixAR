@@ -29,6 +29,16 @@ public class GameManager : Singleton<GameManager> {
     // ActionCard[id] is the card played by the character id
     public ActionCard[] currentActionCards = new ActionCard[nbCharacters];
 
+<<<<<<< HEAD
+=======
+    protected float[] currentCharacterDices = new float[nbCharacters];
+    protected float[] currentCharacterScores = new float[nbCharacters];
+    protected float currentScenarioScore = 0;
+
+    // current state of the game Variables - 0 = initial state, high number = danger (>= 2 death)
+    // gameVariables[0] == 1 -> the variable number 0 is at the state 1
+    public int[] gameVariables;
+>>>>>>> origin/master
 
     private enum State
     {
@@ -54,13 +64,11 @@ public class GameManager : Singleton<GameManager> {
         Debug.Log("TESLTJ : "+_gameStatus);
         manageStatusAction();
     }
-    // current state of the game Variables - 0 = initial state, high number = danger (>= 2 death)
-    // gameVariables[0] == 1 -> the variable number 0 is at the state 1
-    public int[] gameVariables = new int[nbGameVariables];
-
+    
     // Use this for initialization
     public void Awake()
     {
+        gameVariables = new int[nbGameVariables];
         ResetVariables();
     }
 
@@ -87,6 +95,22 @@ public class GameManager : Singleton<GameManager> {
         }
     }
 
+<<<<<<< HEAD
+=======
+    // play a game turn after the players have scanned the cards and CardsScanner has sent the scanned cards to the Gamemanager
+    public void PlayTurn()
+    {
+        ComputeFate();
+        // TODO :
+        // deactivate AR camera (whole scan gameobj)
+        // play begining of scenario comics animation
+        // play characters actions animations
+        // play end of scenario animation
+        // check if game is over
+        // show AR variables
+    }
+
+>>>>>>> origin/master
     void ComputeFate()
     {
         // roll dice

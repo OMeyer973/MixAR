@@ -1,18 +1,25 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Vuforia;
 
 // Cards scanner : keeps track of the cards on screen and check if they are all of the correct type to proceed to the animation step.
 // note : the scanner keeps in memory the cards even if they left the screen but the cards list is emptied if all the cards are off-screen
 public class CardsScanner : MonoBehaviour
 {
-    public GameObject validationObject;
+    #region PUBLIC_MEMBER_VARIABLES
+
+    public GameObject successCanvas;
+    public GameObject errorCanvas;
+
+    #endregion // PUBLIC_MEMBER_VARIABLES
 
     #region PROTECTED_MEMBER_VARIABLES
 
     public List<Card> _trackedCards;
-    
+
     #endregion // PROTECTED_MEMBER_VARIABLES
-    
+
+    #region PROTECTED_METHODS
     // check if the cards in the list are good to proceed (1 scenario, 1 trap & 3 actions)
     protected void CheckCards()
     {
@@ -26,9 +33,9 @@ public class CardsScanner : MonoBehaviour
             foreach (Card c in _trackedCards)
             {
                 if (c is TrapCard)
-                    nbTrapCard ++;
+                    nbTrapCard++;
                 else if (c is ScenarioCard)
-                    nbScenarioCard ++;
+                    nbScenarioCard++;
                 if (c is ActionCard)
                 {
                     ActionCard tmpCard = (ActionCard)c;
@@ -39,7 +46,7 @@ public class CardsScanner : MonoBehaviour
             // if the configuration is good, proceed
             bool cardsAreGood = (nbTrapCard == 1) && (nbScenarioCard == 1);
 
-            for (int i=0; i<GameManager.nbCharacters; i++)
+            for (int i = 0; i < GameManager.nbCharacters; i++)
             {
                 cardsAreGood = cardsAreGood && (nbCharacterCards[i] == 1);
             }
@@ -47,6 +54,7 @@ public class CardsScanner : MonoBehaviour
             if (cardsAreGood)
             {
                 Debug.Log("Cards are good !");
+<<<<<<< HEAD
                 GameManager.Instance.SetCardsForNextTurn(_trackedCards);
                 
                 // todo : remove validationObject. validation handling will be done in the gamemanager
@@ -54,21 +62,47 @@ public class CardsScanner : MonoBehaviour
 
                 // todo : remove this from here, it will probably be handled elsewhere
                 GameManager.Instance.nextState();
+=======
+                ShowSuccessCanvas();
+>>>>>>> origin/master
             }
             else
             {
                 // todo : have a screen pop up to say "hey, scan good cards !"
                 Debug.Log("please scan 3 action cards (1 per character), 1 scenario card and 1 Trap card");
+                ShowErrorCanvas();
             }
         }
     }
 
-    #region PROTECTED_METHODS
+    private void ShowErrorCanvas()
+    {
+        HideCanvas();
+        errorCanvas.SetActive(true);
+    }
+
+    private void ShowSuccessCanvas()
+    {
+        HideCanvas();
+        successCanvas.SetActive(true);
+    }
 
     #endregion // PROTECTED_METHODS
 
-
     #region PUBLIC_METHODS
+
+    public void HideCanvas()
+    {
+        errorCanvas.SetActive(false);
+        successCanvas.SetActive(false);
+    }
+
+    // called by a press on the validate button of the success canvas
+    public void ValidateCardsScan()
+    {
+        HideCanvas();
+        GameManager.Instance.PlayTurn();
+    }
 
     // add a new card to track. if the list has less than 5 cards, just add a new one. 
     // else if a card in the list is off screen, pop it to add the new one.
