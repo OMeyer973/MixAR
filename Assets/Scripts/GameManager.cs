@@ -32,6 +32,9 @@ public class GameManager : Singleton<GameManager> {
     protected float[] currentCharacterScores = new float[nbCharacters];
     protected float currentScenarioScore = 0;
 
+    // current state of the game Variables - 0 = initial state, high number = danger (>= 2 death)
+    // gameVariables[0] == 1 -> the variable number 0 is at the state 1
+    public int[] gameVariables;
 
     private enum State
     {
@@ -55,13 +58,11 @@ public class GameManager : Singleton<GameManager> {
         _gameStatus++;
         manageStatusAction();
     }
-    // current state of the game Variables - 0 = initial state, high number = danger (>= 2 death)
-    // gameVariables[0] == 1 -> the variable number 0 is at the state 1
-    public int[] gameVariables = new int[nbGameVariables];
-
+    
     // Use this for initialization
     public void Awake()
     {
+        gameVariables = new int[nbGameVariables];
         ResetVariables();
     }
 
@@ -99,6 +100,7 @@ public class GameManager : Singleton<GameManager> {
     {
         ComputeFate();
         // TODO :
+        // deactivate AR camera (whole scan gameobj)
         // play begining of scenario comics animation
         // play characters actions animations
         // play end of scenario animation
