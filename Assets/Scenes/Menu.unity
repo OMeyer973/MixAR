@@ -664,7 +664,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -730,9 +730,9 @@ MonoBehaviour:
   scanGroup: {fileID: 489902467}
   textsGroup: {fileID: 368775568}
   textToChange: {fileID: 150352593}
-  introPrefab: {fileID: 1962354867016066, guid: c9b8e552f8d6d984f92782ce5685a1c7,
+  introPrefab: {fileID: 1795376588200760, guid: 7c9930981772f4743b834b2cf7409a2c,
     type: 2}
-  outroPrefab: {fileID: 1795376588200760, guid: 7c9930981772f4743b834b2cf7409a2c,
+  outroPrefab: {fileID: 1166995288705942, guid: 642d393eee88e5d44b7a7d58818bea57,
     type: 2}
   currentScenarioCard: {fileID: 0}
   currentTrapCard: {fileID: 0}
