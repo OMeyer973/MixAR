@@ -29,8 +29,8 @@ public class DynamicDataSetLoader : MonoBehaviour
     public GameObject actionCardPrefab;
     public GameObject trapCardPrefab;
     public GameObject scenarioCardPrefab;
-    // prefab for the visualization of the game variables in AR
-    public GameObject gameVariablesPrefab;
+    // prefab for the visualization of the threats in AR
+    public GameObject threatsPrefab;
 
     #endregion // PUBLIC_MEMBERS
 
@@ -54,7 +54,7 @@ public class DynamicDataSetLoader : MonoBehaviour
         if (System.Text.RegularExpressions.Regex.Match(target.name.ToLower(), "^maintarget*").Success)
         {
             InitializeMainTarget(target);
-            augmentation = (GameObject)GameObject.Instantiate(gameVariablesPrefab);
+            augmentation = (GameObject)GameObject.Instantiate(threatsPrefab);
         }
         else if (System.Text.RegularExpressions.Regex.Match(target.name.ToLower(), "^action*").Success)
         {

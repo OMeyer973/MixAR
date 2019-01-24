@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager> {
     public static readonly int nbCharacters = 3;
     public static readonly int nbActionsPerCharacter = 4;
 
-    // dice roll needs to be bellow maxDiceToChangeThreat to allow a character to change a game variable with a special card (0-100)
+    // dice roll needs to be bellow maxDiceToChangeThreat to allow a character to change a threats with a special card (0-100)
     public static readonly float criticalSucessScore = 0.05f;
     public static readonly float sucessScore = 0.5f;
     public static readonly float failureScore = 0.95f;
@@ -43,7 +43,7 @@ public class GameManager : Singleton<GameManager> {
     protected float[] currentCharacterScores = new float[nbCharacters];
     protected float currentScenarioScore = 0;
 
-    // current state of the game Variables - 0 = initial state, high number = danger (>= 2 death)
+    // current state of the threats - 0 = initial state, high number = danger (>= 2 death)
     // threats[0] == 1 -> the variable number 0 is at the state 1
     public int[] threats;
 
@@ -173,7 +173,7 @@ public class GameManager : Singleton<GameManager> {
     // and updates the Threats accordingly
     // -> if the card has ActionCard.ChangeThreat at true, 
     //    and the dice roll is bellow sucessScore,
-    //    it will -1 the ActionCard.GamevarChanged game variable
+    //    it will -1 the ActionCard.ThreatChanged threat
     private void UpdateThreatsWithSpecialActionCard(int i)
     {
         if (currentActionCards[i].ChangeThreat)

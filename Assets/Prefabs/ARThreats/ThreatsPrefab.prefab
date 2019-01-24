@@ -238,7 +238,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4579094326009422}
   m_Layer: 0
-  m_Name: var0_state1
+  m_Name: threat0_state1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -919,7 +919,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4536227132276832}
   m_Layer: 0
-  m_Name: var1_state2
+  m_Name: threat1_state2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1139,7 +1139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4188356232309606}
   m_Layer: 0
-  m_Name: var2_state2
+  m_Name: threat2_state2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1423,7 +1423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4839681212666144}
   m_Layer: 0
-  m_Name: var0_state2
+  m_Name: threat0_state2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1832,7 +1832,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4098644506678168}
   m_Layer: 0
-  m_Name: var1_state1
+  m_Name: threat1_state1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1897,7 +1897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4360824398814226}
   m_Layer: 0
-  m_Name: var2_state0
+  m_Name: threat2_state0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2165,7 +2165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4206966652367140}
   m_Layer: 0
-  m_Name: var1_state0
+  m_Name: threat1_state0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2180,7 +2180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4576382524904144}
   m_Layer: 0
-  m_Name: var2_state1
+  m_Name: threat2_state1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2304,7 +2304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4874928815031862}
   m_Layer: 0
-  m_Name: GameVariablesPrefab
+  m_Name: ThreatsPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2624,7 +2624,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4762414149010068}
   m_Layer: 0
-  m_Name: var0_state0
+  m_Name: threat0_state0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

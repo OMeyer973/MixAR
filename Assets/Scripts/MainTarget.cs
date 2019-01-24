@@ -13,15 +13,15 @@ public class MainTarget : DefaultTrackableEventHandler
         {
             for (int j=0; j< GameManager.nbThreatsStates; j++)
             {
-                Transform varState = transform.Find(child.gameObject.name + "/var" + i + "_state" + j);
+                Transform threatState = transform.Find(child.gameObject.name + "/threat" + i + "_state" + j);
 
                 if (GameManager.Instance.threats[i] == j)
                 {
-                    varState.gameObject.SetActive(true);
+                    threatState.gameObject.SetActive(true);
                 }
                 else
                 {
-                    varState.gameObject.SetActive(false);
+                    threatState.gameObject.SetActive(false);
                 }
             }
         }
