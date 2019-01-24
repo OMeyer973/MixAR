@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +9,15 @@ public class GameManager : Singleton<GameManager> {
 
     public static readonly int nbCharacters = 3;
     public static readonly int nbActionsPerCharacter = 4;
+
+    // dice roll needs to be bellow maxDiceToChangeGameVar to allow a character to change a game variable with a special card (0-100)
+    public static readonly float criticalSucessScore = 0.05f;
+    public static readonly float sucessScore = 0.5f;
+    public static readonly float failureScore = 0.95f;
+
     public static readonly int nbGameVariables = 3;
     public static readonly int nbGameVariablesStates = 3;
+
     public static readonly int nbTourMax = 5;
 
     public PlayerSettings settings;
@@ -23,12 +31,13 @@ public class GameManager : Singleton<GameManager> {
 
     public GameObject introPrefab;
     public GameObject outroPrefab;
+
     // all the cards that will be used to compute the fate and play animations for this turn
     public ScenarioCard currentScenarioCard;
     public TrapCard currentTrapCard;
-    // ActionCard[id] is the card played by the character id
+    
+    // ActionCard[id] is the action card played by the character id
     public ActionCard[] currentActionCards = new ActionCard[nbCharacters];
-
 
     protected float[] currentCharacterDices = new float[nbCharacters];
     protected float[] currentCharacterScores = new float[nbCharacters];
@@ -80,15 +89,25 @@ public class GameManager : Singleton<GameManager> {
 
     public void SetCardsForNextTurn(List<Card> scannedCards)
     {
+        // Debug.Log("Game manager recieving scanned cards");
         foreach (Card c in scannedCards)
         {
-            if (c is TrapCard)                
+            // Debug.Log("GameManager recieving card : " + c);
+
+            if (c is TrapCard)
+            {
                 currentTrapCard = (TrapCard)c;
+                // Debug.Log("GameManager recieving trap card");
+            }
             else if (c is ScenarioCard)
+            {
                 currentScenarioCard = (ScenarioCard)c;
+                // Debug.Log("GameManager recieving scenario card");
+            }
             if (c is ActionCard)
             {
                 ActionCard tmpCard = (ActionCard)c;
+                // Debug.Log("GameManager recieving action card : " + tmpCard.CharacterId);
                 currentActionCards[tmpCard.CharacterId] = tmpCard;
             }
         }
@@ -109,9 +128,93 @@ public class GameManager : Singleton<GameManager> {
         // show AR variables
     }
 
-    void ComputeFate()
+    private void ComputeFate()
     {
         // roll dice
+        for (int i = 0; i < nbCharacters; i++)
+        {
+            currentCharacterDices[i] = UnityEngine.Random.Range(0f, 1f);
+
+            Debug.Log("computing action card : " + i);
+            int currCharacterAction = currentActionCards[i].GetComponent<ActionCard>().ActionId;
+            // *0.01 to bring fate matrix content from 0-100 to 0-1
+            float currCharacterObjective = 0.01f * (float)currentScenarioCard.GetComponent<ScenarioCard>().FateMatrix[i, currCharacterAction];
+
+            // a character score is his dice roll centerd back on 0.5 with range [0-1] in function of his fate matrix objective.
+            // ie : (score <= 0.05) == critical success, (0.05 < score <= 0.5) == sucess, (0.5 < score <= 0.95) == failure, (0.95 < score) == critical failure
+            if (currentCharacterDices[i] < currCharacterObjective)
+            {
+                currentCharacterScores[i] = 0.5f * currentCharacterDices[i] / currCharacterObjective;
+            }
+            else
+            {
+                currentCharacterScores[i] = 1f - 0.5f * (100 - currentCharacterDices[i]) / (100 - currCharacterObjective);
+            }
+
+            UpdateGameVariablesWithSpecialActionCard(i);
+
+            currentScenarioScore += currentCharacterScores[i];
+            
+            Debug.Log("curr action : " + currCharacterAction + "\n" +
+                      "curr objective : " + currCharacterObjective + "\n" +
+                      "curr dice : " + currentCharacterDices[i] + "\n" +
+                      "curr score : " + currentCharacterScores[i] + "\n"
+                      );
+            
+        }
+        currentScenarioScore /= nbCharacters;
+
+        UpdateGameVariablesWithScenarioCard();
+        currentScenarioCard.GetComponent<ScenarioCard>().Print();
+        Debug.Log("total score : " + currentScenarioScore);
+    }
+
+    // takes the ID of an action card that has been played (from the currentActionCards[]list) 
+    // and updates the GameVariables accordingly
+    // -> if the card has ActionCard.ChangeGameVar at true, 
+    //    and the dice roll is bellow sucessScore,
+    //    it will -1 the ActionCard.GamevarChanged game variable
+    private void UpdateGameVariablesWithSpecialActionCard(int i)
+    {
+        if (currentActionCards[i].ChangeGameVar)
+        {
+            Debug.Log("character " + i + " is trying to change game var " + currentActionCards[i].GameVarChanged);
+            if (currentCharacterDices[i] < sucessScore)
+            {
+                gameVariables[currentActionCards[i].GameVarChanged] = Math.Max(0, gameVariables[currentActionCards[i].GameVarChanged] - 1);
+                Debug.Log("character " + i + " successfuly got game var " + currentActionCards[i].GameVarChanged + "to diminish by one");
+            }
+            Debug.Log("character " + i + " failed to get game var " + currentActionCards[i].GameVarChanged + "to diminish by one");
+        }
+        else
+        {
+            Debug.Log("character " + i + " will not change game var");
+        }
+    }
+
+    // updates the GameVariables in function of the scenario card and the total score of the players
+    private void UpdateGameVariablesWithScenarioCard()
+    {
+        Debug.Log("Scenario card will influence game var " + currentScenarioCard.GameVarChanged);
+        if (currentScenarioScore <= criticalSucessScore)
+        { // critical success : variable get -1
+            gameVariables[currentScenarioCard.GameVarChanged] = Math.Max(0, gameVariables[currentScenarioCard.GameVarChanged] - 1);
+            Debug.Log("critical Scenario success : score " + currentScenarioScore + " made game var " + currentScenarioCard.GameVarChanged + " diminishe by one");
+        }
+        else if (currentScenarioScore <= sucessScore)
+        { // normal sucess : no change
+            Debug.Log("Scenario success : score " + currentScenarioScore + " made game var " + currentScenarioCard.GameVarChanged + " not change");
+        }
+        else if (currentScenarioScore <= failureScore)
+        { // normal failure : variable get +1
+            gameVariables[currentScenarioCard.GameVarChanged] = gameVariables[currentScenarioCard.GameVarChanged] + 1;
+            Debug.Log("Scenario failure : score " + currentScenarioScore + " made game var " + currentScenarioCard.GameVarChanged + " increase by one");
+        }
+        else
+        { // critical failure : variable get +1
+            gameVariables[currentScenarioCard.GameVarChanged] = gameVariables[currentScenarioCard.GameVarChanged] + 1;
+            Debug.Log("critical Scenario failure : score " + currentScenarioScore + " made game var " + currentScenarioCard.GameVarChanged + " increase by one");
+        }
 
     }
 

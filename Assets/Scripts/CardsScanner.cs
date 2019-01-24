@@ -15,7 +15,8 @@ public class CardsScanner : MonoBehaviour
 
     #region PROTECTED_MEMBER_VARIABLES
 
-    public List<Card> _trackedCards;
+    protected List<Card> _trackedCards = new List<Card>();
+    protected List<Card> _cardsToSend = new List<Card>();
 
     #endregion // PROTECTED_MEMBER_VARIABLES
 
@@ -75,6 +76,8 @@ public class CardsScanner : MonoBehaviour
     {
         HideCanvas();
         successCanvas.SetActive(true);
+        _cardsToSend.Clear();
+        _cardsToSend.AddRange(_trackedCards);
     }
 
     #endregion // PROTECTED_METHODS
@@ -90,6 +93,9 @@ public class CardsScanner : MonoBehaviour
     // called by a press on the validate button of the success canvas
     public void ValidateCardsScan()
     {
+        // Debug.Log("CardsScanner sending scanned cards to GameManager");
+        GameManager.Instance.SetCardsForNextTurn(_cardsToSend);
+        _cardsToSend.Clear();
         HideCanvas();
         GameManager.Instance.PlayTurn();
     }
