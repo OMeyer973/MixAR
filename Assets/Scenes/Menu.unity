@@ -730,9 +730,9 @@ MonoBehaviour:
   scanGroup: {fileID: 489902467}
   textsGroup: {fileID: 368775568}
   textToChange: {fileID: 150352593}
-  introPrefab: {fileID: 1184269678570224, guid: 3f60f19d7ef16474a84d7bb9fd620ead,
+  introPrefab: {fileID: 1962354867016066, guid: c9b8e552f8d6d984f92782ce5685a1c7,
     type: 2}
-  outroPrefab: {fileID: 1184269678570224, guid: 3f60f19d7ef16474a84d7bb9fd620ead,
+  outroPrefab: {fileID: 1795376588200760, guid: 7c9930981772f4743b834b2cf7409a2c,
     type: 2}
   currentScenarioCard: {fileID: 0}
   currentTrapCard: {fileID: 0}
@@ -1870,10 +1870,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7295c20503ba39488aa93acbd03e874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nbPlayerButton: {fileID: 0}
-  botButton: {fileID: 0}
-  predictButton: {fileID: 0}
-  timerButton: {fileID: 0}
+  nbPlayerButton: {fileID: 1329597827}
+  botButton: {fileID: 1776994365}
+  predictButton: {fileID: 380631313}
+  timerButton: {fileID: 3203265}
 --- !u!4 &479731768
 Transform:
   m_ObjectHideFlags: 0

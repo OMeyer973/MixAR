@@ -6,7 +6,7 @@ using UnityEngine;
 // json deserializer used : https://github.com/SaladLab/Json.Net.Unity3D
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
+using System.Text;
 
 
 // class that will load the cards statistics from json and instantiate them
@@ -14,9 +14,9 @@ public class CardStatsLoader : MonoBehaviour {
 
     #region PROTECTED_MEMBERS
 
-    protected string _actionCardsDataFileName = "ActionCardsData.json";
-    protected string _trapCardsDataFileName = "TrapCardsData.json";
-    protected string _scenarioCardsDataFileName = "ScenarioCardsData.json";
+    protected string _actionCardsDataFileName = "ActionCardsData";
+    protected string _trapCardsDataFileName = "TrapCardsData";
+    protected string _scenarioCardsDataFileName = "ScenarioCardsData";
 
     protected ActionCardStats[] _actionCardStats = null;
     protected ScenarioCardStats[] _scenarioCardStats = null;
@@ -129,12 +129,11 @@ public class CardStatsLoader : MonoBehaviour {
     {
         // Path.Combine combines strings into a file path
         // Application.StreamingAssets points to Assets/StreamingAssets in the Editor, and the StreamingAssets folder in a build
-        string filePath = Path.Combine(Application.streamingAssetsPath, filepath);
         string dataAsJson = "";
-        if (File.Exists(filePath))
+        var targetFile = Resources.Load<TextAsset>(filepath);
+        if (targetFile != null)
         {
-            // Read the json from the file into a string
-            dataAsJson = File.ReadAllText(filePath);
+            dataAsJson = targetFile.text;
         }
         else
         {
