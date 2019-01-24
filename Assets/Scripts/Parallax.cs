@@ -83,9 +83,6 @@ public class Parallax : MonoBehaviour
             //Translate for multiple BD block
             foreach (GameObject go in _bdElemList)
                 xPos += go.GetComponent<Collider>().bounds.size.y;
-
-            Debug.Log(child);
-            Debug.Log("z :" + zPos);
             child.position = new Vector3(xPos, 0, zPos);
             zPos += SPACING;
         }
