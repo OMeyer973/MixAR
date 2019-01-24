@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -730,7 +730,7 @@ MonoBehaviour:
   scanGroup: {fileID: 489902467}
   textsGroup: {fileID: 368775568}
   textToChange: {fileID: 150352593}
-  introPrefab: {fileID: 1184269678570224, guid: 3f60f19d7ef16474a84d7bb9fd620ead,
+  introPrefab: {fileID: 1166995288705942, guid: 642d393eee88e5d44b7a7d58818bea57,
     type: 2}
   outroPrefab: {fileID: 1184269678570224, guid: 3f60f19d7ef16474a84d7bb9fd620ead,
     type: 2}
