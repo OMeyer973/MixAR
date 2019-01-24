@@ -28,6 +28,8 @@ public class GameManager : Singleton<GameManager> {
     public GameObject scanGroup;
     public GameObject textsGroup;
     public Text textToChange;
+    public GameObject endScreenGroup;
+    public GameObject endScreenGroup_WinnerText;
 
     public GameObject introPrefab;
     public GameObject outroPrefab;
@@ -69,7 +71,6 @@ public class GameManager : Singleton<GameManager> {
     public void nextState()
     {
         _gameStatus++;
-        Debug.Log("TESLTJ : "+_gameStatus);
         manageStatusAction();
     }
     
@@ -78,6 +79,7 @@ public class GameManager : Singleton<GameManager> {
     {
         threats = new int[nbThreats];
         ResetVariables();
+        manageStatusAction();
     }
 
     public void ResetVariables()
@@ -85,6 +87,13 @@ public class GameManager : Singleton<GameManager> {
         for (int i=0; i<nbThreats; i++)
             threats[i] = 0;
         
+    }
+
+    public void backToMenu()
+    {
+        _gameStatus = State.Menu;
+        ResetVariables();
+        manageStatusAction();
     }
 
     public void SetCardsForNextTurn(List<Card> scannedCards)
@@ -257,18 +266,24 @@ public class GameManager : Singleton<GameManager> {
             case State.End:
                 animationGroup.SetActive(false);
                 animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
-                textsGroup.SetActive(true);
-
+                
                 if (!isFinish())
                 {
-                    textToChange.GetComponent<Text>().text = "C la fin du tour";
                     nbTour++;
-                    _gameStatus = State.Draw;
+                    _gameStatus = State.NumTour;
                     manageStatusAction();
                 }
                 else //If someone won
                 {
-                    textToChange.GetComponent<Text>().text = "C la fin du jeu";
+                    endScreenGroup.SetActive(true);
+                    if (badGuyHasWon())
+                    {
+                        endScreenGroup_WinnerText.GetComponent<Text>().text = "Le méchant a gagné";
+                    }
+                    else
+                    {
+                        endScreenGroup_WinnerText.GetComponent<Text>().text = "Les gentils ont gagné";
+                    }
                 }
                 break;
             case State.Outro:
@@ -278,8 +293,6 @@ public class GameManager : Singleton<GameManager> {
 
     private bool isFinish()
     {
-        Debug.Log("BAD GUY" + badGuyHasWon());
-        Debug.Log("Good Guys As Won" + goodGuysHasWon());
         return badGuyHasWon() || goodGuysHasWon();
     }
 
