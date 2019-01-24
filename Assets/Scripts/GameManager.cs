@@ -30,8 +30,10 @@ public class GameManager : Singleton<GameManager> {
     public GameObject scanGroup;
     public GameObject textsGroup;
     public Text textToChange;
+    public GameObject threatsARGroup;
     public GameObject endScreenGroup;
     public GameObject endScreenGroup_WinnerText;
+    public GameObject ARCamera;
 
     public GameObject introPrefab;
     public GameObject outroPrefab;
@@ -61,6 +63,7 @@ public class GameManager : Singleton<GameManager> {
         PlayersPlaying, //Timer + Scan button
         Scan, //Scan cards
         Animation, //Calcul of destiny and Animation 
+        ShowThreatsAR,
         End, //End of game
         Outro //End animation
     }
@@ -255,17 +258,26 @@ public class GameManager : Singleton<GameManager> {
                 textToChange.GetComponent<Text>().text = "Au tour des gentils :)";
                 break;
             case State.Scan:
+                ARCamera.SetActive(true);
                 textsGroup.SetActive(false);
                 scanGroup.SetActive(true);
                 break;
             case State.Animation:
+                ARCamera.SetActive(false);
                 scanGroup.SetActive(false);
                 animationGroup.SetActive(true);
                 parallaxGameObject.GetComponent<Parallax>().addSprite(outroPrefab);
                 break;
-            case State.End:
+            case State.ShowThreatsAR:
+                ARCamera.SetActive(true);
                 animationGroup.SetActive(false);
                 animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
+
+                threatsARGroup.SetActive(true);
+                break;
+            case State.End:
+                ARCamera.SetActive(false);
+                threatsARGroup.SetActive(false);
                 
                 if (!isFinish())
                 {

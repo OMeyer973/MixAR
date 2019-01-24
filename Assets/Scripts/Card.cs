@@ -16,14 +16,17 @@ public class Card : DefaultTrackableEventHandler
 
     protected override void OnTrackingFound()
     {
-        //base.OnTrackingFound(); // does stuff we don't want so we override it entirely
-        foreach (Transform child in transform)
+        if (_cardsScanner.onlyAR == false || (_cardsScanner.onlyAR == true && this.GetType() == typeof(MainTarget)))
         {
-            Debug.Log(child.gameObject.name);
-            child.gameObject.SetActive(true);
+            //base.OnTrackingFound(); // does stuff we don't want so we override it entirely
+            foreach (Transform child in transform)
+            {
+                Debug.Log(child.gameObject.name);
+                child.gameObject.SetActive(true);
+            }
+            _isOnScreen = true;
+            _cardsScanner.AddCardToTrack(this);
         }
-        _isOnScreen = true;
-        _cardsScanner.AddCardToTrack(this);
     }
 
     protected override void OnTrackingLost()

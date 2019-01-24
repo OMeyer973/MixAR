@@ -10,7 +10,7 @@ public class CardsScanner : MonoBehaviour
 
     public GameObject successCanvas;
     public GameObject errorCanvas;
-
+    public bool onlyAR = false;
     #endregion // PUBLIC_MEMBER_VARIABLES
 
     #region PROTECTED_MEMBER_VARIABLES
@@ -104,29 +104,33 @@ public class CardsScanner : MonoBehaviour
     // else if a card in the list is off screen, pop it to add the new one.
     public void AddCardToTrack(Card card)
     {
-        // if the card is allready in the list : do nothing
-        foreach (Card c in _trackedCards)
+        if( onlyAR == false || (onlyAR == true && card.GetType() == typeof(MainTarget)))
         {
-            if (c == card)
-                return;
-        }
-        
-        // if the list has less than 5 items, just add it
-        if (_trackedCards.Count < 5)
-        {
-            _trackedCards.Add(card);
-        }
-        // else if one card in the list is off screen, pop it and add the new card
-        else for (int i = _trackedCards.Count - 1; i >= 0; i--)
-        {
-            if (!_trackedCards[i].IsOnScreen())
+            // if the card is allready in the list : do nothing
+            foreach (Card c in _trackedCards)
             {
-                _trackedCards.RemoveAt(i);
+                if (c == card)
+                    return;
+            }
+        
+            // if the list has less than 5 items, just add it
+            if (_trackedCards.Count < 5)
+            {
                 _trackedCards.Add(card);
             }
+            // else if one card in the list is off screen, pop it and add the new card
+            else for (int i = _trackedCards.Count - 1; i >= 0; i--)
+            {
+                if (!_trackedCards[i].IsOnScreen())
+                {
+                    _trackedCards.RemoveAt(i);
+                    _trackedCards.Add(card);
+                }
+            }
+            // else do nothing
+            CheckCards();
+
         }
-        // else do nothing
-        CheckCards();
     }
 
     // updates the card list and empties it if all the cards are off-screen
