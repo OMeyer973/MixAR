@@ -10,7 +10,8 @@ using System.Text;
 
 
 // class that will load the cards statistics from json and instantiate them
-public class CardStatsLoader : MonoBehaviour {
+public class CardStatsLoader : MonoBehaviour
+{
 
     #region PROTECTED_MEMBERS
 
@@ -85,7 +86,7 @@ public class CardStatsLoader : MonoBehaviour {
         Debug.LogError("can't find card " + cardName + " in action stats - check the json file");
         return null;
     }
-    
+
     #endregion // PUBLIC_METHODS
 
 
@@ -125,7 +126,7 @@ public class CardStatsLoader : MonoBehaviour {
 
 
     // reads a file in  the streamingAssets folder and returns it's content
-    protected string ReadFile(string path)
+    protected string ReadFile(string filepath)
     {
         // Path.Combine combines strings into a file path
         // Application.StreamingAssets points to Assets/StreamingAssets in the Editor, and the StreamingAssets folder in a build

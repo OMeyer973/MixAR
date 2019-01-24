@@ -8,8 +8,6 @@ public class CardsScanner : MonoBehaviour
 {
     #region PUBLIC_MEMBER_VARIABLES
 
-    public GameManager gameManager;
-
     public GameObject successCanvas;
     public GameObject errorCanvas;
 
@@ -96,10 +94,10 @@ public class CardsScanner : MonoBehaviour
     public void ValidateCardsScan()
     {
         // Debug.Log("CardsScanner sending scanned cards to GameManager");
-        gameManager.SetCardsForNextTurn(_cardsToSend);
+        GameManager.Instance.SetCardsForNextTurn(_cardsToSend);
         _cardsToSend.Clear();
         HideCanvas();
-        gameManager.PlayTurn();
+        GameManager.Instance.PlayTurn();
     }
 
     // add a new card to track. if the list has less than 5 cards, just add a new one. 
