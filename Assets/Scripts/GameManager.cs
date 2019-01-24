@@ -10,13 +10,13 @@ public class GameManager : Singleton<GameManager> {
     public static readonly int nbCharacters = 3;
     public static readonly int nbActionsPerCharacter = 4;
 
-    // dice roll needs to be bellow maxDiceToChangeGameVar to allow a character to change a game variable with a special card (0-100)
+    // dice roll needs to be bellow maxDiceToChangeThreat to allow a character to change a game variable with a special card (0-100)
     public static readonly float criticalSucessScore = 0.05f;
     public static readonly float sucessScore = 0.5f;
     public static readonly float failureScore = 0.95f;
 
-    public static readonly int nbGameVariables = 3;
-    public static readonly int nbGameVariablesStates = 3;
+    public static readonly int nbThreats = 3;
+    public static readonly int nbThreatsStates = 3;
 
     public static readonly int nbTourMax = 5;
 
@@ -44,8 +44,8 @@ public class GameManager : Singleton<GameManager> {
     protected float currentScenarioScore = 0;
 
     // current state of the game Variables - 0 = initial state, high number = danger (>= 2 death)
-    // gameVariables[0] == 1 -> the variable number 0 is at the state 1
-    public int[] gameVariables;
+    // threats[0] == 1 -> the variable number 0 is at the state 1
+    public int[] threats;
 
     private enum State
     {
@@ -76,14 +76,14 @@ public class GameManager : Singleton<GameManager> {
     // Use this for initialization
     public void Awake()
     {
-        gameVariables = new int[nbGameVariables];
+        threats = new int[nbThreats];
         ResetVariables();
     }
 
     public void ResetVariables()
     {
-        for (int i=0; i<nbGameVariables; i++)
-            gameVariables[i] = 0;
+        for (int i=0; i<nbThreats; i++)
+            threats[i] = 0;
         
     }
 
@@ -151,7 +151,7 @@ public class GameManager : Singleton<GameManager> {
                 currentCharacterScores[i] = 1f - 0.5f * (100 - currentCharacterDices[i]) / (100 - currCharacterObjective);
             }
 
-            UpdateGameVariablesWithSpecialActionCard(i);
+            UpdateThreatsWithSpecialActionCard(i);
 
             currentScenarioScore += currentCharacterScores[i];
             
@@ -164,27 +164,27 @@ public class GameManager : Singleton<GameManager> {
         }
         currentScenarioScore /= nbCharacters;
 
-        UpdateGameVariablesWithScenarioCard();
+        UpdateThreatsWithScenarioCard();
         currentScenarioCard.GetComponent<ScenarioCard>().Print();
         Debug.Log("total score : " + currentScenarioScore);
     }
 
     // takes the ID of an action card that has been played (from the currentActionCards[]list) 
-    // and updates the GameVariables accordingly
-    // -> if the card has ActionCard.ChangeGameVar at true, 
+    // and updates the Threats accordingly
+    // -> if the card has ActionCard.ChangeThreat at true, 
     //    and the dice roll is bellow sucessScore,
     //    it will -1 the ActionCard.GamevarChanged game variable
-    private void UpdateGameVariablesWithSpecialActionCard(int i)
+    private void UpdateThreatsWithSpecialActionCard(int i)
     {
-        if (currentActionCards[i].ChangeGameVar)
+        if (currentActionCards[i].ChangeThreat)
         {
-            Debug.Log("character " + i + " is trying to change game var " + currentActionCards[i].GameVarChanged);
+            Debug.Log("character " + i + " is trying to change game var " + currentActionCards[i].ThreatChanged);
             if (currentCharacterDices[i] < sucessScore)
             {
-                gameVariables[currentActionCards[i].GameVarChanged] = Math.Max(0, gameVariables[currentActionCards[i].GameVarChanged] - 1);
-                Debug.Log("character " + i + " successfuly got game var " + currentActionCards[i].GameVarChanged + "to diminish by one");
+                threats[currentActionCards[i].ThreatChanged] = Math.Max(0, threats[currentActionCards[i].ThreatChanged] - 1);
+                Debug.Log("character " + i + " successfuly got game var " + currentActionCards[i].ThreatChanged + "to diminish by one");
             }
-            Debug.Log("character " + i + " failed to get game var " + currentActionCards[i].GameVarChanged + "to diminish by one");
+            Debug.Log("character " + i + " failed to get game var " + currentActionCards[i].ThreatChanged + "to diminish by one");
         }
         else
         {
@@ -192,28 +192,28 @@ public class GameManager : Singleton<GameManager> {
         }
     }
 
-    // updates the GameVariables in function of the scenario card and the total score of the players
-    private void UpdateGameVariablesWithScenarioCard()
+    // updates the Threats in function of the scenario card and the total score of the players
+    private void UpdateThreatsWithScenarioCard()
     {
-        Debug.Log("Scenario card will influence game var " + currentScenarioCard.GameVarChanged);
+        Debug.Log("Scenario card will influence game var " + currentScenarioCard.ThreatChanged);
         if (currentScenarioScore <= criticalSucessScore)
         { // critical success : variable get -1
-            gameVariables[currentScenarioCard.GameVarChanged] = Math.Max(0, gameVariables[currentScenarioCard.GameVarChanged] - 1);
-            Debug.Log("critical Scenario success : score " + currentScenarioScore + " made game var " + currentScenarioCard.GameVarChanged + " diminishe by one");
+            threats[currentScenarioCard.ThreatChanged] = Math.Max(0, threats[currentScenarioCard.ThreatChanged] - 1);
+            Debug.Log("critical Scenario success : score " + currentScenarioScore + " made game var " + currentScenarioCard.ThreatChanged + " diminishe by one");
         }
         else if (currentScenarioScore <= sucessScore)
         { // normal sucess : no change
-            Debug.Log("Scenario success : score " + currentScenarioScore + " made game var " + currentScenarioCard.GameVarChanged + " not change");
+            Debug.Log("Scenario success : score " + currentScenarioScore + " made game var " + currentScenarioCard.ThreatChanged + " not change");
         }
         else if (currentScenarioScore <= failureScore)
         { // normal failure : variable get +1
-            gameVariables[currentScenarioCard.GameVarChanged] = gameVariables[currentScenarioCard.GameVarChanged] + 1;
-            Debug.Log("Scenario failure : score " + currentScenarioScore + " made game var " + currentScenarioCard.GameVarChanged + " increase by one");
+            threats[currentScenarioCard.ThreatChanged] = threats[currentScenarioCard.ThreatChanged] + 1;
+            Debug.Log("Scenario failure : score " + currentScenarioScore + " made game var " + currentScenarioCard.ThreatChanged + " increase by one");
         }
         else
         { // critical failure : variable get +1
-            gameVariables[currentScenarioCard.GameVarChanged] = gameVariables[currentScenarioCard.GameVarChanged] + 1;
-            Debug.Log("critical Scenario failure : score " + currentScenarioScore + " made game var " + currentScenarioCard.GameVarChanged + " increase by one");
+            threats[currentScenarioCard.ThreatChanged] = threats[currentScenarioCard.ThreatChanged] + 1;
+            Debug.Log("critical Scenario failure : score " + currentScenarioScore + " made game var " + currentScenarioCard.ThreatChanged + " increase by one");
         }
 
     }
@@ -285,8 +285,8 @@ public class GameManager : Singleton<GameManager> {
 
     private bool badGuyHasWon()
     {
-        foreach (int var in gameVariables)
-            if (var >= nbGameVariablesStates - 1)
+        foreach (int var in threats)
+            if (var >= nbThreatsStates - 1)
                 return true;    
         return false;
     }

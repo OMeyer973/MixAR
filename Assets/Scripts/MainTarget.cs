@@ -9,13 +9,13 @@ public class MainTarget : DefaultTrackableEventHandler
         Transform child = transform.GetChild(0);
         child.gameObject.SetActive(true);
         
-        for (int i=0; i< GameManager.nbGameVariables; i++)
+        for (int i=0; i< GameManager.nbThreats; i++)
         {
-            for (int j=0; j< GameManager.nbGameVariablesStates; j++)
+            for (int j=0; j< GameManager.nbThreatsStates; j++)
             {
                 Transform varState = transform.Find(child.gameObject.name + "/var" + i + "_state" + j);
 
-                if (GameManager.Instance.gameVariables[i] == j)
+                if (GameManager.Instance.threats[i] == j)
                 {
                     varState.gameObject.SetActive(true);
                 }

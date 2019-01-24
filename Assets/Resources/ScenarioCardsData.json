@@ -10,7 +10,7 @@
 			[10,	80, 	70], // action2
 			[80,	70, 	50]  // action3
 	 	],
-	 "gameVarChanged": 1
+	 "threatChanged": 1
 	},
 	{
 	 	"cardName": "scenario1",
@@ -22,7 +22,7 @@
 			[10,	80, 	70], // action2
 			[80,	70, 	50]  // action3
 	 	],
-	 "gameVarChanged": 1
+	 "threatChanged": 1
 	},
 	{
 	 	"cardName": "scenario2",
@@ -34,7 +34,7 @@
 			[10,	80, 	70], // action2
 			[80,	70, 	50]  // action3
 	 	],
-	 "gameVarChanged": 1
+	 "threatChanged": 1
 	},
 	{
 	 	"cardName": "scenario3",
@@ -46,6 +46,6 @@
 			[10,	80, 	70], // action2
 			[80,	70, 	50]  // action3
 	 	],
-	 "gameVarChanged": 1
+	 "threatChanged": 1
 	}
 ]
