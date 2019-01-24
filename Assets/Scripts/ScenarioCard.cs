@@ -9,6 +9,7 @@ public class ScenarioCardStats
     public string cardName;
     public int scenarioId;
     public float[,] fateMatrix;
+    public int gameVarChanged;
 }
 
 public class ScenarioCard : Card {
@@ -16,6 +17,7 @@ public class ScenarioCard : Card {
     protected int CardName { get; private set; }
     protected int ScenarioId { get; private set; }
     public float[,] FateMatrix = new float[GameManager.nbCharacters, GameManager.nbActionsPerCharacter];
+    public int GameVarChanged { get; private set; }
 
     // initialize the card members according to the parsed json cardData and points to the cardScanner in the scene
     public void Initialize(CardsScanner cardsScanner, ScenarioCardStats cardStats)
@@ -26,6 +28,7 @@ public class ScenarioCard : Card {
         _cardsScanner = cardsScanner;
         ScenarioId = cardStats.scenarioId;
         //Debug.Log(cardStats.fateMatrix);
+        GameVarChanged = cardStats.gameVarChanged;
 
         // transposition of the ScenarioCardStatFateMatrix because they are stored by character column in JSON
         // and we want to access them like this : FateMatrix[characterId, actionId]

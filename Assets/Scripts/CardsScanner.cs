@@ -8,6 +8,8 @@ public class CardsScanner : MonoBehaviour
 {
     #region PUBLIC_MEMBER_VARIABLES
 
+    public GameManager gameManager;
+
     public GameObject successCanvas;
     public GameObject errorCanvas;
 
@@ -15,7 +17,8 @@ public class CardsScanner : MonoBehaviour
 
     #region PROTECTED_MEMBER_VARIABLES
 
-    public List<Card> _trackedCards;
+    protected List<Card> _trackedCards = new List<Card>();
+    protected List<Card> _cardsToSend = new List<Card>();
 
     #endregion // PROTECTED_MEMBER_VARIABLES
 
@@ -75,6 +78,8 @@ public class CardsScanner : MonoBehaviour
     {
         HideCanvas();
         successCanvas.SetActive(true);
+        _cardsToSend.Clear();
+        _cardsToSend.AddRange(_trackedCards);
     }
 
     #endregion // PROTECTED_METHODS
@@ -90,8 +95,11 @@ public class CardsScanner : MonoBehaviour
     // called by a press on the validate button of the success canvas
     public void ValidateCardsScan()
     {
+        // Debug.Log("CardsScanner sending scanned cards to GameManager");
+        gameManager.SetCardsForNextTurn(_cardsToSend);
+        _cardsToSend.Clear();
         HideCanvas();
-        GameManager.Instance.PlayTurn();
+        gameManager.PlayTurn();
     }
 
     // add a new card to track. if the list has less than 5 cards, just add a new one. 

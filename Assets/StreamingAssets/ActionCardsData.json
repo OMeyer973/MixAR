@@ -3,21 +3,29 @@
 	{
 	 "cardName": "action0",
 	 "CharacterId": 0,
-	 "actionId": 0
+	 "actionId": 0,
+	 "changeGameVar": true,
+	 "gameVarChanged": 1
 	},
 	{
 	 "cardName": "action1",
 	 "CharacterId": 1,
-	 "actionId": 2
+	 "actionId": 2,
+	 "changeGameVar": false,
+	 "gameVarChanged":0
 	},
 	{
 	 "cardName": "action2",
 	 "CharacterId": 2,
-	 "actionId": 3
+	 "actionId": 3,
+	 "changeGameVar": false,
+	 "gameVarChanged":0
 	},
 	{
 	 "cardName": "action3",
 	 "CharacterId": 0,
-	 "actionId": 1
+	 "actionId": 1,
+	 "changeGameVar": false,
+	 "gameVarChanged": 0
 	}
 ]

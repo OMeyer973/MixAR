@@ -125,16 +125,27 @@ public class CardStatsLoader : MonoBehaviour {
 
 
     // reads a file in  the streamingAssets folder and returns it's content
-    protected string ReadFile(string filepath)
+    protected string ReadFile(string path)
     {
         // Path.Combine combines strings into a file path
         // Application.StreamingAssets points to Assets/StreamingAssets in the Editor, and the StreamingAssets folder in a build
-        string filePath = Path.Combine(Application.streamingAssetsPath, filepath);
+
+        string filePath = Path.Combine(Application.streamingAssetsPath, path);
         string dataAsJson = "";
+
         if (File.Exists(filePath))
         {
-            // Read the json from the file into a string
-            dataAsJson = File.ReadAllText(filePath);
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                WWW reader = new WWW(filePath);
+                while (!reader.isDone) { }
+
+                dataAsJson = reader.text;
+            }
+            else
+            {
+                dataAsJson = File.ReadAllText(filePath);
+            }
         }
         else
         {
