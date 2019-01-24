@@ -21,7 +21,7 @@ public class Parallax : MonoBehaviour
     private Vector3 _centerGiroReference;
     private Vector3 _originalPosition;
     
-    private const string PARALLAX_ANIMATED_GAMEOBJECT_FOLDER = "Animations/";
+    private const string PARALLAX_ANIMATED_GAMEOBJECT_FOLDER = "AnimationsPrefabs/";
     private List<GameObject> _bdElemList = new List<GameObject>();
     public GameObject cameraCible;
 
@@ -79,8 +79,13 @@ public class Parallax : MonoBehaviour
         foreach (Transform child in animatedBdElement.transform)
         {
             float xPos = 0;
+
+            //Translate for multiple BD block
             foreach (GameObject go in _bdElemList)
-                xPos += go.transform.GetChild(0).GetComponent<Collider>().bounds.size.y;
+                xPos += go.GetComponent<Collider>().bounds.size.y;
+
+            Debug.Log(child);
+            Debug.Log("z :" + zPos);
             child.position = new Vector3(xPos, 0, zPos);
             zPos += SPACING;
         }

@@ -51,6 +51,7 @@ public class GameManager : Singleton<GameManager> {
     {
         Menu,
         Intro, //Animating introduction
+        NumTour,
         Draw, //Ask player to draw cards
         BadGuyPlaying, //Ask badGuy to play
         PlayersPlaying, //Timer + Scan button
@@ -229,10 +230,13 @@ public class GameManager : Singleton<GameManager> {
                 animationGroup.SetActive(true);
                 parallaxGameObject.GetComponent<Parallax>().addSprite(introPrefab);
                 break;
-            case State.Draw:
+            case State.NumTour:
                 animationGroup.SetActive(false);
                 animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
                 textsGroup.SetActive(true);
+                textToChange.GetComponent<Text>().text = "Tour "+nbTour;
+                break;
+            case State.Draw:
                 textToChange.GetComponent<Text>().text = "Piochez svp (Faudra faire un vrai texte tout beau tout joli, bsx)";
                 break;
             case State.BadGuyPlaying:
