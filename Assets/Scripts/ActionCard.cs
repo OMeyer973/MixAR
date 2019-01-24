@@ -9,27 +9,30 @@ public class ActionCardStats
     public int CharacterId;
     public int actionId;
     public bool changeThreat;
-    public int threatChanged;
+    public int threatToChange;
 }
 
 
 public class ActionCard : Card {
 
-    public int CardName { get; private set; }
+    public string CardName { get; private set; }
     public int ActionId { get; private set; }
     public int CharacterId { get; private set; }
     public bool ChangeThreat { get; private set; }
-    public int ThreatChanged { get; private set; }
+    public int ThreatToChange { get; private set; }
 
     // initialize the card members according to the parsed json cardData and points to the cardScanner in the scene
     public void Initialize(CardsScanner cardsScanner, ActionCardStats cardStats)
     {
-        _cardsScanner = cardsScanner; 
+        Debug.Log("Initializing action card ");
+
+        _cardsScanner = cardsScanner;
+        CardName = cardStats.cardName;
         ActionId = cardStats.actionId;
         CharacterId = cardStats.CharacterId;
         ChangeThreat = cardStats.changeThreat;
-        ThreatChanged = cardStats.threatChanged;
-        Debug.Log("Initializing action card ");
+        ThreatToChange = cardStats.threatToChange;
+
         Print();
     }
 

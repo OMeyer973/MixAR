@@ -10,10 +10,12 @@ public class GameManager : Singleton<GameManager> {
     public static readonly int nbCharacters = 3;
     public static readonly int nbActionsPerCharacter = 4;
 
-    // dice roll needs to be bellow maxDiceToChangeThreat to allow a character to change a threats with a special card (0-100)
     public static readonly float criticalSucessScore = 0.05f;
     public static readonly float sucessScore = 0.5f;
     public static readonly float failureScore = 0.95f;
+
+    // percentage of the objective that will be subtracted if the trap card is meant to influence a character
+    public static readonly float trapCharacterHandicap = 0.2f;
 
     public static readonly int nbThreats = 3;
     public static readonly int nbThreatsStates = 3;
@@ -144,10 +146,17 @@ public class GameManager : Singleton<GameManager> {
         {
             currentCharacterDices[i] = UnityEngine.Random.Range(0f, 1f);
 
-            Debug.Log("computing action card : " + i);
             int currCharacterAction = currentActionCards[i].GetComponent<ActionCard>().ActionId;
             // *0.01 to bring fate matrix content from 0-100 to 0-1
             float currCharacterObjective = 0.01f * (float)currentScenarioCard.GetComponent<ScenarioCard>().FateMatrix[i, currCharacterAction];
+
+            Debug.Log("character : " + i + " has played action " + currCharacterAction + ", his objective is " + currCharacterObjective);
+
+            if (currentTrapCard.InfluenceCharacter && currentTrapCard.CharacterToInfluence == i)
+            {
+                Debug.Log("a trap has been activated ! character " + i + " has a handicap of " + trapCharacterHandicap + " on his objective");
+                currCharacterObjective -= currCharacterObjective * trapCharacterHandicap;
+            }
 
             // a character score is his dice roll centerd back on 0.5 with range [0-1] in function of his fate matrix objective.
             // ie : (score <= 0.05) == critical success, (0.05 < score <= 0.5) == sucess, (0.5 < score <= 0.95) == failure, (0.95 < score) == critical failure
@@ -163,13 +172,8 @@ public class GameManager : Singleton<GameManager> {
             UpdateThreatsWithSpecialActionCard(i);
 
             currentScenarioScore += currentCharacterScores[i];
-            
-            Debug.Log("curr action : " + currCharacterAction + "\n" +
-                      "curr objective : " + currCharacterObjective + "\n" +
-                      "curr dice : " + currentCharacterDices[i] + "\n" +
-                      "curr score : " + currentCharacterScores[i] + "\n"
-                      );
-            
+
+            Debug.Log("character : " + i + " has rolled a " + currentCharacterDices[i] + ", his score is " + currentCharacterScores);
         }
         currentScenarioScore /= nbCharacters;
 
@@ -182,47 +186,43 @@ public class GameManager : Singleton<GameManager> {
     // and updates the Threats accordingly
     // -> if the card has ActionCard.ChangeThreat at true, 
     //    and the dice roll is bellow sucessScore,
-    //    it will -1 the ActionCard.ThreatChanged threat
+    //    it will -1 the ActionCard.ThreatToChange threat
     private void UpdateThreatsWithSpecialActionCard(int i)
     {
         if (currentActionCards[i].ChangeThreat)
         {
-            Debug.Log("character " + i + " is trying to change game var " + currentActionCards[i].ThreatChanged);
+            Debug.Log("character " + i + " action may change threat " + currentActionCards[i].ThreatToChange + ". Let's see his roll");
             if (currentCharacterDices[i] < sucessScore)
             {
-                threats[currentActionCards[i].ThreatChanged] = Math.Max(0, threats[currentActionCards[i].ThreatChanged] - 1);
-                Debug.Log("character " + i + " successfuly got game var " + currentActionCards[i].ThreatChanged + "to diminish by one");
+                threats[currentActionCards[i].ThreatToChange] = Math.Max(0, threats[currentActionCards[i].ThreatToChange] - 1);
+                Debug.Log("character " + i + " roll of " + currentCharacterDices[i] + " allowed his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
             }
-            Debug.Log("character " + i + " failed to get game var " + currentActionCards[i].ThreatChanged + "to diminish by one");
-        }
-        else
-        {
-            Debug.Log("character " + i + " will not change game var");
+            Debug.Log("character " + i + " roll of " + currentCharacterDices[i] + " prevented his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
         }
     }
 
     // updates the Threats in function of the scenario card and the total score of the players
     private void UpdateThreatsWithScenarioCard()
     {
-        Debug.Log("Scenario card will influence game var " + currentScenarioCard.ThreatChanged);
+        Debug.Log("Scenario card may change threat " + currentScenarioCard.ThreatToChange + ". Let's see the character rolls");
         if (currentScenarioScore <= criticalSucessScore)
         { // critical success : variable get -1
-            threats[currentScenarioCard.ThreatChanged] = Math.Max(0, threats[currentScenarioCard.ThreatChanged] - 1);
-            Debug.Log("critical Scenario success : score " + currentScenarioScore + " made game var " + currentScenarioCard.ThreatChanged + " diminishe by one");
+            threats[currentScenarioCard.ThreatToChange] = Math.Max(0, threats[currentScenarioCard.ThreatToChange] - 1);
+            Debug.Log("critical Scenario success : score of " + currentScenarioScore + " made threat " + currentScenarioCard.ThreatToChange + " diminishe by one");
         }
         else if (currentScenarioScore <= sucessScore)
         { // normal sucess : no change
-            Debug.Log("Scenario success : score " + currentScenarioScore + " made game var " + currentScenarioCard.ThreatChanged + " not change");
+            Debug.Log("Scenario success : score of " + currentScenarioScore + " made threat " + currentScenarioCard.ThreatToChange + " not change");
         }
         else if (currentScenarioScore <= failureScore)
         { // normal failure : variable get +1
-            threats[currentScenarioCard.ThreatChanged] = threats[currentScenarioCard.ThreatChanged] + 1;
-            Debug.Log("Scenario failure : score " + currentScenarioScore + " made game var " + currentScenarioCard.ThreatChanged + " increase by one");
+            threats[currentScenarioCard.ThreatToChange] = threats[currentScenarioCard.ThreatToChange] + 1;
+            Debug.Log("Scenario failure : score of " + currentScenarioScore + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
         }
         else
         { // critical failure : variable get +1
-            threats[currentScenarioCard.ThreatChanged] = threats[currentScenarioCard.ThreatChanged] + 1;
-            Debug.Log("critical Scenario failure : score " + currentScenarioScore + " made game var " + currentScenarioCard.ThreatChanged + " increase by one");
+            threats[currentScenarioCard.ThreatToChange] = threats[currentScenarioCard.ThreatToChange] + 1;
+            Debug.Log("critical Scenario failure : score of " + currentScenarioScore + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
         }
 
     }
