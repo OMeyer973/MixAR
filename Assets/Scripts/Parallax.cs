@@ -21,7 +21,7 @@ public class Parallax : MonoBehaviour
     private Vector3 _centerGiroReference;
     private Vector3 _originalPosition;
     
-    private const string PARALLAX_ANIMATED_GAMEOBJECT_FOLDER = "Animations/";
+    private const string PARALLAX_ANIMATED_GAMEOBJECT_FOLDER = "AnimationsPrefabs/";
     private List<GameObject> _bdElemList = new List<GameObject>();
     public GameObject cameraCible;
 

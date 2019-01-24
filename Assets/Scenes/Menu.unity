@@ -205,65 +205,6 @@ RectTransform:
   m_AnchoredPosition: {x: 320, y: -121.50001}
   m_SizeDelta: {x: 550, y: 32.600002}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &25847812
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1003821745775564, guid: 8bee3c63b9515bc478c6f1e1ab064498,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 25847813}
-  - component: {fileID: 25847814}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &25847813
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4983359001487568, guid: 8bee3c63b9515bc478c6f1e1ab064498,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 25847812}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.112604, y: -6.5889807, z: 10.243091}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 489902468}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &25847814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114063616900157296, guid: 8bee3c63b9515bc478c6f1e1ab064498,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 25847812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52fd580ea813f8f46b21a84127c71b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 0}
-  menuGroup: {fileID: 0}
-  animationGroup: {fileID: 0}
-  parallaxGameObject: {fileID: 0}
-  scanGroup: {fileID: 0}
-  textsGroup: {fileID: 0}
-  textToChange: {fileID: 0}
-  introPrefab: {fileID: 0}
-  outroPrefab: {fileID: 0}
-  currentScenarioCard: {fileID: 0}
-  currentTrapCard: {fileID: 0}
-  currentActionCards:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  gameVariables: 
 --- !u!1 &129573586
 GameObject:
   m_ObjectHideFlags: 0
@@ -2050,7 +1991,6 @@ Transform:
   - {fileID: 645846697}
   - {fileID: 1961253497}
   - {fileID: 1933094681}
-  - {fileID: 25847813}
   - {fileID: 1200097830}
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -4648,7 +4588,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 489902468}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1200097831
 MonoBehaviour:
