@@ -88,6 +88,13 @@ public class DynamicDataSetLoader : MonoBehaviour
 
     void InitializeActionCard(GameObject actionCard)
     {
+        /*
+        Debug.Log("actionCard.name " + actionCard.name);
+        Debug.Log("cardStatsLoader " + cardStatsLoader);
+        Debug.Log("cardsScanner " + cardsScanner);
+        Debug.Log("actionstat " + cardStatsLoader.GetActionStats(actionCard.name));
+        */
+
         actionCard.AddComponent<ActionCard>();
         actionCard.GetComponent<ActionCard>().Initialize(cardsScanner, cardStatsLoader.GetActionStats(actionCard.name));
     }

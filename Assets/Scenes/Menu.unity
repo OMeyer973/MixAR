@@ -9588,7 +9588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardsScanner: {fileID: 1961253498}
   cardStatsLoader: {fileID: 1961253499}
-  dataSetName: road_strip
+  dataSetName: playing_cards
   actionCardPrefab: {fileID: 1055964236583102, guid: 961bf0d428877704ab56fe9627a4dcd5,
     type: 2}
   trapCardPrefab: {fileID: 1980662113088536, guid: b1a1953018eab8542929bcba99d9d2d2,

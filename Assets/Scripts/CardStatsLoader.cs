@@ -38,11 +38,20 @@ public class CardStatsLoader : MonoBehaviour
             Debug.Log("Loading action cards data from json");
             LoadActionCardsData();
         }
-
+        /*
+        Debug.Log("_actionCardStats" + _actionCardStats);
+        Debug.Log("_actionCardStats[0]" + _actionCardStats[0]);
+        Debug.Log("_actionCardStats[0].cardName" + _actionCardStats[0].cardName);
+        */
         foreach (ActionCardStats a in _actionCardStats)
         {
+            /*
+            Debug.Log("cardName " + cardName + " a.cardName " + a.cardName);
+            if (a.cardName == null)
+                Debug.Log("a is null !!!!");
+            */       
             if (a.cardName == cardName)
-                return a;
+                        return a;
         }
 
         Debug.LogError("can't find card " + cardName + " in action stats - check the json file");
@@ -95,8 +104,11 @@ public class CardStatsLoader : MonoBehaviour
     protected void LoadActionCardsData()
     {
         string actionCardsFile = ReadFile(_actionCardsDataFileName);
-        // Debug.Log(actionCardsFile);
+        Debug.Log(actionCardsFile);
         _actionCardStats = JsonConvert.DeserializeObject<ActionCardStats[]>(actionCardsFile);
+
+        // Debug.Log(_actionCardStats);
+        // Debug.Log(_actionCardStats[0]);
 
         if (_actionCardStats == null)
             Debug.LogError("couldn't load LoadActionCardsData() properly");

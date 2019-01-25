@@ -1,0 +1,12 @@
+
+[
+	{
+	 "cardName": "trapTest",
+	 "trapId": 0,
+	 "message": "haha mon piège va influencer le perso 0 !",
+	 "influenceCharacter": true,
+	 "characterToInfluence": 0,
+	 "influenceThreat": false,
+	 "threatToInfluence": 0,
+	}
+]
