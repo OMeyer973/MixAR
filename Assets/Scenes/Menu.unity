@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11309,7 +11309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardsScanner: {fileID: 1961253498}
   cardStatsLoader: {fileID: 1961253499}
-  dataSetName: playing_cards
+  dataSetName: road_strip
   actionCardPrefab: {fileID: 1055964236583102, guid: 961bf0d428877704ab56fe9627a4dcd5,
     type: 2}
   trapCardPrefab: {fileID: 1980662113088536, guid: b1a1953018eab8542929bcba99d9d2d2,
