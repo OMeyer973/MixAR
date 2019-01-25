@@ -1,0 +1,31 @@
+
+[
+	{
+	 "cardName": "action0",
+	 "CharacterId": 0,
+	 "actionId": 0,
+	 "changeThreat": true,
+	 "ThreatToChange": 1
+	},
+	{
+	 "cardName": "action1",
+	 "CharacterId": 1,
+	 "actionId": 2,
+	 "changeThreat": false,
+	 "ThreatToChange":0
+	},
+	{
+	 "cardName": "action2",
+	 "CharacterId": 2,
+	 "actionId": 3,
+	 "changeThreat": false,
+	 "ThreatToChange":0
+	},
+	{
+	 "cardName": "action3",
+	 "CharacterId": 0,
+	 "actionId": 1,
+	 "changeThreat": false,
+	 "ThreatToChange": 0
+	}
+]
