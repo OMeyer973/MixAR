@@ -10,11 +10,11 @@ public class Parallax : MonoBehaviour
 {
     public Camera camera;
 
-    public const float GIRO_SPEED = 2.0f;
+    public const float GIRO_SPEED = 0.8f;
     public const float SPACING = 4.0f;
     public const float CAMERA_MARGIN = 7.0f; //Usefull with orthographic camera
     public const float CENTERING_SPEED = 40.0f;
-    public const float MAX_CAMERA_POSITION = 15.0f;
+    public const float MAX_CAMERA_POSITION = 10.0f;
     public const float SCROLLSPEED = 0.01f;
 
 
