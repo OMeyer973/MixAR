@@ -28,6 +28,7 @@ public class GameManager : Singleton<GameManager> {
     public GameObject animationGroup;
     public GameObject parallaxGameObject;
     public GameObject scanGroup;
+    public GameObject buttonNextScan;
     public GameObject textsGroup;
     public GameObject piocheBadGuyGroup;
     public GameObject piocheGentilsGroup;
@@ -265,6 +266,7 @@ public class GameManager : Singleton<GameManager> {
             case State.Scan:
                 piocheGentilsGroup.SetActive(false);
                 scanGroup.SetActive(true);
+                buttonNextScan.SetActive(false);
                 onlyThreats = false;
                 break;
             case State.Animation:
@@ -275,6 +277,7 @@ public class GameManager : Singleton<GameManager> {
             case State.ShowThreatsAR:
                 animationGroup.SetActive(false);
                 animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
+                buttonNextScan.SetActive(true);
                 onlyThreats = true;
                 scanGroup.SetActive(true);
                 break;
