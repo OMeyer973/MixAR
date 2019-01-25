@@ -101,6 +101,7 @@ public class GameManager : Singleton<GameManager> {
     {
         _gameStatus = State.Menu;
         ResetVariables();
+        nbTour = 1;
         manageStatusAction();
     }
 
@@ -239,6 +240,7 @@ public class GameManager : Singleton<GameManager> {
         switch (_gameStatus)
         {
             case State.Menu:
+                endScreenGroup.SetActive(false);
                 menuGroup.SetActive(true);
                 break;
             case State.Intro:
