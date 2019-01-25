@@ -144,6 +144,8 @@ public class GameManager : Singleton<GameManager> {
 
     private void ComputeFate()
     {
+        currentScenarioCard.GetComponent<ScenarioCard>().Print();
+
         // roll dice
         for (int i = 0; i < nbCharacters; i++)
         {
@@ -153,8 +155,9 @@ public class GameManager : Singleton<GameManager> {
             // *0.01 to bring fate matrix content from 0-100 to 0-1
             float currCharacterObjective = 0.01f * (float)currentScenarioCard.GetComponent<ScenarioCard>().FateMatrix[i, currCharacterAction];
 
-            Debug.Log("character : " + i + " has played action " + currCharacterAction + ", his objective is " + currCharacterObjective);
+            Debug.Log("character " + i + " has played action " + currCharacterAction + ", his objective is " + currCharacterObjective);
 
+            // trap card influence on a specific character objective
             if (currentTrapCard.InfluenceCharacter && currentTrapCard.CharacterToInfluence == i)
             {
                 Debug.Log("a trap has been activated ! character " + i + " has a handicap of " + trapCharacterHandicap + " on his objective");
@@ -176,13 +179,11 @@ public class GameManager : Singleton<GameManager> {
 
             currentScenarioScore += currentCharacterScores[i];
 
-            Debug.Log("character : " + i + " has rolled a " + currentCharacterDices[i] + ", his score is " + currentCharacterScores);
+            Debug.Log("character " + i + " has rolled a " + currentCharacterDices[i] + ", his score is " + currentCharacterScores[i]);
         }
         currentScenarioScore /= nbCharacters;
 
         UpdateThreatsWithScenarioCard();
-        currentScenarioCard.GetComponent<ScenarioCard>().Print();
-        Debug.Log("total score : " + currentScenarioScore);
     }
 
     // takes the ID of an action card that has been played (from the currentActionCards[]list) 
