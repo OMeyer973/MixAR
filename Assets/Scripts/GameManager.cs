@@ -29,6 +29,8 @@ public class GameManager : Singleton<GameManager> {
     public GameObject parallaxGameObject;
     public GameObject scanGroup;
     public GameObject textsGroup;
+    public GameObject piocheBadGuyGroup;
+    public GameObject piocheGentilsGroup;
     public Text textToChange;
     public GameObject endScreenGroup;
     public GameObject endScreenGroup_WinnerText;
@@ -253,13 +255,15 @@ public class GameManager : Singleton<GameManager> {
                 textToChange.GetComponent<Text>().text = "Piochez svp (Faudra faire un vrai texte tout beau tout joli, bsx)";
                 break;
             case State.BadGuyPlaying:
-                textToChange.GetComponent<Text>().text = "Au tour du bad guy";
+                textsGroup.SetActive(false);
+                piocheBadGuyGroup.SetActive(true);
                 break;
             case State.PlayersPlaying:
-                textToChange.GetComponent<Text>().text = "Au tour des gentils :)";
+                piocheBadGuyGroup.SetActive(false);
+                piocheGentilsGroup.SetActive(true);
                 break;
             case State.Scan:
-                textsGroup.SetActive(false);
+                piocheGentilsGroup.SetActive(false);
                 scanGroup.SetActive(true);
                 onlyThreats = false;
                 break;
