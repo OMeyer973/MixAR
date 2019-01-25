@@ -10,7 +10,6 @@ public class CardsScanner : MonoBehaviour
 
     public GameObject successCanvas;
     public GameObject errorCanvas;
-    public bool onlyAR = false;
     #endregion // PUBLIC_MEMBER_VARIABLES
 
     #region PROTECTED_MEMBER_VARIABLES
@@ -104,8 +103,6 @@ public class CardsScanner : MonoBehaviour
     // else if a card in the list is off screen, pop it to add the new one.
     public void AddCardToTrack(Card card)
     {
-        if( onlyAR == false || (onlyAR == true && card.GetType() == typeof(MainTarget)))
-        {
             // if the card is allready in the list : do nothing
             foreach (Card c in _trackedCards)
             {
@@ -130,7 +127,7 @@ public class CardsScanner : MonoBehaviour
             // else do nothing
             CheckCards();
 
-        }
+   
     }
 
     // updates the card list and empties it if all the cards are off-screen

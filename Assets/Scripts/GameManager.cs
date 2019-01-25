@@ -30,11 +30,9 @@ public class GameManager : Singleton<GameManager> {
     public GameObject scanGroup;
     public GameObject textsGroup;
     public Text textToChange;
-    public GameObject threatsARGroup;
     public GameObject endScreenGroup;
     public GameObject endScreenGroup_WinnerText;
-    public GameObject ARCamera;
-
+    
     public GameObject introPrefab;
     public GameObject outroPrefab;
 
@@ -52,6 +50,8 @@ public class GameManager : Singleton<GameManager> {
     // current state of the threats - 0 = initial state, high number = danger (>= 2 death)
     // threats[0] == 1 -> the variable number 0 is at the state 1
     public int[] threats;
+
+    public bool onlyThreats = false; //Used to allow or not game cards scanning
 
     private enum State
     {
@@ -258,26 +258,23 @@ public class GameManager : Singleton<GameManager> {
                 textToChange.GetComponent<Text>().text = "Au tour des gentils :)";
                 break;
             case State.Scan:
-                ARCamera.SetActive(true);
                 textsGroup.SetActive(false);
                 scanGroup.SetActive(true);
+                onlyThreats = false;
                 break;
             case State.Animation:
-                ARCamera.SetActive(false);
                 scanGroup.SetActive(false);
                 animationGroup.SetActive(true);
                 parallaxGameObject.GetComponent<Parallax>().addSprite(outroPrefab);
                 break;
             case State.ShowThreatsAR:
-                ARCamera.SetActive(true);
                 animationGroup.SetActive(false);
                 animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
-
-                threatsARGroup.SetActive(true);
+                onlyThreats = true;
+                scanGroup.SetActive(true);
                 break;
             case State.End:
-                ARCamera.SetActive(false);
-                threatsARGroup.SetActive(false);
+                scanGroup.SetActive(false);
                 
                 if (!isFinish())
                 {
