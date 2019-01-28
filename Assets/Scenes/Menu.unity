@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11138,11 +11138,11 @@ MonoBehaviour:
   cardsScanner: {fileID: 1961253498}
   cardStatsLoader: {fileID: 1961253499}
   dataSetName: road_strip
-  actionCardPrefab: {fileID: 1055964236583102, guid: 961bf0d428877704ab56fe9627a4dcd5,
+  actionCardPrefab: {fileID: 1581296297051486, guid: 961bf0d428877704ab56fe9627a4dcd5,
     type: 2}
-  itemCardPrefab: {fileID: 1980662113088536, guid: b1a1953018eab8542929bcba99d9d2d2,
+  itemCardPrefab: {fileID: 1200159627068480, guid: b0142a071abc28640be60c0e329a82e2,
     type: 2}
-  scenarioCardPrefab: {fileID: 1035408271272424, guid: 502347f992bfde64692ab37a0b0580b3,
+  scenarioCardPrefab: {fileID: 1234927498814554, guid: 800cc1a8e1ddecc4e8beb4a823bb3b20,
     type: 2}
   threatsPrefab: {fileID: 1777207503584396, guid: cb473b65fa542294ba9a230d1e70c4eb,
     type: 2}

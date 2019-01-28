@@ -12,7 +12,7 @@ public class GameManager : Singleton<GameManager> {
     public static readonly int doNothingId = nbActionsPerCharacter - 1;
     public static readonly float doNothingHandicap = 0.2f;
 
-    // tmp score used to balance dice rolls, apply item influence - range[0-1]
+    // score used to get sucess value in function of dice rolls and apply item influence - range[0-1]
     public static readonly float maxCriticalSucessScore = 0.05f;
     public static readonly float maxSucessScore = 0.5f;
     public static readonly float maxFailureScore = 0.95f;
@@ -32,6 +32,7 @@ public class GameManager : Singleton<GameManager> {
 
     public static readonly int nbTourMax = 5;
 
+    public Texts texts;
     public PlayerSettings settings;
 
     public GameObject menuGroup;
@@ -57,7 +58,7 @@ public class GameManager : Singleton<GameManager> {
 
     // dices the player will throw. range 0-1
     protected float[] currentCharacterDices = new float[nbCharacters];
-    // sucess or failure of a scenario or character action. -2 total failure, -1 failure, 1 sucess, 2 total sucess
+    // sucess or failure of a scenario or character action. 1 total failure, 0.75 failure, 0.25 sucess, 0 total sucess
     protected float currentScenarioSucess = 0;
     protected float[] currentCharacterSucess = new float[nbCharacters];
 
@@ -98,6 +99,7 @@ public class GameManager : Singleton<GameManager> {
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         threats = new int[nbThreats];
+        texts.Init();
         ResetVariables();
         manageStatusAction();
     }
@@ -164,13 +166,14 @@ public class GameManager : Singleton<GameManager> {
 
         // handicap applied on the scenario sucess -> comes from a player doing nothing
         float totalHandicap = 0.0f;
-        // roll dice
+        
         for (int i = 0; i < nbCharacters; i++)
         {
+            // roll dice
             currentCharacterDices[i] = UnityEngine.Random.Range(0f, 1f);
 
             int currCharacterAction = currentActionCards[i].GetComponent<ActionCard>().ActionId;
-            float currCharacterScore = 0.5f;
+            float currCharacterScore;
 
             // CHARACTER IS DOING NOTHING
             if (currCharacterAction == doNothingId)
@@ -199,9 +202,7 @@ public class GameManager : Singleton<GameManager> {
                 }
             }
 
-            
-                currCharacterScore = ItemCardInfluenceCharacterScore(i, currCharacterScore);
-
+            currCharacterScore = ItemCardInfluenceCharacterScore(i, currCharacterScore);
 
             currentCharacterSucess[i] = ComputeSucessFromScore(currCharacterScore);
 
