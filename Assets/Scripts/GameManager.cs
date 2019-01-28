@@ -32,6 +32,7 @@ public class GameManager : Singleton<GameManager> {
 
     public static readonly int nbTourMax = 5;
 
+    public Texts texts;
     public PlayerSettings settings;
 
     public GameObject menuGroup;
@@ -98,6 +99,7 @@ public class GameManager : Singleton<GameManager> {
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         threats = new int[nbThreats];
+        texts.Init();
         ResetVariables();
         manageStatusAction();
     }
