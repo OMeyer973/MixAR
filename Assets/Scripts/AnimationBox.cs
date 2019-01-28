@@ -31,7 +31,7 @@ public class AnimationBox : MonoBehaviour
 
     //@brief Add a sprite to the current scene in front of the caméra following Parallax parameters
     //@param SpriteFilename : Filename of the sprite without extention
-    public AnimationBox(int charNumber, int actionId, int sucessId, Vector3 position)
+    public void init(int charNumber, int actionId, int sucessId, Vector3 position)
     {
         string spriteFilename = "A_char" + charNumber + "_actionId" + actionId + "_SuccessId" + sucessId;
         GameObject animatedBdElement = Instantiate(Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject);
@@ -42,7 +42,7 @@ public class AnimationBox : MonoBehaviour
         setInvisible();
     }
 
-    public AnimationBox(GameObject prefab, Vector3 position)
+    public void init(GameObject prefab, Vector3 position)
     {
         createCamera(position);
         resetGiro();
@@ -79,12 +79,14 @@ public class AnimationBox : MonoBehaviour
 
     void createCamera(Vector3 position)
     {
-        _camera = new GameObject();
+        _camera = new GameObject("Camera");
         Camera camComponent = _camera.AddComponent<Camera>();
         _camera.AddComponent<LookAtConstraint>();
         _camera.transform.position = new Vector3(position.x, position.y, 0);
         camComponent.orthographic = true;
         camComponent.orthographicSize = 4.7f;
+        camComponent.clearFlags = CameraClearFlags.SolidColor;
+        camComponent.backgroundColor = Color.white;
     }
 
     void resetGiro()
@@ -114,17 +116,19 @@ public class AnimationBox : MonoBehaviour
 
         //Set camera cible
         setCameraCible(animatedBdElement.transform.GetChild(0));
-
+        
         //Adding to stored GameObject
         _gameobject = animatedBdElement;
     }
 
-    void setCameraCible(Transform transform)
+    void setCameraCible(Transform tr)
     {
         ConstraintSource cible = new ConstraintSource();
 //        _cameraCible.transform.position = transform.position; 
-        cible.sourceTransform = transform;
+        cible.sourceTransform = tr;
         cible.weight = 1;
+        Debug.Log(_camera);
+        
         try
         {
             _camera.GetComponent<LookAtConstraint>().SetSource(0, cible);
@@ -133,6 +137,7 @@ public class AnimationBox : MonoBehaviour
         {
             _camera.GetComponent<LookAtConstraint>().AddSource(cible);
         }
+        
     } 
 
     private bool _swipeAlreadyDetected; //Save if swipe is currently running
@@ -171,7 +176,7 @@ public class AnimationBox : MonoBehaviour
 
     private void updateCameraPositionForGyroscopEffect()
     {
-        
+
         //Getting giroscope current values
         Vector3 giro = Vector3.zero;
         //giro.x = Input.mousePosition.x/100;
