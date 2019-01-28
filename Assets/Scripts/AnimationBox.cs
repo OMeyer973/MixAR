@@ -57,11 +57,13 @@ public class AnimationBox : MonoBehaviour
     public void setVisible()
     {
         _gameobject.SetActive(true);
+        _camera.SetActive(true);
     }
 
     public void setInvisible()
     {
         _gameobject.SetActive(false);
+        _camera.SetActive(false);
     }
 
     public void clear()

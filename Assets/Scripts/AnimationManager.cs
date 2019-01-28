@@ -8,10 +8,22 @@ public class AnimationManager : Singleton<AnimationManager>
     private List<AnimationBox> _bdElemList = new List<AnimationBox>();
     private int nbShowedAnimation = 0;
 
+    public void showLast()
+    {
+        if (nbShowedAnimation > 1)
+        {
+            Debug.Log(nbShowedAnimation);
+            _bdElemList[nbShowedAnimation-1].setInvisible();
+            _bdElemList[nbShowedAnimation-2].setVisible();
+            nbShowedAnimation--;
+        }
+    }
+
     public void showNext()
     {
-        Debug.Log("TEST");
-        if (nbShowedAnimation < _bdElemList.Count) { 
+        if (nbShowedAnimation < _bdElemList.Count) {
+            if(nbShowedAnimation != 0)
+                _bdElemList[nbShowedAnimation-1].setInvisible();
             _bdElemList[nbShowedAnimation].setVisible();
         }
         else
@@ -19,6 +31,37 @@ public class AnimationManager : Singleton<AnimationManager>
             GameManager.Instance.nextState();
         }
         nbShowedAnimation++;
+    }
+
+    public void click()
+    {
+        if (Input.touchCount > 0)
+        {
+            var touch = Input.GetTouch(0);
+            if (touch.position.x < Screen.width / 2)
+            {
+                showLast();
+            }
+            else if (touch.position.x > Screen.width / 2)
+            {
+                showNext();
+            }
+        }
+        else
+        {
+            var mousePosition= Input.mousePosition;
+            if (mousePosition.x < Screen.width / 2)
+            {
+                showLast();
+            }
+            else if (mousePosition.x > Screen.width / 2)
+            {
+                showNext();
+            }
+        }
+
+        
+        
     }
 
     public void addAnimationToList(GameObject prefab)
