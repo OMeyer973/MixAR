@@ -6,10 +6,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Animations;
 using UnityEngine.EventSystems;
 
-public class Parallax : MonoBehaviour
+public class AnimationBox : MonoBehaviour
 {
-    public Camera camera;
-
+    
     public const float GIRO_SPEED = 0.8f;
     public const float SPACING = 4.0f;
     public const float CAMERA_MARGIN = 7.0f; //Usefull with orthographic camera
@@ -22,43 +21,69 @@ public class Parallax : MonoBehaviour
     private Vector3 _originalPosition;
     
     private const string PARALLAX_ANIMATED_GAMEOBJECT_FOLDER = "AnimationsPrefabs/";
-    private List<GameObject> _bdElemList = new List<GameObject>();
-    public GameObject cameraCible;
+
+    private GameObject _camera;
+    private GameObject _gameobject;
+    private GameObject _cameraCible;
 
 
     #region PUBLIC_METHODS
-    
 
-    public void addSprite(GameObject prefab)
-    {
-        resetGiro();
-        GameObject animatedBdElement = Instantiate(prefab);
-        createParallaxSprite(animatedBdElement);
-    }
-    
     //@brief Add a sprite to the current scene in front of the caméra following Parallax parameters
     //@param SpriteFilename : Filename of the sprite without extention
-    public void addSprite(int charNumber, int actionId, int SucessId) {
-        resetGiro();
-
-        //Loading animated element
-        string spriteFilename = "A_char"+charNumber+"_actionId"+actionId+"_SuccessId"+SucessId;
+    public AnimationBox(int charNumber, int actionId, int sucessId, Vector3 position)
+    {
+        string spriteFilename = "A_char" + charNumber + "_actionId" + actionId + "_SuccessId" + sucessId;
         GameObject animatedBdElement = Instantiate(Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject);
+        animatedBdElement.transform.position = position;
+        createCamera(position);
+        resetGiro();
+        createParallaxSprite(animatedBdElement, position);
+        setInvisible();
+    }
 
-        createParallaxSprite(animatedBdElement);
+    public AnimationBox(GameObject prefab, Vector3 position)
+    {
+        createCamera(position);
+        resetGiro();
+        GameObject animatedBdElement = Instantiate(prefab);
+        animatedBdElement.transform.position = position;
+        createParallaxSprite(animatedBdElement, position);
+        setInvisible();
+    }
+
+    
+
+    public void setVisible()
+    {
+        _gameobject.SetActive(true);
+    }
+
+    public void setInvisible()
+    {
+        _gameobject.SetActive(false);
     }
 
     public void clear()
     {
-        foreach (GameObject sprite in _bdElemList)
-            Destroy(sprite);
-        _bdElemList.Clear();
+        Destroy(_gameobject);
+        Destroy(_camera);
     }
 
 
     #endregion
 
     #region PRIVATE_METHODS
+
+    void createCamera(Vector3 position)
+    {
+        _camera = new GameObject();
+        Camera camComponent = _camera.AddComponent<Camera>();
+        _camera.AddComponent<LookAtConstraint>();
+        _camera.transform.position = new Vector3(position.x, position.y, 0);
+        camComponent.orthographic = true;
+        camComponent.orthographicSize = 4.7f;
+    }
 
     void resetGiro()
     {
@@ -67,12 +92,12 @@ public class Parallax : MonoBehaviour
         //_centerGiroReference.y = Input.mousePosition.y;
         _centerGiroReference.x = Input.acceleration.x;
         _centerGiroReference.y = Input.acceleration.y;
-        _originalPosition = camera.transform.position;
+        _originalPosition = _camera.transform.position;
     }
 
     
 
-    void createParallaxSprite(GameObject animatedBdElement)
+    void createParallaxSprite(GameObject animatedBdElement, Vector3 position)
     {
         //Positionning sprite
         float zPos = CAMERA_MARGIN;
@@ -81,33 +106,30 @@ public class Parallax : MonoBehaviour
             float xPos = 0;
 
             //Translate for multiple BD block
-            foreach (GameObject go in _bdElemList)
-                xPos += go.GetComponent<Collider>().bounds.size.y;
-            child.position = new Vector3(xPos, 0, zPos);
+            child.position = new Vector3(position.x,position.y,zPos);
             zPos += SPACING;
         }
 
         //Set camera cible
-        if (_bdElemList.Count == 0)
-            setCameraCible(animatedBdElement.transform.GetChild(0));
+        setCameraCible(animatedBdElement.transform.GetChild(0));
 
         //Adding to stored GameObject
-        _bdElemList.Add(animatedBdElement);
+        _gameobject = animatedBdElement;
     }
 
     void setCameraCible(Transform transform)
     {
         ConstraintSource cible = new ConstraintSource();
-        cameraCible.transform.position = transform.position; 
-        cible.sourceTransform = cameraCible.transform;
+//        _cameraCible.transform.position = transform.position; 
+        cible.sourceTransform = transform;
         cible.weight = 1;
         try
         {
-            camera.GetComponent<LookAtConstraint>().SetSource(0, cible);
+            _camera.GetComponent<LookAtConstraint>().SetSource(0, cible);
         }
         catch (System.InvalidOperationException) //If source is null
         {
-            camera.GetComponent<LookAtConstraint>().AddSource(cible);
+            _camera.GetComponent<LookAtConstraint>().AddSource(cible);
         }
     } 
 
@@ -115,10 +137,10 @@ public class Parallax : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        detectSwapBetweenBDElements();
         updateCameraPositionForGyroscopEffect();
     }
 
+    /*
     private Touch lastTouchDetected;
     private void detectSwapBetweenBDElements()
     {
@@ -143,6 +165,7 @@ public class Parallax : MonoBehaviour
                 lastTouchDetected = new Touch();
         }
     }
+    */
 
     private void updateCameraPositionForGyroscopEffect()
     {
@@ -159,7 +182,7 @@ public class Parallax : MonoBehaviour
         giro = _centerGiroReference - giro;
 
         //Set new position of camera
-        Vector3 newPos = camera.transform.position + giro * GIRO_SPEED;
+        Vector3 newPos = _camera.transform.position + giro * GIRO_SPEED;
         newPos = _originalPosition * 0.2f + newPos * 0.8f;
         
         //Clamping position
@@ -167,7 +190,7 @@ public class Parallax : MonoBehaviour
         newPos.y =  Mathf.Clamp(newPos.y, _originalPosition.y - MAX_CAMERA_POSITION, _originalPosition.y + MAX_CAMERA_POSITION);
         
         // Move camera
-        camera.transform.position = newPos;
+        _camera.transform.position = newPos;
     }
 
     #endregion

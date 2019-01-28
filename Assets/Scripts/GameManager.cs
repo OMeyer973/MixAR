@@ -25,7 +25,6 @@ public class GameManager : Singleton<GameManager> {
     public PlayerSettings settings;
 
     public GameObject menuGroup;
-    public GameObject animationGroup;
     public GameObject parallaxGameObject;
     public GameObject scanGroup;
     public GameObject buttonNextScan;
@@ -245,12 +244,16 @@ public class GameManager : Singleton<GameManager> {
                 break;
             case State.Intro:
                 menuGroup.SetActive(false);
-                animationGroup.SetActive(true);
-                parallaxGameObject.GetComponent<Parallax>().addSprite(introPrefab);
+                AnimationManager.Instance.addAnimationToList(introPrefab);
+                AnimationManager.Instance.addAnimationToList(1,2,0);
+                AnimationManager.Instance.showNext();
+                //.SetActive(true);
+                //parallaxGameObject.GetComponent<AnimationBox>().addSprite(introPrefab);
                 break;
             case State.NumTour:
-                animationGroup.SetActive(false);
-                animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
+                AnimationManager.Instance.clear();
+                //animationGroup.SetActive(false);
+                //animationGroup.transform.Find("Parallax").GetComponent<AnimationBox>().clear();
                 textsGroup.SetActive(true);
                 textToChange.GetComponent<Text>().text = "Tour "+nbTour;
                 break;
@@ -273,12 +276,12 @@ public class GameManager : Singleton<GameManager> {
                 break;
             case State.Animation:
                 scanGroup.SetActive(false);
-                animationGroup.SetActive(true);
-                parallaxGameObject.GetComponent<Parallax>().addSprite(outroPrefab);
+                //animationGroup.SetActive(true);
+                //parallaxGameObject.GetComponent<Parallax>().addSprite(outroPrefab);
                 break;
             case State.ShowThreatsAR:
-                animationGroup.SetActive(false);
-                animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
+                //animationGroup.SetActive(false);
+                //animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
                 buttonNextScan.SetActive(true);
                 onlyThreats = true;
                 scanGroup.SetActive(true);
