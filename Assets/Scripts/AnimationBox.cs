@@ -26,6 +26,9 @@ public class AnimationBox : MonoBehaviour
     private GameObject _gameobject;
     private GameObject _cameraCible;
 
+    private GameObject _rightMask;
+    private GameObject _leftMask;
+
 
     #region PUBLIC_METHODS
 
@@ -72,6 +75,8 @@ public class AnimationBox : MonoBehaviour
     {
         Destroy(_gameobject);
         Destroy(_camera);
+        Destroy(_rightMask);
+        Destroy(_leftMask);
     }
 
 
@@ -119,15 +124,15 @@ public class AnimationBox : MonoBehaviour
         //Set mask
 
         //right
-        GameObject rightMask = new GameObject("white mask");
-        rightMask.transform.SetParent(_gameobject.transform);
-        SpriteRenderer sprite = rightMask.AddComponent<SpriteRenderer>();
+        _rightMask = new GameObject("white mask");
+        _rightMask.transform.SetParent(_gameobject.transform);
+        SpriteRenderer sprite = _rightMask.AddComponent<SpriteRenderer>();
         sprite.sprite = Resources.Load<Sprite>("white");
-        rightMask.transform.localScale = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x, _gameobject.GetComponent<BoxCollider>().size.y, 1);
-        rightMask.transform.position = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x, 0, 1);
+        _rightMask.transform.localScale = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x, _gameobject.GetComponent<BoxCollider>().size.y, 1);
+        _rightMask.transform.position = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x, 0, 1);
         //left
-        GameObject leftMask = Instantiate(rightMask);
-        rightMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x, 0, 1);
+        _leftMask = Instantiate(_rightMask);
+        _leftMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x, 0, 1);
 
         //Set camera cible
         setCameraCible(_gameobject.transform.GetChild(0));
