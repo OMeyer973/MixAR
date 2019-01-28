@@ -84,6 +84,7 @@ public class GameManager : Singleton<GameManager> {
     // Use this for initialization
     public void Awake()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         threats = new int[nbThreats];
         ResetVariables();
         manageStatusAction();
