@@ -36,9 +36,10 @@ public class AnimationBox : MonoBehaviour
         string spriteFilename = "A_char" + charNumber + "_actionId" + actionId + "_SuccessId" + sucessId;
         GameObject animatedBdElement = Instantiate(Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject);
         animatedBdElement.transform.position = position;
+        _gameobject = animatedBdElement;
         createCamera(position);
         resetGiro();
-        createParallaxSprite(animatedBdElement, position);
+        createParallaxSprite(position);
         setInvisible();
     }
 
@@ -48,7 +49,8 @@ public class AnimationBox : MonoBehaviour
         resetGiro();
         GameObject animatedBdElement = Instantiate(prefab);
         animatedBdElement.transform.position = position;
-        createParallaxSprite(animatedBdElement, position);
+        _gameobject = animatedBdElement;
+        createParallaxSprite(position);
         setInvisible();
     }
 
@@ -101,11 +103,11 @@ public class AnimationBox : MonoBehaviour
 
     
 
-    void createParallaxSprite(GameObject animatedBdElement, Vector3 position)
+    void createParallaxSprite(Vector3 position)
     {
         //Positionning sprite
         float zPos = CAMERA_MARGIN;
-        foreach (Transform child in animatedBdElement.transform)
+        foreach (Transform child in _gameobject.transform)
         {
             float xPos = 0;
 
@@ -113,12 +115,23 @@ public class AnimationBox : MonoBehaviour
             child.position = new Vector3(position.x,position.y,zPos);
             zPos += SPACING;
         }
+        //Set mask
+
+        //right
+        GameObject rightMask = new GameObject("white mask");
+        rightMask.transform.SetParent(_gameobject.transform);
+        SpriteRenderer sprite = rightMask.AddComponent<SpriteRenderer>();
+        sprite.sprite = Resources.Load<Sprite>("white");
+        rightMask.transform.localScale = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x, _gameobject.GetComponent<BoxCollider>().size.y, 1);
+        rightMask.transform.position = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x, 0, 1);
+        //left
+        GameObject leftMask = Instantiate(rightMask);
+        rightMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x, 0, 1);
+
+
 
         //Set camera cible
-        setCameraCible(animatedBdElement.transform.GetChild(0));
-        
-        //Adding to stored GameObject
-        _gameobject = animatedBdElement;
+        setCameraCible(_gameobject.transform.GetChild(0));
     }
 
     void setCameraCible(Transform tr)
@@ -127,7 +140,6 @@ public class AnimationBox : MonoBehaviour
 //        _cameraCible.transform.position = transform.position; 
         cible.sourceTransform = tr;
         cible.weight = 1;
-        Debug.Log(_camera);
         
         try
         {
@@ -146,33 +158,7 @@ public class AnimationBox : MonoBehaviour
     {
         updateCameraPositionForGyroscopEffect();
     }
-
-    /*
-    private Touch lastTouchDetected;
-    private void detectSwapBetweenBDElements()
-    {
-        float deltaX = 0; //deltaY = 0;
-        foreach (var touch in Input.touches)
-        {
-            if (touch.phase == TouchPhase.Began)
-                lastTouchDetected = touch;
-            if (touch.phase == TouchPhase.Moved)
-            {
-                deltaX = lastTouchDetected.position.x - touch.position.x; //greater than 0 is right and less than zero is left
-                //deltaY = touch.position.y - lastTouchDetected.position.y; //greater than 0 is up and less than zero is down
-                lastTouchDetected = touch;
-
-                //Moving camera
-                float clampedX = Mathf.Clamp(deltaX * SCROLLSPEED + camera.transform.position.x, _bdElemList[0].transform.GetChild(0).position.x, _bdElemList[_bdElemList.Count - 1].transform.GetChild(0).position.x);
-                camera.transform.position = new Vector3(clampedX, camera.transform.position.y, camera.transform.position.z);
-                _originalPosition = new Vector3(clampedX, _originalPosition.y, _originalPosition.z);
-                cameraCible.transform.position = new Vector3(clampedX, cameraCible.transform.position.y, cameraCible.transform.position.z);
-            }
-            else if (touch.phase == TouchPhase.Ended)
-                lastTouchDetected = new Touch();
-        }
-    }
-    */
+    
 
     private void updateCameraPositionForGyroscopEffect()
     {
