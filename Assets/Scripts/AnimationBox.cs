@@ -83,7 +83,8 @@ public class AnimationBox : MonoBehaviour
     {
         _camera = new GameObject("Camera");
         Camera camComponent = _camera.AddComponent<Camera>();
-        _camera.AddComponent<LookAtConstraint>();
+        LookAtConstraint lac = _camera.AddComponent<LookAtConstraint>();
+        lac.constraintActive = true;
         _camera.transform.position = new Vector3(position.x, position.y, 0);
         camComponent.orthographic = true;
         camComponent.orthographicSize = 4.7f;
@@ -127,8 +128,6 @@ public class AnimationBox : MonoBehaviour
         //left
         GameObject leftMask = Instantiate(rightMask);
         rightMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x, 0, 1);
-
-
 
         //Set camera cible
         setCameraCible(_gameobject.transform.GetChild(0));
