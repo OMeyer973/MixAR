@@ -32,7 +32,6 @@ public class GameManager : Singleton<GameManager> {
 
     public static readonly int nbTourMax = 5;
 
-    public Texts texts;
     public PlayerSettings settings;
 
     public GameObject menuGroup;
@@ -99,6 +98,9 @@ public class GameManager : Singleton<GameManager> {
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         threats = new int[nbThreats];
+        // just getting an instance of Texts to call init and initiate the static lists of texts. we will not need it later
+        // there is probably a cleaner way to do this but meh
+        Texts texts = Texts.Instance;
         texts.Init();
         ResetVariables();
         manageStatusAction();
@@ -177,7 +179,9 @@ public class GameManager : Singleton<GameManager> {
             // CHARACTER IS DOING NOTHING
             if (currCharacterAction == doNothingId)
             {
-                Debug.Log("character " + i + " has done nothing this turn, he gives a handicap of " + doNothingHandicap + " to everybody. His dice roll wil also not be taken into account.");
+                //Debug.Log("Character " + i + " has done nothing this turn, he gives a handicap of " + doNothingHandicap + " to everybody. His dice roll wil also not be taken into account.");
+                Debug.Log(Texts.Characters[i] + " " + Texts.Actions[i, doNothingId] +
+                " Il gêne ses coéquipiers et leur donne à tous un handicap de " + (100f * doNothingHandicap) + "% sur leur action !");
                 totalHandicap += doNothingHandicap;
                 currCharacterScore = 0.5f;
             }
@@ -187,7 +191,8 @@ public class GameManager : Singleton<GameManager> {
                 // *0.01 to bring fate matrix content from 0-100 to 0-1
                 float currCharacterObjective = 0.01f * (float)currentScenarioCard.GetComponent<ScenarioCard>().FateMatrix[i, currCharacterAction];
 
-                Debug.Log("character " + i + " has played action " + currCharacterAction + ", his objective is " + currCharacterObjective);
+                // Debug.Log("character " + i + " has played action " + currCharacterAction + ", his objective is " + currCharacterObjective);
+                Debug.Log(Texts.Characters[i] + " " + Texts.Actions[i, currCharacterAction]);
 
                 // a character score is his dice roll centerd back on 0.5 with range [0-1] in function of his fate matrix objective.
                 // ie : (score <= 0.05) == critical success, (0.05 < score <= 0.5) == sucess, (0.5 < score <= 0.95) == failure, (0.95 < score) == critical failure
@@ -209,7 +214,13 @@ public class GameManager : Singleton<GameManager> {
 
             currentScenarioSucess += currentCharacterSucess[i];
 
-            Debug.Log("character " + i + " has rolled a " + currentCharacterDices[i] + " (score : " + currCharacterScore + "), his sucess is " + currentCharacterSucess[i]);
+            // Debug.Log("character " + i + " has rolled a " + currentCharacterDices[i] + " (score : " + currCharacterScore + "), his sucess is " + currentCharacterSucess[i]);
+            Debug.Log(
+                (currentCharacterSucess[i] <= sucessValue ? Texts.CharactersSucess[i] : Texts.CharactersFailure[i]) +
+                (currentCharacterSucess[i] <= criticalSucessValue ? " " + Texts.CriticalSucess : "") +
+                (currentCharacterSucess[i] >= criticalFailureValue ? " " + Texts.CriticalFailure : "") +
+                (currentCharacterSucess[i] != neutralValue ? " (" + (int)(100f-100f*currCharacterScore) + "% de réussite)" : "")
+            );
         }
 
         currentScenarioSucess /= nbCharacters;
