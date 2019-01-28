@@ -20,20 +20,20 @@ public class CardsScanner : MonoBehaviour
     #endregion // PROTECTED_MEMBER_VARIABLES
 
     #region PROTECTED_METHODS
-    // check if the cards in the list are good to proceed (1 scenario, 1 trap & 3 actions)
+    // check if the cards in the list are good to proceed (1 scenario, 1 item & 3 actions)
     protected void CheckCards()
     {
         if (_trackedCards.Count >= 5) // 5 : number of cards that need to be scanned at once
         {
             // TODO : replace nbActionCardCharacter0-1-2 with a list of size GameManager.nbCharacters
-            int nbTrapCard = 0, nbScenarioCard = 0;
+            int nbItemCard = 0, nbScenarioCard = 0;
             int[] nbCharacterCards = new int[GameManager.nbCharacters];
 
-            // count the number of action, scenario & trap cards in the list
+            // count the number of action, scenario & item cards in the list
             foreach (Card c in _trackedCards)
             {
-                if (c is TrapCard)
-                    nbTrapCard++;
+                if (c is ItemCard)
+                    nbItemCard++;
                 else if (c is ScenarioCard)
                     nbScenarioCard++;
                 if (c is ActionCard)
@@ -44,7 +44,7 @@ public class CardsScanner : MonoBehaviour
             }
 
             // if the configuration is good, proceed
-            bool cardsAreGood = (nbTrapCard == 1) && (nbScenarioCard == 1);
+            bool cardsAreGood = (nbItemCard == 1) && (nbScenarioCard == 1);
 
             for (int i = 0; i < GameManager.nbCharacters; i++)
             {
@@ -59,7 +59,7 @@ public class CardsScanner : MonoBehaviour
             else
             {
                 // todo : have a screen pop up to say "hey, scan good cards !"
-                Debug.Log("please scan 3 action cards (1 per character), 1 scenario card and 1 Trap card");
+                Debug.Log("please scan 3 action cards (1 per character), 1 scenario card and 1 Item card");
                 ShowErrorCanvas();
             }
         }

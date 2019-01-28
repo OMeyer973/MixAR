@@ -16,12 +16,12 @@ public class CardStatsLoader : MonoBehaviour
     #region PROTECTED_MEMBERS
 
     protected string _actionCardsDataFileName = "ActionCardsData";
-    protected string _trapCardsDataFileName = "TrapCardsData";
+    protected string _itemCardsDataFileName = "ItemCardsData";
     protected string _scenarioCardsDataFileName = "ScenarioCardsData";
 
     protected ActionCardStats[] _actionCardStats = null;
     protected ScenarioCardStats[] _scenarioCardStats = null;
-    protected TrapCardStats[] _trapCardStats = null;
+    protected ItemCardStats[] _itemCardStats = null;
 
     #endregion // PROTECTED_MEMBERS
 
@@ -68,16 +68,16 @@ public class CardStatsLoader : MonoBehaviour
         return null;
     }
 
-    // return the TrapStats corresponding to the given cardName
-    public TrapCardStats GetTrapStats(string cardName)
+    // return the ItemStats corresponding to the given cardName
+    public ItemCardStats GetItemStats(string cardName)
     {
-        if (_trapCardStats == null)
+        if (_itemCardStats == null)
         {
-            Debug.Log("Loading trap cards data from json");
-            LoadTrapCardsData();
+            Debug.Log("Loading item cards data from json");
+            LoadItemCardsData();
         }
 
-        foreach (TrapCardStats a in _trapCardStats)
+        foreach (ItemCardStats a in _itemCardStats)
         {
             if (a.cardName == cardName)
                 return a;
@@ -117,14 +117,14 @@ public class CardStatsLoader : MonoBehaviour
     }
 
 
-    protected void LoadTrapCardsData()
+    protected void LoadItemCardsData()
     {
-        string trapCardsFile = ReadFile(_trapCardsDataFileName);
-        // Debug.Log(trapCardsFile);
-        _trapCardStats = JsonConvert.DeserializeObject<TrapCardStats[]>(trapCardsFile);
+        string itemCardsFile = ReadFile(_itemCardsDataFileName);
+        // Debug.Log(itemCardsFile);
+        _itemCardStats = JsonConvert.DeserializeObject<ItemCardStats[]>(itemCardsFile);
 
-        if (_trapCardStats == null)
-            Debug.LogError("couldn't load LoadTrapCardsData() properly");
+        if (_itemCardStats == null)
+            Debug.LogError("couldn't load LoadItemCardsData() properly");
     }
 
 

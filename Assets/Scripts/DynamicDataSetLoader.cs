@@ -27,7 +27,7 @@ public class DynamicDataSetLoader : MonoBehaviour
 
     // specify these in Unity Inspector    // base prefabs for the different cards types
     public GameObject actionCardPrefab;
-    public GameObject trapCardPrefab;
+    public GameObject itemCardPrefab;
     public GameObject scenarioCardPrefab;
     // prefab for the visualization of the threats in AR
     public GameObject threatsPrefab;
@@ -42,10 +42,10 @@ public class DynamicDataSetLoader : MonoBehaviour
     }
 
     // full processus of loading a card : 
-    // class CardStats loads all the cards stats from json as arrays of  ActionCardData, ScenarioCardData and TrapCardData
+    // class CardStats loads all the cards stats from json as arrays of  ActionCardData, ScenarioCardData and ItemCardData
     // LoadDataset() creates the vuforia targets object from the database
     // InitializeTarget() Initializes the card data
-    // - attach a ActionCard, ScenarioCard or TrapCard component in function of the card name in the db
+    // - attach a ActionCard, ScenarioCard or ItemCard component in function of the card name in the db
     // - these [type]Card components are then initialized with their respective [type]CardData as parameter
     void InitializeTarget(GameObject target)
     {
@@ -66,10 +66,10 @@ public class DynamicDataSetLoader : MonoBehaviour
             InitializeScenarioCard(target);
             augmentation = (GameObject)GameObject.Instantiate(scenarioCardPrefab);
         }
-        else if (System.Text.RegularExpressions.Regex.Match(target.name.ToLower(), "^trap*").Success)
+        else if (System.Text.RegularExpressions.Regex.Match(target.name.ToLower(), "^item*").Success)
         {
-            InitializeTrapCard(target);
-            augmentation = (GameObject)GameObject.Instantiate(trapCardPrefab);
+            InitializeItemCard(target);
+            augmentation = (GameObject)GameObject.Instantiate(itemCardPrefab);
         }
 
         augmentation.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -99,10 +99,10 @@ public class DynamicDataSetLoader : MonoBehaviour
 
     }
 
-    void InitializeTrapCard(GameObject trapCard)
+    void InitializeItemCard(GameObject itemCard)
     {
-        trapCard.AddComponent<TrapCard>();
-        trapCard.GetComponent<TrapCard>().Initialize(cardsScanner, cardStatsLoader.GetTrapStats(trapCard.name));
+        itemCard.AddComponent<ItemCard>();
+        itemCard.GetComponent<ItemCard>().Initialize(cardsScanner, cardStatsLoader.GetItemStats(itemCard.name));
     }
 
     void LoadDataSet()

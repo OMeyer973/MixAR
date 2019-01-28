@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="itemTest" size="0.085000 0.054005" />
     <ImageTarget name="actionChauffeur_Accelerer" size="0.068000 0.068000" />
     <ImageTarget name="actionChauffeur_BoutonInconu" size="0.068000 0.068000" />
     <ImageTarget name="actionChauffeur_Freiner" size="0.068000 0.068000" />
@@ -17,7 +18,6 @@
     <ImageTarget name="actionTireur_NeRienFaire" size="0.068000 0.068000" />
     <ImageTarget name="actionTireur_Tirer" size="0.068000 0.068000" />
     <ImageTarget name="scenarioTest" size="0.085000 0.053611" />
-    <ImageTarget name="trapTest" size="0.085000 0.054005" />
     <ImageTarget name="MainTarget" size="0.085000 0.055396" />
   </Tracking>
 </QCARConfig>

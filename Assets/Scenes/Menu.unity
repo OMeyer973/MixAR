@@ -944,7 +944,7 @@ MonoBehaviour:
   outroPrefab: {fileID: 1166995288705942, guid: 642d393eee88e5d44b7a7d58818bea57,
     type: 2}
   currentScenarioCard: {fileID: 0}
-  currentTrapCard: {fileID: 0}
+  currentItemCard: {fileID: 0}
   currentActionCards:
   - {fileID: 0}
   - {fileID: 0}
@@ -11312,7 +11312,7 @@ MonoBehaviour:
   dataSetName: road_strip
   actionCardPrefab: {fileID: 1055964236583102, guid: 961bf0d428877704ab56fe9627a4dcd5,
     type: 2}
-  trapCardPrefab: {fileID: 1980662113088536, guid: b1a1953018eab8542929bcba99d9d2d2,
+  itemCardPrefab: {fileID: 1980662113088536, guid: b1a1953018eab8542929bcba99d9d2d2,
     type: 2}
   scenarioCardPrefab: {fileID: 1035408271272424, guid: 502347f992bfde64692ab37a0b0580b3,
     type: 2}

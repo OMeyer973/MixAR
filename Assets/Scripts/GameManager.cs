@@ -8,14 +8,24 @@ using UnityEngine.UI;
 public class GameManager : Singleton<GameManager> {
 
     public static readonly int nbCharacters = 3;
-    public static readonly int nbActionsPerCharacter = 4;
+    public static readonly int nbActionsPerCharacter = 5;
+    public static readonly int doNothingId = nbActionsPerCharacter - 1;
+    public static readonly float doNothingHandicap = 0.2f;
 
-    public static readonly float criticalSucessScore = 0.05f;
-    public static readonly float sucessScore = 0.5f;
-    public static readonly float failureScore = 0.95f;
+    // tmp score used to balance dice rolls, apply item influence - range[0-1]
+    public static readonly float maxCriticalSucessScore = 0.05f;
+    public static readonly float maxSucessScore = 0.5f;
+    public static readonly float maxFailureScore = 0.95f;
+    public static readonly float neutralScore = 0.5f;
 
-    // percentage of the objective that will be subtracted if the trap card is meant to influence a character
-    public static readonly float trapCharacterHandicap = 0.2f;
+
+    // sucess values used to balance the game (failure + critical sucess = sucess, etc...) - range[0-1]
+    public static readonly float criticalSucessValue = 0f;
+    public static readonly float sucessValue = 0.25f;
+    public static readonly float neutralValue = 0.5f;
+    public static readonly float failureValue = 0.75f;
+    public static readonly float criticalFailureValue = 1f;
+
 
     public static readonly int nbThreats = 3;
     public static readonly int nbThreatsStates = 3;
@@ -41,14 +51,16 @@ public class GameManager : Singleton<GameManager> {
 
     // all the cards that will be used to compute the fate and play animations for this turn
     public ScenarioCard currentScenarioCard;
-    public TrapCard currentTrapCard;
+    public ItemCard currentItemCard;
     
     // ActionCard[id] is the action card played by the character id
     public ActionCard[] currentActionCards = new ActionCard[nbCharacters];
 
+    // dices the player will throw. range 0-1
     protected float[] currentCharacterDices = new float[nbCharacters];
-    protected float[] currentCharacterScores = new float[nbCharacters];
-    protected float currentScenarioScore = 0;
+    // sucess or failure of a scenario or character action. -2 total failure, -1 failure, 1 sucess, 2 total sucess
+    protected float currentScenarioSucess = 0;
+    protected float[] currentCharacterSucess = new float[nbCharacters];
 
     // current state of the threats - 0 = initial state, high number = danger (>= 2 death)
     // threats[0] == 1 -> the variable number 0 is at the state 1
@@ -112,10 +124,10 @@ public class GameManager : Singleton<GameManager> {
         {
             // Debug.Log("GameManager recieving card : " + c);
 
-            if (c is TrapCard)
+            if (c is ItemCard)
             {
-                currentTrapCard = (TrapCard)c;
-                // Debug.Log("GameManager recieving trap card");
+                currentItemCard = (ItemCard)c;
+                // Debug.Log("GameManager recieving item card");
             }
             else if (c is ScenarioCard)
             {
@@ -150,62 +162,106 @@ public class GameManager : Singleton<GameManager> {
     {
         currentScenarioCard.GetComponent<ScenarioCard>().Print();
 
+        // handicap applied on the scenario sucess -> comes from a player doing nothing
+        float totalHandicap = 0.0f;
         // roll dice
         for (int i = 0; i < nbCharacters; i++)
         {
             currentCharacterDices[i] = UnityEngine.Random.Range(0f, 1f);
 
             int currCharacterAction = currentActionCards[i].GetComponent<ActionCard>().ActionId;
-            // *0.01 to bring fate matrix content from 0-100 to 0-1
-            float currCharacterObjective = 0.01f * (float)currentScenarioCard.GetComponent<ScenarioCard>().FateMatrix[i, currCharacterAction];
+            float currCharacterScore = 0.5f;
 
-            Debug.Log("character " + i + " has played action " + currCharacterAction + ", his objective is " + currCharacterObjective);
-
-            // trap card influence on a specific character objective
-            if (currentTrapCard.InfluenceCharacter && currentTrapCard.CharacterToInfluence == i)
+            // CHARACTER IS DOING NOTHING
+            if (currCharacterAction == doNothingId)
             {
-                Debug.Log("a trap has been activated ! character " + i + " has a handicap of " + trapCharacterHandicap + " on his objective");
-                currCharacterObjective -= currCharacterObjective * trapCharacterHandicap;
+                Debug.Log("character " + i + " has done nothing this turn, he gives a handicap of " + doNothingHandicap + " to everybody. His dice roll wil also not be taken into account.");
+                totalHandicap += doNothingHandicap;
+                currCharacterScore = 0.5f;
             }
-
-            // a character score is his dice roll centerd back on 0.5 with range [0-1] in function of his fate matrix objective.
-            // ie : (score <= 0.05) == critical success, (0.05 < score <= 0.5) == sucess, (0.5 < score <= 0.95) == failure, (0.95 < score) == critical failure
-            if (currentCharacterDices[i] < currCharacterObjective)
-            {
-                currentCharacterScores[i] = 0.5f * currentCharacterDices[i] / currCharacterObjective;
-            }
+            // ELSE COMPUTING SCORE
             else
             {
-                currentCharacterScores[i] = 1f - 0.5f * (100 - currentCharacterDices[i]) / (100 - currCharacterObjective);
+                // *0.01 to bring fate matrix content from 0-100 to 0-1
+                float currCharacterObjective = 0.01f * (float)currentScenarioCard.GetComponent<ScenarioCard>().FateMatrix[i, currCharacterAction];
+
+                Debug.Log("character " + i + " has played action " + currCharacterAction + ", his objective is " + currCharacterObjective);
+
+                // a character score is his dice roll centerd back on 0.5 with range [0-1] in function of his fate matrix objective.
+                // ie : (score <= 0.05) == critical success, (0.05 < score <= 0.5) == sucess, (0.5 < score <= 0.95) == failure, (0.95 < score) == critical failure
+                if (currentCharacterDices[i] < currCharacterObjective)
+                {
+                    currCharacterScore = 0.5f * currentCharacterDices[i] / currCharacterObjective;
+                }
+                else
+                {
+                    currCharacterScore = 1f - 0.5f * (1 - currentCharacterDices[i]) / (1 - currCharacterObjective);
+                }
             }
+
+            
+                currCharacterScore = ItemCardInfluenceCharacterScore(i, currCharacterScore);
+
+
+            currentCharacterSucess[i] = ComputeSucessFromScore(currCharacterScore);
 
             UpdateThreatsWithSpecialActionCard(i);
 
-            currentScenarioScore += currentCharacterScores[i];
+            currentScenarioSucess += currentCharacterSucess[i];
 
-            Debug.Log("character " + i + " has rolled a " + currentCharacterDices[i] + ", his score is " + currentCharacterScores[i]);
+            Debug.Log("character " + i + " has rolled a " + currentCharacterDices[i] + " (score : " + currCharacterScore + "), his sucess is " + currentCharacterSucess[i]);
         }
-        currentScenarioScore /= nbCharacters;
+
+        currentScenarioSucess /= nbCharacters;
+        currentScenarioSucess += totalHandicap;
 
         UpdateThreatsWithScenarioCard();
+
+        UpdateThreatsWithItemCard();
+    }
+
+    // check if the current item card will influence the current character score and apply this influence
+    // item card has a id of character to influence, if the id is greater than the number of players, it will affect all characters
+    private float ItemCardInfluenceCharacterScore(int charId, float currentScore)
+    {
+        if (currentItemCard.InfluenceCharacter && (currentItemCard.CharacterToInfluence == charId || currentItemCard.CharacterToInfluence >= nbCharacters))
+        {
+            // *0.01 because influence is between 0-100 on the json
+            float itemCharacterHandicap = 0.01f * currentItemCard.InfluenceCharacterBy;
+            Debug.Log("a item has been activated ! character " + charId + " has a " +
+                (itemCharacterHandicap < 0 ? ("bonus of " + -itemCharacterHandicap) : ("handicap of " + itemCharacterHandicap)) +
+                " on his roll");
+            return Math.Min(Math.Max(currentScore + itemCharacterHandicap, 0), 1);
+        }
+        return currentScore;
+    }
+
+    // given a score value (0-1), return a sucess value (0-1)
+    private float ComputeSucessFromScore(float score)
+    {
+        if (score == neutralScore) return neutralValue;
+        if (score <= maxCriticalSucessScore) return criticalSucessValue;
+        if (score <= maxSucessScore) return sucessValue;
+        if (score <= maxFailureScore) return failureValue;
+        return criticalFailureValue;
     }
 
     // takes the ID of an action card that has been played (from the currentActionCards[]list) 
     // and updates the Threats accordingly
     // -> if the card has ActionCard.ChangeThreat at true, 
-    //    and the dice roll is bellow sucessScore,
-    //    it will -1 the ActionCard.ThreatToChange threat
+    //    and the dice roll is bellow maxSucessScore,
+    //    it will -1 the corresponding threat (ActionCard.ThreatToChange)
     private void UpdateThreatsWithSpecialActionCard(int i)
     {
         if (currentActionCards[i].ChangeThreat)
         {
-            Debug.Log("character " + i + " action may change threat " + currentActionCards[i].ThreatToChange + ". Let's see his roll");
-            if (currentCharacterDices[i] < sucessScore)
+            Debug.Log("character " + i + " action may change threat " + currentActionCards[i].ThreatToChange + ". Let's see his luck");
+            if (currentCharacterSucess[i] < neutralValue)
             {
                 threats[currentActionCards[i].ThreatToChange] = Math.Max(0, threats[currentActionCards[i].ThreatToChange] - 1);
-                Debug.Log("character " + i + " roll of " + currentCharacterDices[i] + " allowed his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
+                Debug.Log("character " + i + " sucess of " + currentCharacterSucess[i] + " allowed his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
             }
-            Debug.Log("character " + i + " roll of " + currentCharacterDices[i] + " prevented his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
+            Debug.Log("character " + i + " failure of " + currentCharacterSucess[i] + " prevented his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
         }
     }
 
@@ -213,27 +269,51 @@ public class GameManager : Singleton<GameManager> {
     private void UpdateThreatsWithScenarioCard()
     {
         Debug.Log("Scenario card may change threat " + currentScenarioCard.ThreatToChange + ". Let's see the character rolls");
-        if (currentScenarioScore <= criticalSucessScore)
+        if (currentScenarioSucess <= sucessValue)
         { // critical success : variable get -1
             threats[currentScenarioCard.ThreatToChange] = Math.Max(0, threats[currentScenarioCard.ThreatToChange] - 1);
-            Debug.Log("critical Scenario success : score of " + currentScenarioScore + " made threat " + currentScenarioCard.ThreatToChange + " diminishe by one");
+            Debug.Log("critical Scenario success of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " diminishe by one");
         }
-        else if (currentScenarioScore <= sucessScore)
+        else if (currentScenarioSucess <= neutralValue)
         { // normal sucess : no change
-            Debug.Log("Scenario success : score of " + currentScenarioScore + " made threat " + currentScenarioCard.ThreatToChange + " not change");
+            Debug.Log("Scenario success of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " not change");
         }
-        else if (currentScenarioScore <= failureScore)
+        else if (currentScenarioSucess <= failureValue)
         { // normal failure : variable get +1
-            threats[currentScenarioCard.ThreatToChange] = threats[currentScenarioCard.ThreatToChange] + 1;
-            Debug.Log("Scenario failure : score of " + currentScenarioScore + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
+            threats[currentScenarioCard.ThreatToChange] += 1;
+            Debug.Log("Scenario failure of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
         }
         else
         { // critical failure : variable get +1
-            threats[currentScenarioCard.ThreatToChange] = threats[currentScenarioCard.ThreatToChange] + 1;
-            Debug.Log("critical Scenario failure : score of " + currentScenarioScore + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
+            threats[currentScenarioCard.ThreatToChange] += 1;
+            Debug.Log("critical Scenario failure of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
+        }
+    }
+
+    private void UpdateThreatsWithItemCard()
+    {
+        if (currentItemCard.InfluenceThreat)
+        {
+            // bad guy Item card, will make threat increase
+            if (currentItemCard.InfluenceThreatBy > 0)
+            {
+                // has an influence only if the characters fail their scenario
+                // and if this influence doesn't end the game (hence the "< nbThreatsStates - 1")
+                if (currentScenarioSucess <= failureValue && threats[currentScenarioCard.ThreatToChange] + currentItemCard.InfluenceThreatBy < nbThreatsStates - 1)
+                Debug.Log("Bad guy item has been played ! Threat " + currentItemCard.ThreatToInfluence + " will increase by " + currentItemCard.InfluenceThreatBy);
+                threats[currentItemCard.ThreatToInfluence] += currentItemCard.InfluenceThreatBy;
+            }
         }
 
+        // good guy Item card, will make threat decrease
+        if (currentItemCard.InfluenceThreatBy < 0)
+        {
+            // always has an influence (only does nothing if the threat is allready at 0
+            Debug.Log("Good guy item has been played ! Threat " + currentItemCard.ThreatToInfluence + " will decrease by " + currentItemCard.InfluenceThreatBy);
+            threats[currentItemCard.ThreatToInfluence] = Math.Max(0, threats[currentItemCard.ThreatToInfluence] + currentItemCard.InfluenceThreatBy);
+        }
     }
+
 
     // Update is called once per frame
     void manageStatusAction() {

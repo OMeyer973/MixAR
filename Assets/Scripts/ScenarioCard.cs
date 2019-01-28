@@ -35,7 +35,8 @@ public class ScenarioCard : Card {
         for (int i = 0; i < GameManager.nbCharacters; i++)
         {
             float[] tmpCharActions = new float[GameManager.nbActionsPerCharacter];
-            for (int j = 0; j < GameManager.nbActionsPerCharacter; j++)
+            // GameManager.nbActionsPerCharacter-1 : -1 because do nothing action is not written in the matrix
+            for (int j = 0; j < GameManager.nbActionsPerCharacter-1; j++)
             {
                 FateMatrix[i,j] = cardStats.fateMatrix[j,i];
             }
