@@ -148,7 +148,6 @@ public class GameManager : Singleton<GameManager> {
     public void PlayTurn()
     {
         nextState();
-        ComputeFate();
         // TODO :
         // deactivate AR camera (whole scan gameobj)
         // play begining of scenario comics animation
@@ -356,13 +355,14 @@ public class GameManager : Singleton<GameManager> {
                 onlyThreats = false;
                 break;
             case State.Animation:
+                ComputeFate();
                 scanGroup.SetActive(false);
-                //animationGroup.SetActive(true);
-                //parallaxGameObject.GetComponent<Parallax>().addSprite(outroPrefab);
+
+                loadAnimation();
+                AnimationManager.Instance.showNext();
                 break;
             case State.ShowThreatsAR:
-                //animationGroup.SetActive(false);
-                //animationGroup.transform.Find("Parallax").GetComponent<Parallax>().clear();
+                AnimationManager.Instance.clear();
                 buttonNextScan.SetActive(true);
                 onlyThreats = true;
                 scanGroup.SetActive(true);
@@ -392,6 +392,21 @@ public class GameManager : Singleton<GameManager> {
             case State.Outro:
                 break;
         }     
+    }
+
+    private void loadAnimation()
+    {
+        //Senario 
+        //currentScenarioCard
+
+        //Action
+        foreach (ActionCard c in currentActionCards){
+            AnimationManager.Instance.addAnimationToList(c.GetComponent<ActionCard>().CharacterId, c.GetComponent<ActionCard>().ActionId , 0);
+        }
+
+        //Item
+        //currentItemCard; 
+ 
     }
 
     private bool isFinish()
