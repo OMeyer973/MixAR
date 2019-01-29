@@ -32,6 +32,8 @@ public class AnimationBox : MonoBehaviour
 
     private GameObject _rightMask;
     private GameObject _leftMask;
+    private GameObject _topMask;
+    private GameObject _bottomMask;
 
 
     #region PUBLIC_METHODS
@@ -99,6 +101,8 @@ public class AnimationBox : MonoBehaviour
         Destroy(_camera);
         Destroy(_rightMask);
         Destroy(_leftMask);
+        Destroy(_bottomMask);
+        Destroy(_topMask);
     }
 
 
@@ -153,11 +157,21 @@ public class AnimationBox : MonoBehaviour
         SpriteRenderer sprite = _rightMask.AddComponent<SpriteRenderer>();
         sprite.sprite = Resources.Load<Sprite>("white");
         _rightMask.transform.localScale = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x, _gameobject.GetComponent<BoxCollider>().size.y, 1);
-        _rightMask.transform.position = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x - 0.1f, 0, 1);
+        _rightMask.transform.position = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x - 0.1f, 0, 7);
         //left
         _leftMask = Instantiate(_rightMask);
-        _leftMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x + 0.1f, 0, 1);
+        _leftMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x + 0.1f, 0, 7);
         _leftMask.transform.SetParent(_gameobject.transform);
+        //top
+        _topMask = Instantiate(_rightMask);
+        _topMask.transform.localScale = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x*3.0f, _gameobject.GetComponent<BoxCollider>().size.y, 1);
+        _topMask.transform.position = new Vector3(0, _gameobject.GetComponent<BoxCollider>().size.x - 0.1f, 7);
+        _topMask.transform.SetParent(_gameobject.transform);
+        //bottom
+        _bottomMask = Instantiate(_topMask);
+        _bottomMask.transform.position = new Vector3(0, -_gameobject.GetComponent<BoxCollider>().size.x + 0.1f, 7);
+        _bottomMask.transform.SetParent(_gameobject.transform);
+
 
         //Set camera cible
         setCameraCible(_gameobject.transform.GetChild(0));
