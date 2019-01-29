@@ -47,9 +47,7 @@ public class GameManager : Singleton<GameManager> {
     public GameObject endScreenGroup_WinnerText;
     public GameObject animationGroup;
 
-    public GameObject introPrefab;
-    public GameObject outroPrefab;
-
+    
     // all the cards that will be used to compute the fate and play animations for this turn
     private ScenarioCard currentScenarioCard;
     private ItemCard currentItemCard;
@@ -347,7 +345,7 @@ public class GameManager : Singleton<GameManager> {
             case State.Intro:
                 animationGroup.SetActive(true);
                 menuGroup.SetActive(false);
-                AnimationManager.Instance.addAnimationToList(introPrefab);
+                AnimationManager.Instance.addActionAnimationToList(1,1,0);
                 AnimationManager.Instance.addActionAnimationToList(1,2,0);
                 AnimationManager.Instance.showNext();
                 //.SetActive(true);
