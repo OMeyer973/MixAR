@@ -38,7 +38,7 @@ public class GameManager : Singleton<GameManager> {
 
     public GameObject menuGroup;
     public GameObject scanGroup;
-    public GameObject buttonNextScan;
+    public GameObject ARThreatsCanvas;
     public GameObject textsGroup;
     public GameObject piocheBadGuyGroup;
     public GameObject piocheGentilsGroup;
@@ -363,7 +363,7 @@ public class GameManager : Singleton<GameManager> {
                 break;
             case State.Draw:
                 bigTextToChange.GetComponent<Text>().text = "Pioche";
-                smallTextToChange.GetComponent<Text>().text = "- Le caporal pioche 2 cartes scénario et 2 cartes objet\n - Les aventuriers piochent 2 cartes par personnage";
+                smallTextToChange.GetComponent<Text>().text = "- Le caporal pioche 2 cartes scénario et 2 cartes objet\n- Les aventuriers piochent 2 cartes par personnage";
                 break;
             case State.BadGuyPlaying:
                 textsGroup.SetActive(false);
@@ -376,7 +376,7 @@ public class GameManager : Singleton<GameManager> {
             case State.Scan:
                 piocheGentilsGroup.SetActive(false);
                 scanGroup.SetActive(true);
-                buttonNextScan.SetActive(false);
+                ARThreatsCanvas.SetActive(false);
                 onlyThreats = false;
                 break;
             case State.Animation:
@@ -390,7 +390,7 @@ public class GameManager : Singleton<GameManager> {
             case State.ShowThreatsAR:
                 animationGroup.SetActive(false);
                 AnimationManager.Instance.clear();
-                buttonNextScan.SetActive(true);
+                ARThreatsCanvas.SetActive(true);
                 onlyThreats = true;
                 scanGroup.SetActive(true);
                 break;
