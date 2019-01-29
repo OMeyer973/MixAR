@@ -37,7 +37,6 @@ public class GameManager : Singleton<GameManager> {
     public PlayerSettings settings;
 
     public GameObject menuGroup;
-    public GameObject parallaxGameObject;
     public GameObject scanGroup;
     public GameObject buttonNextScan;
     public GameObject textsGroup;
@@ -52,11 +51,11 @@ public class GameManager : Singleton<GameManager> {
     public GameObject outroPrefab;
 
     // all the cards that will be used to compute the fate and play animations for this turn
-    public ScenarioCard currentScenarioCard;
-    public ItemCard currentItemCard;
+    private ScenarioCard currentScenarioCard;
+    private ItemCard currentItemCard;
     
     // ActionCard[id] is the action card played by the character id
-    public ActionCard[] currentActionCards = new ActionCard[nbCharacters];
+    private ActionCard[] currentActionCards = new ActionCard[nbCharacters];
 
     // dices the player will throw. range 0-1
     protected float[] currentCharacterDices = new float[nbCharacters];
