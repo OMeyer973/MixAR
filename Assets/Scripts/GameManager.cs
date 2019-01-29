@@ -378,10 +378,12 @@ public class GameManager : Singleton<GameManager> {
                 onlyThreats = false;
                 break;
             case State.Animation:
+                AnimationManager.Instance.clear();
                 ComputeFate();
                 scanGroup.SetActive(false);
 
                 loadAnimation();
+                AnimationManager.Instance.showNext();
                 break;
             case State.ShowThreatsAR:
                 AnimationManager.Instance.clear();
@@ -423,17 +425,14 @@ public class GameManager : Singleton<GameManager> {
 
         //Action
         foreach (ActionCard c in currentActionCards){
-            AnimationManager.Instance.addActionAnimationToList(c.GetComponent<ActionCard>().CharacterId, c.GetComponent<ActionCard>().ActionId , 0);
+            AnimationManager.Instance.addActionAnimationToList(c.GetComponent<ActionCard>().CharacterId, c.GetComponent<ActionCard>().ActionId , 0, "cc je suis une action");
         }
 
         //Item
         if (currentItemCard != null)
         {
-            AnimationManager.Instance.addTrapAnimationToList(currentItemCard.GetComponent<ItemCard>().ItemId);
+            AnimationManager.Instance.addTrapAnimationToList(currentItemCard.GetComponent<ItemCard>().ItemId, "cc je suis un piège");
         }
-        //currentItemCard; 
-
-        AnimationManager.Instance.showNext();
     }
 
     private bool isFinish()
