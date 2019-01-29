@@ -849,7 +849,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52fd580ea813f8f46b21a84127c71b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  texts: {fileID: 0}
   settings: {fileID: 479731767}
   menuGroup: {fileID: 180563788}
   parallaxGameObject: {fileID: 0}

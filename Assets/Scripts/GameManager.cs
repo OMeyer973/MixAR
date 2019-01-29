@@ -337,7 +337,7 @@ public class GameManager : Singleton<GameManager> {
             case State.Intro:
                 menuGroup.SetActive(false);
                 AnimationManager.Instance.addAnimationToList(introPrefab);
-                AnimationManager.Instance.addAnimationToList(1,2,0);
+                AnimationManager.Instance.addActionAnimationToList(1,2,0);
                 AnimationManager.Instance.showNext();
                 //.SetActive(true);
                 //parallaxGameObject.GetComponent<AnimationBox>().addSprite(introPrefab);
@@ -371,7 +371,6 @@ public class GameManager : Singleton<GameManager> {
                 scanGroup.SetActive(false);
 
                 loadAnimation();
-                AnimationManager.Instance.showNext();
                 break;
             case State.ShowThreatsAR:
                 AnimationManager.Instance.clear();
@@ -413,12 +412,17 @@ public class GameManager : Singleton<GameManager> {
 
         //Action
         foreach (ActionCard c in currentActionCards){
-            AnimationManager.Instance.addAnimationToList(c.GetComponent<ActionCard>().CharacterId, c.GetComponent<ActionCard>().ActionId , 0);
+            AnimationManager.Instance.addActionAnimationToList(c.GetComponent<ActionCard>().CharacterId, c.GetComponent<ActionCard>().ActionId , 0);
         }
 
         //Item
+        if (currentItemCard != null)
+        {
+            AnimationManager.Instance.addTrapAnimationToList(currentItemCard.GetComponent<ItemCard>().ItemId);
+        }
         //currentItemCard; 
- 
+
+        AnimationManager.Instance.showNext();
     }
 
     private bool isFinish()

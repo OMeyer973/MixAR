@@ -34,16 +34,18 @@ public class AnimationBox : MonoBehaviour
 
     //@brief Add a sprite to the current scene in front of the caméra following Parallax parameters
     //@param SpriteFilename : Filename of the sprite without extention
-    public void init(int charNumber, int actionId, int sucessId, Vector3 position)
+    public void initAction(int charNumber, int actionId, int sucessId, Vector3 position)
     {
         string spriteFilename = "A_char" + charNumber + "_actionId" + actionId + "_SuccessId" + sucessId;
-        GameObject animatedBdElement = Instantiate(Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject);
-        animatedBdElement.transform.position = position;
-        _gameobject = animatedBdElement;
-        createCamera(position);
-        resetGiro();
-        createParallaxSprite(position);
-        setInvisible();
+        GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
+        init(animatedBdElement, position);
+    }
+
+    public void initTrap(int trapId, Vector3 position)
+    {
+        string spriteFilename = "T_" + trapId;
+        GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
+        init(animatedBdElement, position);
     }
 
     public void init(GameObject prefab, Vector3 position)
@@ -133,6 +135,7 @@ public class AnimationBox : MonoBehaviour
         //left
         _leftMask = Instantiate(_rightMask);
         _leftMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x + 0.1f, 0, 1);
+        _leftMask.transform.SetParent(_gameobject.transform);
 
         //Set camera cible
         setCameraCible(_gameobject.transform.GetChild(0));

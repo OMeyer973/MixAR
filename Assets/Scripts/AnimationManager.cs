@@ -72,12 +72,21 @@ public class AnimationManager : Singleton<AnimationManager>
         _bdElemList.Add(go);
     }
 
-    public void addAnimationToList(int charNumber, int actionId, int sucessId)
+    public void addActionAnimationToList(int charNumber, int actionId, int sucessId)
     {
         Vector3 pos = new Vector3(0, 0, 0);
-        GameObject go = new GameObject("AnimationBox");
+        GameObject go = new GameObject("ActionAnimation");
         AnimationBox box = go.AddComponent<AnimationBox>();
-        box.init(charNumber, actionId, sucessId, pos);
+        box.initAction(charNumber, actionId, sucessId, pos);
+        _bdElemList.Add(go);
+    }
+
+    public void addTrapAnimationToList(int trapId)
+    {
+        Vector3 pos = new Vector3(0, 0, 0);
+        GameObject go = new GameObject("TrapAnimation");
+        AnimationBox box = go.AddComponent<AnimationBox>();
+        box.initTrap(trapId, pos);
         _bdElemList.Add(go);
     }
 
