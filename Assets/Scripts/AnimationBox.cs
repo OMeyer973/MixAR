@@ -92,7 +92,7 @@ public class AnimationBox : MonoBehaviour
         lac.constraintActive = true;
         _camera.transform.position = new Vector3(position.x, position.y, 0);
         camComponent.orthographic = true;
-        camComponent.orthographicSize = 4.7f;
+        camComponent.orthographicSize = 4.6f;
         camComponent.clearFlags = CameraClearFlags.SolidColor;
         camComponent.backgroundColor = Color.white;
     }
@@ -129,10 +129,10 @@ public class AnimationBox : MonoBehaviour
         SpriteRenderer sprite = _rightMask.AddComponent<SpriteRenderer>();
         sprite.sprite = Resources.Load<Sprite>("white");
         _rightMask.transform.localScale = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x, _gameobject.GetComponent<BoxCollider>().size.y, 1);
-        _rightMask.transform.position = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x, 0, 1);
+        _rightMask.transform.position = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x - 0.1f, 0, 1);
         //left
         _leftMask = Instantiate(_rightMask);
-        _leftMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x, 0, 1);
+        _leftMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x + 0.1f, 0, 1);
 
         //Set camera cible
         setCameraCible(_gameobject.transform.GetChild(0));
