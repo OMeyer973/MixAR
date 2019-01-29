@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnimationManager : Singleton<AnimationManager>
 {
@@ -8,28 +9,54 @@ public class AnimationManager : Singleton<AnimationManager>
     private List<GameObject> _bdElemList = new List<GameObject>();
     private int nbShowedAnimation = 0;
 
+    //Used to print text hover animation
+    public GameObject hoverAnimationTextGameObject;
+    public Text TextAnimationText;
+
+
     public void showLast()
     {
-        if (nbShowedAnimation > 1)
+        if (_bdElemList[nbShowedAnimation - 1].GetComponent<AnimationBox>().hasBeenShowed == true)
         {
-            _bdElemList[nbShowedAnimation-1].GetComponent<AnimationBox>().setInvisible();
-            _bdElemList[nbShowedAnimation-2].GetComponent<AnimationBox>().setVisible();
-            nbShowedAnimation--;
+            _bdElemList[nbShowedAnimation - 1].GetComponent<AnimationBox>().hideText();
+        }
+        else
+        {
+            if (nbShowedAnimation > 1)
+            {
+            
+                _bdElemList[nbShowedAnimation - 1].GetComponent<AnimationBox>().setInvisible();
+                _bdElemList[nbShowedAnimation - 2].GetComponent<AnimationBox>().setVisible();
+                _bdElemList[nbShowedAnimation - 2].GetComponent<AnimationBox>().showText();
+                nbShowedAnimation--;
+            }
         }
     }
 
     public void showNext()
     {
-        if (nbShowedAnimation < _bdElemList.Count) {
-            if(nbShowedAnimation != 0)
-                _bdElemList[nbShowedAnimation-1].GetComponent<AnimationBox>().setInvisible();
-            _bdElemList[nbShowedAnimation].GetComponent<AnimationBox>().setVisible();
+        if (nbShowedAnimation > 0 && _bdElemList[nbShowedAnimation - 1].GetComponent<AnimationBox>().text != "" && _bdElemList[nbShowedAnimation - 1].GetComponent<AnimationBox>().hasBeenShowed == false)
+        {
+            _bdElemList[nbShowedAnimation - 1].GetComponent<AnimationBox>().showText();
+            hoverAnimationTextGameObject.SetActive(true);
         }
         else
         {
-            GameManager.Instance.nextState();
+            if (nbShowedAnimation < _bdElemList.Count) {
+                if (nbShowedAnimation != 0)
+                {
+                    _bdElemList[nbShowedAnimation - 1].GetComponent<AnimationBox>().setInvisible();
+                    _bdElemList[nbShowedAnimation - 1].GetComponent<AnimationBox>().hasBeenShowed = false;
+                }
+                _bdElemList[nbShowedAnimation].GetComponent<AnimationBox>().setVisible();
+            }
+            else
+            {
+                GameManager.Instance.nextState();
+            }
+            hoverAnimationTextGameObject.SetActive(false);
+            nbShowedAnimation++;
         }
-        nbShowedAnimation++;
     }
 
     public void click()
@@ -72,21 +99,21 @@ public class AnimationManager : Singleton<AnimationManager>
         _bdElemList.Add(go);
     }
 
-    public void addActionAnimationToList(int charNumber, int actionId, int sucessId)
+    public void addActionAnimationToList(int charNumber, int actionId, int sucessId, string textAssociated = "")
     {
         Vector3 pos = new Vector3(0, 0, 0);
         GameObject go = new GameObject("ActionAnimation");
         AnimationBox box = go.AddComponent<AnimationBox>();
-        box.initAction(charNumber, actionId, sucessId, pos);
+        box.initAction(charNumber, actionId, sucessId, pos, textAssociated);
         _bdElemList.Add(go);
     }
 
-    public void addTrapAnimationToList(int trapId)
+    public void addTrapAnimationToList(int trapId, string textAssociated = "")
     {
         Vector3 pos = new Vector3(0, 0, 0);
         GameObject go = new GameObject("TrapAnimation");
         AnimationBox box = go.AddComponent<AnimationBox>();
-        box.initTrap(trapId, pos);
+        box.initTrap(trapId, pos, textAssociated);
         _bdElemList.Add(go);
     }
 
@@ -97,7 +124,6 @@ public class AnimationManager : Singleton<AnimationManager>
             box.GetComponent<AnimationBox>().clear();
             Destroy(box);
         }
-            
         _bdElemList.Clear();
         nbShowedAnimation = 0;
     }

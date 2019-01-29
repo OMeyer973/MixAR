@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEngine.Animations;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class AnimationBox : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class AnimationBox : MonoBehaviour
     
     private const string PARALLAX_ANIMATED_GAMEOBJECT_FOLDER = "AnimationsPrefabs/";
 
+    public string text = "";
+    public bool hasBeenShowed = false;
+
     private GameObject _camera;
     private GameObject _gameobject;
     private GameObject _cameraCible;
@@ -34,15 +38,17 @@ public class AnimationBox : MonoBehaviour
 
     //@brief Add a sprite to the current scene in front of the caméra following Parallax parameters
     //@param SpriteFilename : Filename of the sprite without extention
-    public void initAction(int charNumber, int actionId, int sucessId, Vector3 position)
+    public void initAction(int charNumber, int actionId, int sucessId, Vector3 position, string textAssociated = "")
     {
+        text = textAssociated;
         string spriteFilename = "A_char" + charNumber + "_actionId" + actionId + "_SuccessId" + sucessId;
         GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
         init(animatedBdElement, position);
     }
 
-    public void initTrap(int trapId, Vector3 position)
+    public void initTrap(int trapId, Vector3 position, string textAssociated = "")
     {
+        text = textAssociated;
         string spriteFilename = "T_" + trapId;
         GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
         init(animatedBdElement, position);
@@ -73,6 +79,20 @@ public class AnimationBox : MonoBehaviour
         _camera.SetActive(false);
     }
 
+    public void showText()
+    {
+        if(text != "")
+            AnimationManager.Instance.hoverAnimationTextGameObject.SetActive(true);
+        AnimationManager.Instance.TextAnimationText.text = text;
+        hasBeenShowed = true;
+    }
+
+    public void hideText()
+    {
+        AnimationManager.Instance.hoverAnimationTextGameObject.SetActive(false);
+        hasBeenShowed = false;
+    }
+
     public void clear()
     {
         Destroy(_gameobject);
@@ -81,6 +101,8 @@ public class AnimationBox : MonoBehaviour
         Destroy(_leftMask);
     }
 
+
+    
 
     #endregion
 
