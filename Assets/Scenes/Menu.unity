@@ -889,6 +889,7 @@ MonoBehaviour:
   textToChange: {fileID: 150352593}
   endScreenGroup: {fileID: 2017873976}
   endScreenGroup_WinnerText: {fileID: 189436892}
+  animationGroup: {fileID: 1984960519}
   introPrefab: {fileID: 1795376588200760, guid: 7c9930981772f4743b834b2cf7409a2c,
     type: 2}
   outroPrefab: {fileID: 1166995288705942, guid: 642d393eee88e5d44b7a7d58818bea57,
@@ -1253,10 +1254,10 @@ RectTransform:
   m_Father: {fileID: 1765672521}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 257.5, y: -157}
+  m_SizeDelta: {x: 515, y: 314}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &320707585
 MonoBehaviour:
@@ -11423,7 +11424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1984960520
 Transform:
   m_ObjectHideFlags: 0

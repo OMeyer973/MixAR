@@ -46,7 +46,8 @@ public class GameManager : Singleton<GameManager> {
     public Text textToChange;
     public GameObject endScreenGroup;
     public GameObject endScreenGroup_WinnerText;
-    
+    public GameObject animationGroup;
+
     public GameObject introPrefab;
     public GameObject outroPrefab;
 
@@ -345,6 +346,7 @@ public class GameManager : Singleton<GameManager> {
                 menuGroup.SetActive(true);
                 break;
             case State.Intro:
+                animationGroup.SetActive(true);
                 menuGroup.SetActive(false);
                 AnimationManager.Instance.addAnimationToList(introPrefab);
                 AnimationManager.Instance.addActionAnimationToList(1,2,0);
@@ -353,6 +355,7 @@ public class GameManager : Singleton<GameManager> {
                 //parallaxGameObject.GetComponent<AnimationBox>().addSprite(introPrefab);
                 break;
             case State.NumTour:
+                animationGroup.SetActive(false);
                 AnimationManager.Instance.clear();
                 //animationGroup.SetActive(false);
                 //animationGroup.transform.Find("Parallax").GetComponent<AnimationBox>().clear();
@@ -377,6 +380,7 @@ public class GameManager : Singleton<GameManager> {
                 onlyThreats = false;
                 break;
             case State.Animation:
+                animationGroup.SetActive(true);
                 AnimationManager.Instance.clear();
                 scanGroup.SetActive(false);
                 ComputeFate();
@@ -384,6 +388,7 @@ public class GameManager : Singleton<GameManager> {
                 AnimationManager.Instance.showNext();
                 break;
             case State.ShowThreatsAR:
+                animationGroup.SetActive(false);
                 AnimationManager.Instance.clear();
                 buttonNextScan.SetActive(true);
                 onlyThreats = true;
