@@ -880,7 +880,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings: {fileID: 479731767}
   menuGroup: {fileID: 180563788}
-  parallaxGameObject: {fileID: 0}
   scanGroup: {fileID: 489902467}
   buttonNextScan: {fileID: 501891726}
   textsGroup: {fileID: 368775568}
@@ -892,14 +891,8 @@ MonoBehaviour:
   animationGroup: {fileID: 1984960519}
   introPrefab: {fileID: 1795376588200760, guid: 7c9930981772f4743b834b2cf7409a2c,
     type: 2}
-  outroPrefab: {fileID: 1166995288705942, guid: 642d393eee88e5d44b7a7d58818bea57,
+  outroPrefab: {fileID: 1465396447230744, guid: 5e628c01b6ab9474593c081e6dbc5015,
     type: 2}
-  currentScenarioCard: {fileID: 0}
-  currentItemCard: {fileID: 0}
-  currentActionCards:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   threats: 
   onlyThreats: 0
 --- !u!4 &201451315
