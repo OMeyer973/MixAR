@@ -24,7 +24,7 @@ public class ActionCard : Card {
     // initialize the card members according to the parsed json cardData and points to the cardScanner in the scene
     public void Initialize(CardsScanner cardsScanner, ActionCardStats cardStats)
     {
-        Debug.Log("Initializing action card ");
+        //Debug.Log("Initializing action card ");
 
         _cardsScanner = cardsScanner;
         CardName = cardStats.cardName;
@@ -33,7 +33,7 @@ public class ActionCard : Card {
         ChangeThreat = cardStats.changeThreat;
         ThreatToChange = cardStats.threatToChange;
 
-        Print();
+        //Print();
     }
 
 

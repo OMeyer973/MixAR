@@ -1,9 +1,74 @@
 
 [
 	{
-	 "cardName": "itemTest",
+	 "cardName": "item_mouche",
 	 "itemId": 0,
-	 "message": "haha mon piège va influencer le perso 0 !",
+	 "influenceCharacter": true,
+	 "characterToInfluence": 0,
+	 "influenceCharacterBy": 20,
+
+	 "influenceThreat": false,
+	 "threatToInfluence": 0,
+	 "influenceThreatBy": 0
+	},
+	{
+	 "cardName": "item_soleil",
+	 "itemId": 1,
+	 "influenceCharacter": true,
+	 "characterToInfluence": 2,
+	 "influenceCharacterBy": 20,
+
+	 "influenceThreat": false,
+	 "threatToInfluence": 0,
+	 "influenceThreatBy": 0
+	},
+	{
+	 "cardName": "item_caillou",
+	 "itemId": 2,
+	 "influenceCharacter": true,
+	 "characterToInfluence": 1,
+	 "influenceCharacterBy": 20,
+
+	 "influenceThreat": false,
+	 "threatToInfluence": 0,
+	 "influenceThreatBy": 0
+	},
+	{
+	 "cardName": "item_clou",
+	 "itemId": 3,
+	 "influenceCharacter": false,
+	 "characterToInfluence": 0,
+	 "influenceCharacterBy": 0,
+
+	 "influenceThreat": true,
+	 "threatToInfluence": 2,
+	 "influenceThreatBy": 1
+	},
+	{
+	 "cardName": "item_savon",
+	 "itemId": 4,
+	 "influenceCharacter": false,
+	 "characterToInfluence": 0,
+	 "influenceCharacterBy": 0,
+
+	 "influenceThreat": true,
+	 "threatToInfluence": 1,
+	 "influenceThreatBy": 1
+	},
+	{
+	 "cardName": "item_rocher",
+	 "itemId": 5,
+	 "influenceCharacter": false,
+	 "characterToInfluence": 0,
+	 "influenceCharacterBy": 0,
+
+	 "influenceThreat": true,
+	 "threatToInfluence": 0,
+	 "influenceThreatBy": 1
+	},
+	{
+	 "cardName": "itemTest",
+	 "itemId": 6,
 	 "influenceCharacter": true,
 	 "characterToInfluence": 0,
 	 "influenceCharacterBy": 20,

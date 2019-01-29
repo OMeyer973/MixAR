@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="item_savon" size="0.068000 0.068000" />
+    <ImageTarget name="item_rocher" size="0.068000 0.068000" />
+    <ImageTarget name="item_mouche" size="0.068000 0.068000" />
+    <ImageTarget name="item_clou" size="0.068000 0.068000" />
+    <ImageTarget name="item_caillou" size="0.068000 0.068000" />
     <ImageTarget name="scenario_collision" size="0.140000 0.068004" />
     <ImageTarget name="scenario_barrage" size="0.140000 0.068004" />
     <ImageTarget name="scenario_eboulement" size="0.140000 0.068004" />

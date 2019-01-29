@@ -22,7 +22,7 @@ public class ScenarioCard : Card {
     // initialize the card members according to the parsed json cardData and points to the cardScanner in the scene
     public void Initialize(CardsScanner cardsScanner, ScenarioCardStats cardStats)
     {
-        Debug.Log("Initializing scenario card ");
+        //Debug.Log("Initializing scenario card ");
       
         _cardsScanner = cardsScanner;
         CardName = cardStats.cardName;
@@ -42,7 +42,7 @@ public class ScenarioCard : Card {
             }
         }
         
-        Print();
+        //Print();
     }
 
     public void Print()

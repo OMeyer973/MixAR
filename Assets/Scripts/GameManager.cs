@@ -30,6 +30,8 @@ public class GameManager : Singleton<GameManager> {
     public static readonly int nbThreats = 3;
     public static readonly int nbThreatsStates = 3;
 
+    public static readonly int nbItems = 7;
+
     public static readonly int nbTourMax = 5;
 
     public PlayerSettings settings;
@@ -219,7 +221,7 @@ public class GameManager : Singleton<GameManager> {
                 (currentCharacterSucess[i] <= sucessValue ? Texts.CharactersSucess[i] : Texts.CharactersFailure[i]) +
                 (currentCharacterSucess[i] <= criticalSucessValue ? " " + Texts.CriticalSucess : "") +
                 (currentCharacterSucess[i] >= criticalFailureValue ? " " + Texts.CriticalFailure : "") +
-                (currentCharacterSucess[i] != neutralValue ? " (" + (int)(100f-100f*currCharacterScore) + "% de réussite)" : "")
+                (currentCharacterSucess[i] != neutralValue ? " (" + (int)(100f-100f*currCharacterScore) + "% de réussite du scénario)" : "")
             );
         }
 
@@ -239,9 +241,12 @@ public class GameManager : Singleton<GameManager> {
         {
             // *0.01 because influence is between 0-100 on the json
             float itemCharacterHandicap = 0.01f * currentItemCard.InfluenceCharacterBy;
-            Debug.Log("a item has been activated ! character " + charId + " has a " +
+            Debug.Log(Texts.Items[currentItemCard.ItemId] + " " + Texts.Characters[charId] + " a un " +
+                (itemCharacterHandicap < 0 ? "bonus de " : "handicap de ") +
+                (int)(100f * -itemCharacterHandicap) + "% sur son action !");
+            /*Debug.Log("a item has been activated ! character " + charId + " has a " +
                 (itemCharacterHandicap < 0 ? ("bonus of " + -itemCharacterHandicap) : ("handicap of " + itemCharacterHandicap)) +
-                " on his roll");
+                " on his roll");*/
             return Math.Min(Math.Max(currentScore + itemCharacterHandicap, 0), 1);
         }
         return currentScore;
@@ -266,38 +271,44 @@ public class GameManager : Singleton<GameManager> {
     {
         if (currentActionCards[i].ChangeThreat)
         {
-            Debug.Log("character " + i + " action may change threat " + currentActionCards[i].ThreatToChange + ". Let's see his luck");
+            // Debug.Log("character " + i + " action may change threat " + currentActionCards[i].ThreatToChange + ". Let's see his luck");
             if (currentCharacterSucess[i] < neutralValue)
             {
                 threats[currentActionCards[i].ThreatToChange] = Math.Max(0, threats[currentActionCards[i].ThreatToChange] - 1);
-                Debug.Log("character " + i + " sucess of " + currentCharacterSucess[i] + " allowed his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
+                //Debug.Log("character " + i + " sucess of " + currentCharacterSucess[i] + " allowed his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
+                Debug.Log("Grace à l'action de " + Texts.Characters[i] + ", " + Texts.ThreatMinus[currentActionCards[i].ThreatToChange]);
             }
-            Debug.Log("character " + i + " failure of " + currentCharacterSucess[i] + " prevented his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
+            //Debug.Log("character " + i + " failure of " + currentCharacterSucess[i] + " prevented his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
+            Debug.Log("L'action de " + Texts.Characters[i] + " n'a pas été très utile, " + Texts.ThreatStay);
         }
     }
 
     // updates the Threats in function of the scenario card and the total score of the players
     private void UpdateThreatsWithScenarioCard()
     {
-        Debug.Log("Scenario card may change threat " + currentScenarioCard.ThreatToChange + ". Let's see the character rolls");
+        //Debug.Log("Scenario card may change threat " + currentScenarioCard.ThreatToChange + ". Let's see the character rolls");
         if (currentScenarioSucess <= sucessValue)
         { // critical success : variable get -1
             threats[currentScenarioCard.ThreatToChange] = Math.Max(0, threats[currentScenarioCard.ThreatToChange] - 1);
-            Debug.Log("critical Scenario success of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " diminishe by one");
+            //Debug.Log("critical Scenario success of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " diminishe by one");
+            Debug.Log("Succès critique du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !! " + Texts.ThreatMinus[currentScenarioCard.ThreatToChange]);
         }
         else if (currentScenarioSucess <= neutralValue)
         { // normal sucess : no change
-            Debug.Log("Scenario success of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " not change");
+          //Debug.Log("Scenario success of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " not change");
+            Debug.Log("Succès du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% ! " + Texts.ThreatStay);
         }
         else if (currentScenarioSucess <= failureValue)
         { // normal failure : variable get +1
             threats[currentScenarioCard.ThreatToChange] += 1;
-            Debug.Log("Scenario failure of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
+            //Debug.Log("Scenario failure of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
+            Debug.Log("Echec du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !! " + Texts.ThreatPlus[currentScenarioCard.ThreatToChange]);
         }
         else
         { // critical failure : variable get +1
             threats[currentScenarioCard.ThreatToChange] += 1;
-            Debug.Log("critical Scenario failure of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
+            //Debug.Log("critical Scenario failure of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
+            Debug.Log("Echec critique du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !!! " + Texts.ThreatPlus[currentScenarioCard.ThreatToChange]);
         }
     }
 
