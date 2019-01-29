@@ -3,9 +3,11 @@
 // represents a card. can be tracked by the AR camera and have handy methods to be used
 public class Card : DefaultTrackableEventHandler
 {
+    public string _message = ""; //Message to print on animation
+
     // todo : have this parameter as protected
     public CardsScanner _cardsScanner;
-
+    
     protected bool _isOnScreen = false;
 
     // is the card displayed on the phone screen ?
