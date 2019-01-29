@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 95652737863432630}
   - component: {fileID: 65973698644792774}
   m_Layer: 0
-  m_Name: A_char0_actionId0_SuccessId0 1
+  m_Name: A_char0_actionId0_SuccessId0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
