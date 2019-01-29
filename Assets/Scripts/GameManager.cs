@@ -32,7 +32,7 @@ public class GameManager : Singleton<GameManager> {
 
     public static readonly int nbItems = 7;
 
-    public static readonly int nbTourMax = 5;
+    public static readonly int nbTurnsMax = 5;
 
     public PlayerSettings settings;
 
@@ -42,7 +42,8 @@ public class GameManager : Singleton<GameManager> {
     public GameObject textsGroup;
     public GameObject piocheBadGuyGroup;
     public GameObject piocheGentilsGroup;
-    public Text textToChange;
+    public Text bigTextToChange;
+    public Text smallTextToChange;
     public GameObject endScreenGroup;
     public GameObject endScreenGroup_WinnerText;
     public GameObject animationGroup;
@@ -82,7 +83,7 @@ public class GameManager : Singleton<GameManager> {
         Outro //End animation
     }
     private State _gameStatus = State.Menu;
-    private uint nbTour = 1;
+    private uint nbTurn = 1;
 
     #region PUBLIC_METHODS
 
@@ -117,7 +118,7 @@ public class GameManager : Singleton<GameManager> {
     {
         _gameStatus = State.Menu;
         ResetVariables();
-        nbTour = 1;
+        nbTurn = 1;
         manageStatusAction();
     }
 
@@ -357,10 +358,12 @@ public class GameManager : Singleton<GameManager> {
                 //animationGroup.SetActive(false);
                 //animationGroup.transform.Find("Parallax").GetComponent<AnimationBox>().clear();
                 textsGroup.SetActive(true);
-                textToChange.GetComponent<Text>().text = "Tour "+nbTour;
+                bigTextToChange.GetComponent<Text>().text = "Tour "+nbTurn;
+                smallTextToChange.GetComponent<Text>().text = "Plus que " + (nbTurnsMax - nbTurn) + " tours et les aventuriers s'échappent !";
                 break;
             case State.Draw:
-                textToChange.GetComponent<Text>().text = "Piochez svp (Faudra faire un vrai texte tout beau tout joli, bsx)";
+                bigTextToChange.GetComponent<Text>().text = "Pioche";
+                smallTextToChange.GetComponent<Text>().text = "- Le caporal pioche 2 cartes scénario et 2 cartes objet\n - Les aventuriers piochent 2 cartes par personnage";
                 break;
             case State.BadGuyPlaying:
                 textsGroup.SetActive(false);
@@ -396,7 +399,7 @@ public class GameManager : Singleton<GameManager> {
                 
                 if (!isFinish())
                 {
-                    nbTour++;
+                    nbTurn++;
                     _gameStatus = State.NumTour;
                     manageStatusAction();
                 }
@@ -452,7 +455,7 @@ public class GameManager : Singleton<GameManager> {
 
     private bool goodGuysHasWon()
     {
-        if (nbTour >= nbTourMax)
+        if (nbTurn >= nbTurnsMax)
             return true;
         return false;
     }
