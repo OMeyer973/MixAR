@@ -431,7 +431,14 @@ public class GameManager : Singleton<GameManager> {
     private void loadAnimation()
     {
         //Senario 
-        //currentScenarioCard
+        try
+        {
+            for (int i = 1; i < 5; i++)
+            {
+                AnimationManager.Instance.addScenarAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, i);
+            }
+        }
+        catch (EntryPointNotFoundException) { }
         
         //Item
         if (currentItemCard != null)
@@ -444,7 +451,25 @@ public class GameManager : Singleton<GameManager> {
             AnimationManager.Instance.addActionAnimationToList(c.GetComponent<ActionCard>().CharacterId, c.GetComponent<ActionCard>().ActionId , 0, c.GetComponent<ActionCard>()._message);
         }
 
-        
+        //Result of scenario
+        if (currentScenarioSucess <= sucessValue)
+        {
+            AnimationManager.Instance.addScenarFinalAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, "ST", currentScenarioCard.GetComponent<ScenarioCard>()._message);
+        }
+        else if (currentScenarioSucess <= neutralValue)
+        { // normal sucess
+            AnimationManager.Instance.addScenarFinalAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, "S", currentScenarioCard.GetComponent<ScenarioCard>()._message);
+        }
+        else if (currentScenarioSucess <= failureValue)
+        { // normal failure
+            AnimationManager.Instance.addScenarFinalAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, "E", currentScenarioCard.GetComponent<ScenarioCard>()._message);
+        }
+        else
+        { // critical failure
+            AnimationManager.Instance.addScenarFinalAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, "ET", currentScenarioCard.GetComponent<ScenarioCard>()._message);
+        }
+
+
     }
 
     private bool isFinish()
