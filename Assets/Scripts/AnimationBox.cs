@@ -56,6 +56,23 @@ public class AnimationBox : MonoBehaviour
         init(animatedBdElement, position);
     }
 
+    public void initScenar(int sceneId, int partId, Vector3 position)
+    {
+        string spriteFilename = "S" + sceneId + "C" + partId;
+        GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
+        if (animatedBdElement == null)
+            throw new System.EntryPointNotFoundException(); 
+        init(animatedBdElement, position);
+    }
+
+    //@param sucess : E: echec - ET : echec total - S : succes - ST : succes total
+    public void initScenarFinal(int sceneId, char success, Vector3 position)
+    {
+        string spriteFilename = "S" + sceneId + "F" + success;
+        GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
+        init(animatedBdElement, position);
+    }
+
     public void init(GameObject prefab, Vector3 position)
     {
         createCamera(position);

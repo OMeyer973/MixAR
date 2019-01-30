@@ -15,7 +15,7 @@ public class ScenarioCardStats
 public class ScenarioCard : Card {
 
     protected string CardName { get; private set; }
-    protected int ScenarioId { get; private set; }
+    public int ScenarioId { get; private set; }
     public float[,] FateMatrix = new float[GameManager.nbCharacters, GameManager.nbActionsPerCharacter];
     public int ThreatToChange { get; private set; }
 

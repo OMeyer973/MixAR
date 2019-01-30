@@ -424,7 +424,14 @@ public class GameManager : Singleton<GameManager> {
     private void loadAnimation()
     {
         //Senario 
-        //currentScenarioCard
+        try
+        {
+            for (int i = 1; i < 5; i++)
+            {
+                AnimationManager.Instance.addScenarAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, i);
+            }
+        }
+        catch (EntryPointNotFoundException) { }
         
         //Item
         if (currentItemCard != null)

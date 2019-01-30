@@ -102,7 +102,7 @@ public class AnimationManager : Singleton<AnimationManager>
     public void addActionAnimationToList(int charNumber, int actionId, int sucessId, string textAssociated = "")
     {
         Vector3 pos = new Vector3(0, 0, 0);
-        GameObject go = new GameObject("ActionAnimation");
+        GameObject go = new GameObject("ActionAnimation-"+charNumber+"-"+actionId+"-"+sucessId);
         AnimationBox box = go.AddComponent<AnimationBox>();
         box.initAction(charNumber, actionId, sucessId, pos, textAssociated);
         _bdElemList.Add(go);
@@ -111,9 +111,28 @@ public class AnimationManager : Singleton<AnimationManager>
     public void addTrapAnimationToList(int trapId, string textAssociated = "")
     {
         Vector3 pos = new Vector3(0, 0, 0);
-        GameObject go = new GameObject("TrapAnimation");
+        GameObject go = new GameObject("TrapAnimation-"+trapId);
         AnimationBox box = go.AddComponent<AnimationBox>();
         box.initTrap(trapId, pos, textAssociated);
+        _bdElemList.Add(go);
+    }
+
+    public void addScenarAnimationToList(int sceneId, int partId)
+    {
+        Vector3 pos = new Vector3(0, 0, 0);
+        GameObject go = new GameObject("ScenarAnimation");
+        AnimationBox box = go.AddComponent<AnimationBox>();
+        box.initScenar(sceneId, partId, pos);
+        _bdElemList.Add(go);
+    }
+
+    //@param success : E: echec - ET : echec total - S : succes - ST : succes total
+    public void addScenarFinalAnimationToList(int sceneId, char success)
+    {
+        Vector3 pos = new Vector3(0, 0, 0);
+        GameObject go = new GameObject("FinalScenarAnimation");
+        AnimationBox box = go.AddComponent<AnimationBox>();
+        box.initScenarFinal(sceneId, success, pos);
         _bdElemList.Add(go);
     }
 
