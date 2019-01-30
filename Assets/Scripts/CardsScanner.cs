@@ -96,7 +96,7 @@ public class CardsScanner : MonoBehaviour
         GameManager.Instance.SetCardsForNextTurn(_cardsToSend);
         _cardsToSend.Clear();
         HideCanvas();
-        GameManager.Instance.PlayTurn();
+        GameManager.Instance.nextState();
     }
 
     // add a new card to track. if the list has less than 5 cards, just add a new one. 

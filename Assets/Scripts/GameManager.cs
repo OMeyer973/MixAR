@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager> {
 
+    #region PUBLIC_MEMBERS
+
     public static readonly int nbCharacters = 3;
     public static readonly int nbActionsPerCharacter = 5;
     public static readonly int doNothingId = nbActionsPerCharacter - 1;
@@ -38,17 +40,31 @@ public class GameManager : Singleton<GameManager> {
 
     public GameObject menuGroup;
     public GameObject scanGroup;
-    public GameObject ARThreatsCanvas;
     public GameObject textsGroup;
     public GameObject piocheBadGuyGroup;
     public GameObject piocheGentilsGroup;
-    public Text bigTextToChange;
-    public Text smallTextToChange;
     public GameObject endScreenGroup;
     public GameObject endScreenGroup_WinnerText;
     public GameObject animationGroup;
 
-    
+    public bool scanOnlyThreats = false; //Used to allow or not game cards scanning
+
+    // current state of the threats - 0 = initial state, high number = danger (>= 2 death)
+    // threats[0] == 1 -> the variable number 0 is at the state 1
+    public int[] threats;
+
+    #endregion // PUBLIC_MEMBERS
+
+    #region PRIVATE_MEMBERS
+
+    //canvas to activate or de activate in the scan screen
+    private GameObject ARThreatsCanvas;
+
+    // text to change in the textScreen
+    private Text bigTextToChange;
+    private Text smallTextToChange;
+
+
     // all the cards that will be used to compute the fate and play animations for this turn
     private ScenarioCard currentScenarioCard;
     private ItemCard currentItemCard;
@@ -62,11 +78,6 @@ public class GameManager : Singleton<GameManager> {
     protected float currentScenarioSucess = 0;
     protected float[] currentCharacterSucess = new float[nbCharacters];
 
-    // current state of the threats - 0 = initial state, high number = danger (>= 2 death)
-    // threats[0] == 1 -> the variable number 0 is at the state 1
-    public int[] threats;
-
-    public bool onlyThreats = false; //Used to allow or not game cards scanning
 
     private enum State
     {
@@ -85,18 +96,23 @@ public class GameManager : Singleton<GameManager> {
     private State _gameStatus = State.Menu;
     private uint nbTurn = 1;
 
-    #region PUBLIC_METHODS
+    #endregion // PRIVATE_MEMBERS
 
+    #region PUBLIC_METHODS
 
     public void nextState()
     {
         _gameStatus++;
-        manageStatusAction();
+        ManageStatusAction();
     }
     
     // Use this for initialization
     public void Awake()
     {
+        bigTextToChange = textsGroup.transform.Find("TextCanvas/bigTextPanel/bigText").GetComponent<Text>();
+        smallTextToChange = textsGroup.transform.Find("TextCanvas/smallTextPanel/smallText").GetComponent<Text>();
+        ARThreatsCanvas = scanGroup.transform.Find("ARThreatsCanvas").gameObject;
+
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         threats = new int[nbThreats];
         // just getting an instance of Texts to call init and initiate the static lists of texts. we will not need it later
@@ -104,7 +120,7 @@ public class GameManager : Singleton<GameManager> {
         Texts texts = Texts.Instance;
         texts.Init();
         ResetVariables();
-        manageStatusAction();
+        ManageStatusAction();
     }
 
     public void ResetVariables()
@@ -119,7 +135,7 @@ public class GameManager : Singleton<GameManager> {
         _gameStatus = State.Menu;
         ResetVariables();
         nbTurn = 1;
-        manageStatusAction();
+        ManageStatusAction();
     }
 
     public void SetCardsForNextTurn(List<Card> scannedCards)
@@ -147,20 +163,11 @@ public class GameManager : Singleton<GameManager> {
             }
         }
     }
-    
 
-    // play a game turn after the players have scanned the cards and CardsScanner has sent the scanned cards to the Gamemanager
-    public void PlayTurn()
-    {
-        nextState();
-        // TODO :
-        // deactivate AR camera (whole scan gameobj)
-        // play begining of scenario comics animation
-        // play characters actions animations
-        // play end of scenario animation
-        // check if game is over
-        // show AR variables
-    }
+
+    #endregion //PUBLIC_METHODS
+    
+    #region PRIVATE_METHODS
 
     private void ComputeFate()
     {
@@ -336,7 +343,7 @@ public class GameManager : Singleton<GameManager> {
 
 
     // Update is called once per frame
-    void manageStatusAction() {
+    private void ManageStatusAction() {
         switch (_gameStatus)
         {
             case State.Menu:
@@ -363,7 +370,7 @@ public class GameManager : Singleton<GameManager> {
                 break;
             case State.Draw:
                 bigTextToChange.GetComponent<Text>().text = "Pioche";
-                smallTextToChange.GetComponent<Text>().text = "- Le caporal pioche 2 cartes scénario et 2 cartes objet\n- Les aventuriers piochent 2 cartes par personnage";
+                smallTextToChange.GetComponent<Text>().text = "- Le Colonel pioche 2 cartes scénario et 2 cartes objet\n- Les aventuriers piochent 2 cartes par personnage";
                 break;
             case State.BadGuyPlaying:
                 textsGroup.SetActive(false);
@@ -377,7 +384,7 @@ public class GameManager : Singleton<GameManager> {
                 piocheGentilsGroup.SetActive(false);
                 scanGroup.SetActive(true);
                 ARThreatsCanvas.SetActive(false);
-                onlyThreats = false;
+                scanOnlyThreats = false;
                 break;
             case State.Animation:
                 animationGroup.SetActive(true);
@@ -391,7 +398,7 @@ public class GameManager : Singleton<GameManager> {
                 animationGroup.SetActive(false);
                 AnimationManager.Instance.clear();
                 ARThreatsCanvas.SetActive(true);
-                onlyThreats = true;
+                scanOnlyThreats = true;
                 scanGroup.SetActive(true);
                 break;
             case State.End:
@@ -401,7 +408,7 @@ public class GameManager : Singleton<GameManager> {
                 {
                     nbTurn++;
                     _gameStatus = State.NumTour;
-                    manageStatusAction();
+                    ManageStatusAction();
                 }
                 else //If someone won
                 {
@@ -424,7 +431,14 @@ public class GameManager : Singleton<GameManager> {
     private void loadAnimation()
     {
         //Senario 
-        //currentScenarioCard
+        try
+        {
+            for (int i = 1; i < 5; i++)
+            {
+                AnimationManager.Instance.addScenarAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, i);
+            }
+        }
+        catch (EntryPointNotFoundException) { }
         
         //Item
         if (currentItemCard != null)
@@ -437,7 +451,25 @@ public class GameManager : Singleton<GameManager> {
             AnimationManager.Instance.addActionAnimationToList(c.GetComponent<ActionCard>().CharacterId, c.GetComponent<ActionCard>().ActionId , 0, c.GetComponent<ActionCard>()._message);
         }
 
-        
+        //Result of scenario
+        if (currentScenarioSucess <= sucessValue)
+        {
+            AnimationManager.Instance.addScenarFinalAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, "ST", currentScenarioCard.GetComponent<ScenarioCard>()._message);
+        }
+        else if (currentScenarioSucess <= neutralValue)
+        { // normal sucess
+            AnimationManager.Instance.addScenarFinalAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, "S", currentScenarioCard.GetComponent<ScenarioCard>()._message);
+        }
+        else if (currentScenarioSucess <= failureValue)
+        { // normal failure
+            AnimationManager.Instance.addScenarFinalAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, "E", currentScenarioCard.GetComponent<ScenarioCard>()._message);
+        }
+        else
+        { // critical failure
+            AnimationManager.Instance.addScenarFinalAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, "ET", currentScenarioCard.GetComponent<ScenarioCard>()._message);
+        }
+
+
     }
 
     private bool isFinish()
@@ -459,7 +491,7 @@ public class GameManager : Singleton<GameManager> {
             return true;
         return false;
     }
-    #endregion
+    #endregion //PRIVATE_METHOD
 }
 
 
