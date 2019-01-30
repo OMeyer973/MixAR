@@ -45,6 +45,8 @@ public class AnimationBox : MonoBehaviour
         text = textAssociated;
         string spriteFilename = "A_char" + charNumber + "_actionId" + actionId + "_SuccessId" + sucessId;
         GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
+        if (animatedBdElement == null)
+            throw new System.EntryPointNotFoundException("Action prefab not found : " + spriteFilename);
         init(animatedBdElement, position);
     }
 
@@ -53,6 +55,8 @@ public class AnimationBox : MonoBehaviour
         text = textAssociated;
         string spriteFilename = "T_" + trapId;
         GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
+        if (animatedBdElement == null)
+            throw new System.EntryPointNotFoundException("Trap prefab not found : " + spriteFilename);
         init(animatedBdElement, position);
     }
 
@@ -61,7 +65,7 @@ public class AnimationBox : MonoBehaviour
         string spriteFilename = "S" + sceneId + "C" + partId;
         GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
         if (animatedBdElement == null)
-            throw new System.EntryPointNotFoundException(); 
+            throw new System.EntryPointNotFoundException("Scenar prefab not found : " + spriteFilename);
         init(animatedBdElement, position);
     }
 
@@ -71,6 +75,8 @@ public class AnimationBox : MonoBehaviour
         text = textAssociated;
         string spriteFilename = "S" + sceneId + "F" + success;
         GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
+        if (animatedBdElement == null)
+            throw new System.EntryPointNotFoundException("ScenarFinal prefab not found : " + spriteFilename );
         init(animatedBdElement, position);
     }
 
@@ -79,7 +85,7 @@ public class AnimationBox : MonoBehaviour
         string spriteFilename = "Intro" + partId;
         GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
         if (animatedBdElement == null)
-            throw new System.EntryPointNotFoundException();
+            throw new System.EntryPointNotFoundException("Intro prefab not found :" + spriteFilename);
         init(animatedBdElement, position);
     }
 
