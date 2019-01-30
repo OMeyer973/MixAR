@@ -41,8 +41,8 @@ public class GameManager : Singleton<GameManager> {
     public GameObject menuGroup;
     public GameObject scanGroup;
     public GameObject textsGroup;
-    public GameObject piocheBadGuyGroup;
-    public GameObject piocheGentilsGroup;
+    public GameObject badGuyTurnGroup;
+    public GameObject goodGuyTurnGroup;
     public GameObject endScreenGroup;
     public GameObject endScreenGroup_WinnerText;
     public GameObject animationGroup;
@@ -59,6 +59,7 @@ public class GameManager : Singleton<GameManager> {
 
     //canvas to activate or de activate in the scan screen
     private GameObject ARThreatsCanvas;
+    private GameObject cardsScanCanvas;
 
     // text to change in the textScreen
     private Text bigTextToChange;
@@ -109,9 +110,11 @@ public class GameManager : Singleton<GameManager> {
     // Use this for initialization
     public void Awake()
     {
+        ARThreatsCanvas = scanGroup.transform.Find("ARThreatsCanvas").gameObject;
+        cardsScanCanvas = scanGroup.transform.Find("cardsScanCanvas").gameObject;
+
         bigTextToChange = textsGroup.transform.Find("TextCanvas/bigTextPanel/bigText").GetComponent<Text>();
         smallTextToChange = textsGroup.transform.Find("TextCanvas/smallTextPanel/smallText").GetComponent<Text>();
-        ARThreatsCanvas = scanGroup.transform.Find("ARThreatsCanvas").gameObject;
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         threats = new int[nbThreats];
@@ -341,68 +344,73 @@ public class GameManager : Singleton<GameManager> {
         }
     }
 
+    private void ResetDisplay() {
+        menuGroup.SetActive(false);
+        animationGroup.SetActive(false);
 
-    // Update is called once per frame
+        textsGroup.SetActive(false);
+        badGuyTurnGroup.SetActive(false);
+        goodGuyTurnGroup.SetActive(false);
+
+        scanGroup.SetActive(false);
+        cardsScanCanvas.SetActive(false);
+        ARThreatsCanvas.SetActive(false);
+
+        endScreenGroup.SetActive(false);
+    }
+
     private void ManageStatusAction() {
+
+        ResetDisplay();
+
         switch (_gameStatus)
         {
             case State.Menu:
-                endScreenGroup.SetActive(false);
                 menuGroup.SetActive(true);
                 break;
             case State.Intro:
                 animationGroup.SetActive(true);
-                menuGroup.SetActive(false);
+                AnimationManager.Instance.clear();
                 AnimationManager.Instance.addActionAnimationToList(1,1,0);
                 AnimationManager.Instance.addActionAnimationToList(1,2,0);
                 AnimationManager.Instance.showNext();
-                //.SetActive(true);
-                //parallaxGameObject.GetComponent<AnimationBox>().addSprite(introPrefab);
                 break;
             case State.NumTour:
-                animationGroup.SetActive(false);
                 AnimationManager.Instance.clear();
-                //animationGroup.SetActive(false);
-                //animationGroup.transform.Find("Parallax").GetComponent<AnimationBox>().clear();
                 textsGroup.SetActive(true);
                 bigTextToChange.GetComponent<Text>().text = "Tour "+nbTurn;
                 smallTextToChange.GetComponent<Text>().text = "Plus que " + (nbTurnsMax - nbTurn) + " tours et les aventuriers s'échappent !";
                 break;
             case State.Draw:
+                textsGroup.SetActive(true);
                 bigTextToChange.GetComponent<Text>().text = "Pioche";
                 smallTextToChange.GetComponent<Text>().text = "- Le Colonel pioche 2 cartes scénario et 2 cartes objet\n- Les aventuriers piochent 2 cartes par personnage";
                 break;
             case State.BadGuyPlaying:
-                textsGroup.SetActive(false);
-                piocheBadGuyGroup.SetActive(true);
+                badGuyTurnGroup.SetActive(true);
                 break;
             case State.PlayersPlaying:
-                piocheBadGuyGroup.SetActive(false);
-                piocheGentilsGroup.SetActive(true);
+                goodGuyTurnGroup.SetActive(true);
                 break;
             case State.Scan:
-                piocheGentilsGroup.SetActive(false);
                 scanGroup.SetActive(true);
-                ARThreatsCanvas.SetActive(false);
+                cardsScanCanvas.SetActive(true);
                 scanOnlyThreats = false;
                 break;
             case State.Animation:
                 animationGroup.SetActive(true);
-                AnimationManager.Instance.clear();
-                scanGroup.SetActive(false);
                 ComputeFate();
+                AnimationManager.Instance.clear();
                 loadAnimation();
                 AnimationManager.Instance.showNext();
                 break;
             case State.ShowThreatsAR:
-                animationGroup.SetActive(false);
                 AnimationManager.Instance.clear();
                 ARThreatsCanvas.SetActive(true);
                 scanOnlyThreats = true;
                 scanGroup.SetActive(true);
                 break;
             case State.End:
-                scanGroup.SetActive(false);
                 
                 if (!isFinish())
                 {

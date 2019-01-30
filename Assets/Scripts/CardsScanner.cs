@@ -10,6 +10,7 @@ public class CardsScanner : MonoBehaviour
 
     public GameObject successCanvas;
     public GameObject errorCanvas;
+    public GameObject cardScanCanvas;
     #endregion // PUBLIC_MEMBER_VARIABLES
 
     #region PROTECTED_MEMBER_VARIABLES
@@ -50,7 +51,7 @@ public class CardsScanner : MonoBehaviour
             {
                 cardsAreGood = cardsAreGood && (nbCharacterCards[i] == 1);
             }
-
+            HideCardScanCanvas();
             if (cardsAreGood)
             {
                 Debug.Log("Cards are good !");
@@ -63,6 +64,11 @@ public class CardsScanner : MonoBehaviour
                 ShowErrorCanvas();
             }
         }
+    }
+    private void
+            HideCardScanCanvas()
+    {
+        cardScanCanvas.SetActive(false);
     }
 
     private void ShowErrorCanvas()
