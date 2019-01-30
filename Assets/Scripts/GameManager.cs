@@ -100,7 +100,7 @@ public class GameManager : Singleton<GameManager> {
 
     #region PUBLIC_METHODS
 
-    public void NextState()
+    public void nextState()
     {
         _gameStatus++;
         ManageStatusAction();
@@ -370,7 +370,7 @@ public class GameManager : Singleton<GameManager> {
                 break;
             case State.Draw:
                 bigTextToChange.GetComponent<Text>().text = "Pioche";
-                smallTextToChange.GetComponent<Text>().text = "- Le caporal pioche 2 cartes scénario et 2 cartes objet\n- Les aventuriers piochent 2 cartes par personnage";
+                smallTextToChange.GetComponent<Text>().text = "- Le Colonel pioche 2 cartes scénario et 2 cartes objet\n- Les aventuriers piochent 2 cartes par personnage";
                 break;
             case State.BadGuyPlaying:
                 textsGroup.SetActive(false);
