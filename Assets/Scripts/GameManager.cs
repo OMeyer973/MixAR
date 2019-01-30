@@ -32,7 +32,7 @@ public class GameManager : Singleton<GameManager> {
     public static readonly int nbThreats = 3;
     public static readonly int nbThreatsStates = 3;
 
-    public static readonly int nbItems = 7;
+    public static readonly int nbItems = 8;
 
     public static readonly int nbTurnsMax = 5;
 
@@ -370,7 +370,9 @@ public class GameManager : Singleton<GameManager> {
                 break;
             case State.Intro:
                 animationGroup.SetActive(true);
-                loadIntro();
+                AnimationManager.Instance.clear();
+                AnimationManager.Instance.addActionAnimationToList(1,1,0);
+                AnimationManager.Instance.addActionAnimationToList(1,2,0);
                 AnimationManager.Instance.showNext();
                 break;
             case State.NumTour:
@@ -392,6 +394,7 @@ public class GameManager : Singleton<GameManager> {
                 break;
             case State.Scan:
                 scanGroup.SetActive(true);
+
                 cardsScanCanvas.SetActive(true);
                 scanOnlyThreats = false;
                 break;
@@ -434,13 +437,6 @@ public class GameManager : Singleton<GameManager> {
         }     
     }
 
-    private void loadIntro()
-    {
-        for (int i = 1; i < 10; i++)
-        {
-            AnimationManager.Instance.addIntroAnimationToList(i);
-        }
-    }
     private void loadAnimation()
     {
         //Senario 
@@ -481,6 +477,8 @@ public class GameManager : Singleton<GameManager> {
         { // critical failure
             AnimationManager.Instance.addScenarFinalAnimationToList(currentScenarioCard.GetComponent<ScenarioCard>().ScenarioId, "ET", currentScenarioCard.GetComponent<ScenarioCard>()._message);
         }
+
+
     }
 
     private bool isFinish()

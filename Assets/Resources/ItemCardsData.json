@@ -76,5 +76,16 @@
 	 "influenceThreat": false,
 	 "threatToInfluence": 0,
 	 "influenceThreatBy": 0
+	},
+	{
+	 "cardName": "item_noItem",
+	 "itemId": 7,
+	 "influenceCharacter": false,
+	 "characterToInfluence": 0,
+	 "influenceCharacterBy": 20,
+
+	 "influenceThreat": false,
+	 "threatToInfluence": 0,
+	 "influenceThreatBy": 0
 	}
 ]
