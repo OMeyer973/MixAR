@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -810,7 +810,7 @@ RectTransform:
   - {fileID: 1037237332}
   - {fileID: 1541085411}
   m_Father: {fileID: 1862491754}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1157,7 +1157,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &180563789
 Transform:
   m_ObjectHideFlags: 0
@@ -5892,7 +5892,7 @@ RectTransform:
   m_Children:
   - {fileID: 489574380}
   m_Father: {fileID: 1862491754}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -9415,7 +9415,7 @@ Prefab:
     - target: {fileID: 224484552287823590, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 224484552287823590, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
@@ -9470,37 +9470,32 @@ Prefab:
     - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 360
-      objectReference: {fileID: 0}
-    - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 720
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -61.422348
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 122.844696
-      objectReference: {fileID: 0}
-    - target: {fileID: 114149670152009758, guid: 994c3fc1965de2b4185ece7c89f680fc,
-        type: 2}
-      propertyPath: m_Text
-      value: Choisissez votre monde
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 994c3fc1965de2b4185ece7c89f680fc, type: 2}
@@ -11380,33 +11375,9 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 2030016630}
-    - target: {fileID: 224763774040363852, guid: 4a3aa3d83b31993418c07374fed62cac,
-        type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.99999994
-      objectReference: {fileID: 0}
-    - target: {fileID: 224763774040363852, guid: 4a3aa3d83b31993418c07374fed62cac,
-        type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.99999994
-      objectReference: {fileID: 0}
-    - target: {fileID: 224763774040363852, guid: 4a3aa3d83b31993418c07374fed62cac,
-        type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.99999994
-      objectReference: {fileID: 0}
     - target: {fileID: 1874776520514634, guid: 4a3aa3d83b31993418c07374fed62cac, type: 2}
       propertyPath: m_Name
       value: ThophyPanel (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114676791360392608, guid: 4a3aa3d83b31993418c07374fed62cac,
-        type: 2}
-      propertyPath: m_Text
-      value: "Jouer un r\xE9ussite critique sur une action qui a 90% de chance d'\xE9chouer"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a3aa3d83b31993418c07374fed62cac, type: 2}
@@ -11904,7 +11875,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1862491748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12018,9 +11989,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 1529665499}
   - {fileID: 166196598}
   - {fileID: 1035162277}
+  - {fileID: 1529665499}
   m_Father: {fileID: 180563789}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

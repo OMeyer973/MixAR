@@ -49,15 +49,15 @@
 	 "ThreatToChange": 1
 	},
 	{
-		"cardName": "scenarioTest",
+		"cardName": "scenario_caporal",
 	 	"scenarioId": 4,
 	 	"fateMatrix" : // todo : set actual matrix
 	 	[// char0  char1   char2
-			[70,	10, 	80], // action0
-			[20,	40, 	30], // action1
-			[10,	80, 	70], // action2
-			[80,	70, 	50]  // action3
+			[70,	100, 	90], // action0
+			[70,	40, 	80], // action1
+			[80,	80, 	80], // action2
+			[100,	00, 	0]  // action3
 	 	],
-	 "ThreatToChange": 1
+	 "ThreatToChange": 2
 	}
 ]

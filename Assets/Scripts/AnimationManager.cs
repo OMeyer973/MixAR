@@ -110,11 +110,14 @@ public class AnimationManager : Singleton<AnimationManager>
 
     public void addTrapAnimationToList(int trapId, string textAssociated = "")
     {
-        Vector3 pos = new Vector3(0, 0, 0);
-        GameObject go = new GameObject("TrapAnimation-"+trapId);
-        AnimationBox box = go.AddComponent<AnimationBox>();
-        box.initTrap(trapId, pos, textAssociated);
-        _bdElemList.Add(go);
+        if (trapId != GameManager.noItemId)
+        {
+            Vector3 pos = new Vector3(0, 0, 0);
+            GameObject go = new GameObject("TrapAnimation-" + trapId);
+            AnimationBox box = go.AddComponent<AnimationBox>();
+            box.initTrap(trapId, pos, textAssociated);
+            _bdElemList.Add(go);
+        }
     }
 
     public void addScenarAnimationToList(int sceneId, int partId)
