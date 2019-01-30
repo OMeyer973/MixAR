@@ -66,8 +66,9 @@ public class AnimationBox : MonoBehaviour
     }
 
     //@param sucess : E: echec - ET : echec total - S : succes - ST : succes total
-    public void initScenarFinal(int sceneId, char success, Vector3 position)
+    public void initScenarFinal(int sceneId, string success, Vector3 position, string textAssociated = "")
     {
+        text = textAssociated;
         string spriteFilename = "S" + sceneId + "F" + success;
         GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
         init(animatedBdElement, position);

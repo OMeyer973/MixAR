@@ -127,12 +127,12 @@ public class AnimationManager : Singleton<AnimationManager>
     }
 
     //@param success : E: echec - ET : echec total - S : succes - ST : succes total
-    public void addScenarFinalAnimationToList(int sceneId, char success)
+    public void addScenarFinalAnimationToList(int sceneId, string success, string textAssociated = "")
     {
         Vector3 pos = new Vector3(0, 0, 0);
         GameObject go = new GameObject("FinalScenarAnimation");
         AnimationBox box = go.AddComponent<AnimationBox>();
-        box.initScenarFinal(sceneId, success, pos);
+        box.initScenarFinal(sceneId, success, pos, textAssociated);
         _bdElemList.Add(go);
     }
 
