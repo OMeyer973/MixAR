@@ -4,7 +4,7 @@
 	 "cardName": "item_mouche",
 	 "itemId": 0,
 	 "influenceCharacter": true,
-	 "characterToInfluence": 2,
+	 "characterToInfluence": 0,
 	 "influenceCharacterBy": 20,
 
 	 "influenceThreat": false,
@@ -15,7 +15,7 @@
 	 "cardName": "item_soleil",
 	 "itemId": 1,
 	 "influenceCharacter": true,
-	 "characterToInfluence": 0,
+	 "characterToInfluence": 2,
 	 "influenceCharacterBy": 20,
 
 	 "influenceThreat": false,

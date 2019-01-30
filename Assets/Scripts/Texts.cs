@@ -26,7 +26,7 @@ public class Texts : Singleton<Texts> {
         Characters[1] = "Nathan le mécano";
         Characters[2] = "Lara la gachette";
 
-        Actions[0, 0] = "donne un bon coup de volant.";
+        Actions[0, 0] = "donne un grand coup de volant sur la droite !";
         Actions[0, 1] = "freine d'un coup sec.";
         Actions[0, 2] = "enfonce la pédale d'accélération.";
         Actions[0, 3] = "appuie sur un bouton mystérieux du tableau de bord ...";
@@ -53,13 +53,13 @@ public class Texts : Singleton<Texts> {
         Items[6] = "haha mon piège de test va influencer le perso 0 !";
 
 
-        CharactersSucess[0] = "Un bon coup de volant de Joe sur ce coup !";
-        CharactersSucess[1] = "Nathan manie la clef à molette comme un pro !";
-        CharactersSucess[2] = "Lara a réussi à intimider le Caporal avec cette action !";
+        CharactersSucess[0] = "Une bonne initiative de Joe sur ce coup !";
+        CharactersSucess[1] = "Nathan se débrouille comme un pro !";
+        CharactersSucess[2] = "Lara change la donne avec cette action !";
 
-        CharactersFailure[0] = "Joe est complètement perdu, il ferait mieux de regarder la route !";
-        CharactersFailure[1] = "Nathan s'emmèle dans ses outils, il ne sait plus quoi faire...";
-        CharactersFailure[2] = "Lara glisse sur un fond d'huile dans la remorque, c'est pas son moment...";
+        CharactersFailure[0] = "Joe est complètement perdu, c'était une mauvaise décision...";
+        CharactersFailure[1] = "Nathan s'emmèle dans ses outils, il ne fais rien d'utile...";
+        CharactersFailure[2] = "Lara glisse sur un fond d'huile dans la remorque, c'est raté pour cette fois...";
 
 
         Threats[0] = "état de la Jeep";
