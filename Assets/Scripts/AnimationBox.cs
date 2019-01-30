@@ -74,6 +74,15 @@ public class AnimationBox : MonoBehaviour
         init(animatedBdElement, position);
     }
 
+    public void initIntro(int partId, Vector3 position)
+    {
+        string spriteFilename = "Intro" + partId;
+        GameObject animatedBdElement = Resources.Load(PARALLAX_ANIMATED_GAMEOBJECT_FOLDER + spriteFilename, typeof(GameObject)) as GameObject;
+        if (animatedBdElement == null)
+            throw new System.EntryPointNotFoundException();
+        init(animatedBdElement, position);
+    }
+
     public void init(GameObject prefab, Vector3 position)
     {
         createCamera(position);

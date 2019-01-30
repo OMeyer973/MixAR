@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4713869457018260}
   - component: {fileID: 65555481059654744}
   m_Layer: 0
-  m_Name: Intro01
+  m_Name: Intro1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,6 +125,6 @@ SpriteRenderer:
   m_Size: {x: 16.64, y: 8.79}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

@@ -136,6 +136,15 @@ public class AnimationManager : Singleton<AnimationManager>
         _bdElemList.Add(go);
     }
 
+    public void addIntroAnimationToList(int partId)
+    {
+        Vector3 pos = new Vector3(0, 0, 0);
+        GameObject go = new GameObject("Intro"+partId);
+        AnimationBox box = go.AddComponent<AnimationBox>();
+        box.initIntro(partId, pos);
+        _bdElemList.Add(go);
+    }
+
     public void clear()
     {
         foreach (GameObject box in _bdElemList)
