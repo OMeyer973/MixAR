@@ -370,9 +370,7 @@ public class GameManager : Singleton<GameManager> {
                 break;
             case State.Intro:
                 animationGroup.SetActive(true);
-                AnimationManager.Instance.clear();
-                AnimationManager.Instance.addActionAnimationToList(1,1,0);
-                AnimationManager.Instance.addActionAnimationToList(1,2,0);
+                loadIntro();
                 AnimationManager.Instance.showNext();
                 break;
             case State.NumTour:
@@ -435,6 +433,14 @@ public class GameManager : Singleton<GameManager> {
             case State.Outro:
                 break;
         }     
+    }
+
+    private void loadIntro()
+    {
+        for (int i = 1; i < 10; i++)
+        {
+            AnimationManager.Instance.addIntroAnimationToList(i);
+        }
     }
 
     private void loadAnimation()
