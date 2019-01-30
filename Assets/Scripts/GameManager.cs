@@ -226,7 +226,7 @@ public class GameManager : Singleton<GameManager> {
             currentScenarioSucess += currentCharacterSucess[i];
 
             // Debug.Log("character " + i + " has rolled a " + currentCharacterDices[i] + " (score : " + currCharacterScore + "), his sucess is " + currentCharacterSucess[i]);
-            currentScenarioCard.GetComponent<ScenarioCard>()._message = (
+            currentActionCards[i].GetComponent<ActionCard>()._message += (
                 (currentCharacterSucess[i] <= sucessValue ? Texts.CharactersSucess[i] : Texts.CharactersFailure[i]) +
                 (currentCharacterSucess[i] <= criticalSucessValue ? " " + Texts.CriticalSucess : "") +
                 (currentCharacterSucess[i] >= criticalFailureValue ? " " + Texts.CriticalFailure : "") +
