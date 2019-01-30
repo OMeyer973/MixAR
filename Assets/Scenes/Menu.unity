@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -539,8 +539,7 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114196529038266374, guid: 4a3aa3d83b31993418c07374fed62cac,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 2030016630}
@@ -1158,7 +1157,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &180563789
 Transform:
   m_ObjectHideFlags: 0
@@ -2623,12 +2622,12 @@ Prefab:
     - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -57.97261
+      value: -61.422348
       objectReference: {fileID: 0}
     - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 115.94522
+      value: 122.844696
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 994c3fc1965de2b4185ece7c89f680fc, type: 2}
@@ -2865,8 +2864,7 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114196529038266374, guid: 4a3aa3d83b31993418c07374fed62cac,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 2030016630}
@@ -3401,15 +3399,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.79823446, g: 1, b: 0.2971698, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: e1de57bc2b400b24a976dad94d951540, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -9493,12 +9491,12 @@ Prefab:
     - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -50.50119
+      value: -61.422348
       objectReference: {fileID: 0}
     - target: {fileID: 224126617985715650, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 101.00238
+      value: 122.844696
       objectReference: {fileID: 0}
     - target: {fileID: 114149670152009758, guid: 994c3fc1965de2b4185ece7c89f680fc,
         type: 2}
@@ -10182,8 +10180,7 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114196529038266374, guid: 4a3aa3d83b31993418c07374fed62cac,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 2030016630}
@@ -11384,8 +11381,7 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114196529038266374, guid: 4a3aa3d83b31993418c07374fed62cac,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 2030016630}
@@ -11593,11 +11589,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114196529038266374, guid: 4a3aa3d83b31993418c07374fed62cac,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 2030016630}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a3aa3d83b31993418c07374fed62cac, type: 2}
   m_IsPrefabAsset: 0
