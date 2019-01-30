@@ -179,7 +179,8 @@ public class GameManager : Singleton<GameManager> {
 
         // handicap applied on the scenario sucess -> comes from a player doing nothing
         float totalHandicap = 0.0f;
-        
+        currentScenarioSucess = 0.0f;
+
         for (int i = 0; i < nbCharacters; i++)
         {
             // roll dice
@@ -226,7 +227,7 @@ public class GameManager : Singleton<GameManager> {
             currentScenarioSucess += currentCharacterSucess[i];
 
             // Debug.Log("character " + i + " has rolled a " + currentCharacterDices[i] + " (score : " + currCharacterScore + "), his sucess is " + currentCharacterSucess[i]);
-            currentActionCards[i].GetComponent<ActionCard>()._message += (
+            currentActionCards[i].GetComponent<ActionCard>()._message += "\n" + (
                 (currentCharacterSucess[i] <= sucessValue ? Texts.CharactersSucess[i] : Texts.CharactersFailure[i]) +
                 (currentCharacterSucess[i] <= criticalSucessValue ? " " + Texts.CriticalSucess : "") +
                 (currentCharacterSucess[i] >= criticalFailureValue ? " " + Texts.CriticalFailure : "") +
@@ -300,24 +301,28 @@ public class GameManager : Singleton<GameManager> {
         { // critical success : variable get -1
             threats[currentScenarioCard.ThreatToChange] = Math.Max(0, threats[currentScenarioCard.ThreatToChange] - 1);
             //Debug.Log("critical Scenario success of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " diminishe by one");
-            currentScenarioCard.GetComponent<ScenarioCard>()._message += "\n" + ("Succès critique du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !! " + Texts.ThreatMinus[currentScenarioCard.ThreatToChange]);
+            currentScenarioCard.GetComponent<ScenarioCard>()._message = ("Succès critique du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !! " + Texts.ThreatMinus[currentScenarioCard.ThreatToChange]);
+            return;
         }
         else if (currentScenarioSucess <= neutralValue)
         { // normal sucess : no change
           //Debug.Log("Scenario success of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " not change");
-            currentScenarioCard.GetComponent<ScenarioCard>()._message += "\n" + ("Succès du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% ! " + Texts.ThreatStay);
+            currentScenarioCard.GetComponent<ScenarioCard>()._message = ("Succès du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% ! " + Texts.ThreatStay);
+            return;
         }
         else if (currentScenarioSucess <= failureValue)
         { // normal failure : variable get +1
             threats[currentScenarioCard.ThreatToChange] += 1;
             //Debug.Log("Scenario failure of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
-            currentScenarioCard.GetComponent<ScenarioCard>()._message += "\n" + ("Echec du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !! " + Texts.ThreatPlus[currentScenarioCard.ThreatToChange]);
+            currentScenarioCard.GetComponent<ScenarioCard>()._message = ("Echec du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !! " + Texts.ThreatPlus[currentScenarioCard.ThreatToChange]);
+            return;
         }
         else
         { // critical failure : variable get +1
             threats[currentScenarioCard.ThreatToChange] += 1;
             //Debug.Log("critical Scenario failure of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
-            currentScenarioCard.GetComponent<ScenarioCard>()._message += "\n" + ("Echec critique du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !!! " + Texts.ThreatPlus[currentScenarioCard.ThreatToChange]);
+            currentScenarioCard.GetComponent<ScenarioCard>()._message = ("Echec critique du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !!! " + Texts.ThreatPlus[currentScenarioCard.ThreatToChange]);
+            return;
         }
     }
 

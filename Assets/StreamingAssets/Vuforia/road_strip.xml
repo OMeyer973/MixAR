@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="MainTarget" size="0.140000 0.110363" />
+    <ImageTarget name="scenario_caporal" size="0.068000 0.033031" />
     <ImageTarget name="item_noItem" size="0.068000 0.068000" />
     <ImageTarget name="item_mouche" size="0.068000 0.068000" />
     <ImageTarget name="item_soleil" size="0.068000 0.068000" />
@@ -12,7 +14,6 @@
     <ImageTarget name="scenario_barrage" size="0.140000 0.068004" />
     <ImageTarget name="scenario_eboulement" size="0.140000 0.068004" />
     <ImageTarget name="scenario_tank" size="0.140000 0.068004" />
-    <ImageTarget name="itemTest" size="0.085000 0.054005" />
     <ImageTarget name="actionChauffeur_Accelerer" size="0.068000 0.068000" />
     <ImageTarget name="actionChauffeur_BoutonInconu" size="0.068000 0.068000" />
     <ImageTarget name="actionChauffeur_Freiner" size="0.068000 0.068000" />
@@ -28,7 +29,5 @@
     <ImageTarget name="actionTireur_Mitrailleuse" size="0.068000 0.068000" />
     <ImageTarget name="actionTireur_NeRienFaire" size="0.068000 0.068000" />
     <ImageTarget name="actionTireur_Tirer" size="0.068000 0.068000" />
-    <ImageTarget name="scenarioTest" size="0.085000 0.053611" />
-    <ImageTarget name="MainTarget" size="0.085000 0.055396" />
   </Tracking>
 </QCARConfig>
