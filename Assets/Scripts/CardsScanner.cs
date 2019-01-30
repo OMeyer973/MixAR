@@ -11,7 +11,10 @@ public class CardsScanner : MonoBehaviour
     public GameObject successCanvas;
     public GameObject errorCanvas;
     public GameObject cardScanCanvas;
+
     #endregion // PUBLIC_MEMBER_VARIABLES
+
+    private bool cardsAreGood = false;
 
     #region PROTECTED_MEMBER_VARIABLES
 
@@ -24,7 +27,7 @@ public class CardsScanner : MonoBehaviour
     // check if the cards in the list are good to proceed (1 scenario, 1 item & 3 actions)
     protected void CheckCards()
     {
-        if (_trackedCards.Count >= 5) // 5 : number of cards that need to be scanned at once
+        if (_trackedCards.Count >= 5 && !cardsAreGood) // 5 : number of cards that need to be scanned at once
         {
             // TODO : replace nbActionCardCharacter0-1-2 with a list of size GameManager.nbCharacters
             int nbItemCard = 0, nbScenarioCard = 0;
@@ -45,7 +48,7 @@ public class CardsScanner : MonoBehaviour
             }
 
             // if the configuration is good, proceed
-            bool cardsAreGood = (nbItemCard == 1) && (nbScenarioCard == 1);
+            cardsAreGood = (nbItemCard == 1) && (nbScenarioCard == 1);
 
             for (int i = 0; i < GameManager.nbCharacters; i++)
             {
@@ -65,8 +68,7 @@ public class CardsScanner : MonoBehaviour
             }
         }
     }
-    private void
-            HideCardScanCanvas()
+    private void HideCardScanCanvas()
     {
         cardScanCanvas.SetActive(false);
     }
@@ -79,15 +81,20 @@ public class CardsScanner : MonoBehaviour
 
     private void ShowSuccessCanvas()
     {
-        HideCanvas();
-        successCanvas.SetActive(true);
         _cardsToSend.Clear();
         _cardsToSend.AddRange(_trackedCards);
+        HideCanvas();
+        successCanvas.SetActive(true);
     }
 
     #endregion // PROTECTED_METHODS
 
     #region PUBLIC_METHODS
+
+    public void ResetScanner ()
+    {
+        cardsAreGood = false;
+    }
 
     public void HideCanvas()
     {
@@ -102,6 +109,7 @@ public class CardsScanner : MonoBehaviour
         GameManager.Instance.SetCardsForNextTurn(_cardsToSend);
         _cardsToSend.Clear();
         HideCanvas();
+        ResetScanner();
         GameManager.Instance.nextState();
     }
 
