@@ -183,11 +183,11 @@ public class AnimationBox : MonoBehaviour
         //top
         _topMask = Instantiate(_rightMask);
         _topMask.transform.localScale = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x*3.0f, _gameobject.GetComponent<BoxCollider>().size.y, 1);
-        _topMask.transform.position = new Vector3(0, _gameobject.GetComponent<BoxCollider>().size.x - 0.1f, 7);
+        _topMask.transform.position = new Vector3(0, _gameobject.GetComponent<BoxCollider>().size.y - 0.1f, 7);
         _topMask.transform.SetParent(_gameobject.transform);
         //bottom
         _bottomMask = Instantiate(_topMask);
-        _bottomMask.transform.position = new Vector3(0, -_gameobject.GetComponent<BoxCollider>().size.x + 0.1f, 7);
+        _bottomMask.transform.position = new Vector3(0, -_gameobject.GetComponent<BoxCollider>().size.y + 0.1f, 7);
         _bottomMask.transform.SetParent(_gameobject.transform);
 
 
