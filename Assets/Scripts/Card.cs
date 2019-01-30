@@ -18,9 +18,9 @@ public class Card : DefaultTrackableEventHandler
 
     protected override void OnTrackingFound()
     {
-        //Debug.Log(GameManager.Instance.onlyThreats);
-        //Debug.Log(GameManager.Instance.onlyThreats == false || (GameManager.Instance.onlyThreats == true && this.GetType() == typeof(MainTarget)));
-        if (GameManager.Instance.onlyThreats == false || (GameManager.Instance.onlyThreats == true && this.GetType() == typeof(MainTarget)))
+        //Debug.Log(GameManager.Instance.scanOnlyThreats);
+        //Debug.Log(GameManager.Instance.scanOnlyThreats == false || (GameManager.Instance.scanOnlyThreats == true && this.GetType() == typeof(MainTarget)));
+        if (GameManager.Instance.scanOnlyThreats == false || (GameManager.Instance.scanOnlyThreats == true && this.GetType() == typeof(MainTarget)))
         {
             //base.OnTrackingFound(); // does stuff we don't want so we override it entirely
             foreach (Transform child in transform)
