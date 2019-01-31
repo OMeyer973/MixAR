@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="actionMecano_reparerLaJeep" size="0.068000 0.068000" />
     <ImageTarget name="MainTarget" size="0.140000 0.110363" />
     <ImageTarget name="scenario_caporal" size="0.068000 0.033031" />
     <ImageTarget name="item_noItem" size="0.068000 0.068000" />
@@ -22,7 +23,6 @@
     <ImageTarget name="actionMecano_Lasso" size="0.068000 0.068000" />
     <ImageTarget name="actionMecano_NeRienFaire" size="0.068000 0.068000" />
     <ImageTarget name="actionMecano_NitroDansReservoir" size="0.068000 0.068000" />
-    <ImageTarget name="actionMecano_ReparerLaJeep" size="0.068000 0.068000" />
     <ImageTarget name="actionMecano_UtiliserAmulette" size="0.068000 0.068000" />
     <ImageTarget name="actionTireur_CalmerLaNitro" size="0.068000 0.068000" />
     <ImageTarget name="actionTireur_JeterLaNitro" size="0.068000 0.068000" />
