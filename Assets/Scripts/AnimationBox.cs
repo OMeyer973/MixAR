@@ -17,6 +17,7 @@ public class AnimationBox : MonoBehaviour
     public const float MAX_CAMERA_POSITION = 10.0f;
     public const float SCROLLSPEED = 0.01f;
 
+    public bool allowCameraMovement = true;
 
     private Vector3 _centerGiroReference;
     private Vector3 _originalPosition;
@@ -190,19 +191,19 @@ public class AnimationBox : MonoBehaviour
         SpriteRenderer sprite = _rightMask.AddComponent<SpriteRenderer>();
         sprite.sprite = Resources.Load<Sprite>("white");
         _rightMask.transform.localScale = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x, _gameobject.GetComponent<BoxCollider>().size.y, 1);
-        _rightMask.transform.position = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x - 0.05f, 0, 7.5f);
+        _rightMask.transform.position = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x - 0.05f, 0, 7.01f);
         //left
         _leftMask = Instantiate(_rightMask);
-        _leftMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x + 0.05f, 0, 7.5f);
+        _leftMask.transform.position = new Vector3(-_gameobject.GetComponent<BoxCollider>().size.x + 0.05f, 0, 7.01f);
         _leftMask.transform.SetParent(_gameobject.transform);
         //top
         _topMask = Instantiate(_rightMask);
         _topMask.transform.localScale = new Vector3(_gameobject.GetComponent<BoxCollider>().size.x*3.0f, _gameobject.GetComponent<BoxCollider>().size.y, 1);
-        _topMask.transform.position = new Vector3(0, _gameobject.GetComponent<BoxCollider>().size.y - 0.05f, 7.5f);
+        _topMask.transform.position = new Vector3(0, _gameobject.GetComponent<BoxCollider>().size.y - 0.05f, 7.01f);
         _topMask.transform.SetParent(_gameobject.transform);
         //bottom
         _bottomMask = Instantiate(_topMask);
-        _bottomMask.transform.position = new Vector3(0, -_gameobject.GetComponent<BoxCollider>().size.y + 0.05f, 7.5f);
+        _bottomMask.transform.position = new Vector3(0, -_gameobject.GetComponent<BoxCollider>().size.y + 0.05f, 7.01f);
         _bottomMask.transform.SetParent(_gameobject.transform);
 
 
@@ -232,7 +233,10 @@ public class AnimationBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        updateCameraPositionForGyroscopEffect();
+        if(allowCameraMovement == true)
+        {
+            updateCameraPositionForGyroscopEffect();
+        }
     }
     
 

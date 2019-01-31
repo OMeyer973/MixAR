@@ -115,6 +115,7 @@ public class AnimationManager : Singleton<AnimationManager>
             Vector3 pos = new Vector3(0, 0, 0);
             GameObject go = new GameObject("TrapAnimation-" + trapId);
             AnimationBox box = go.AddComponent<AnimationBox>();
+            box.allowCameraMovement = false; //unactive parallax
             box.initTrap(trapId, pos, textAssociated);
             _bdElemList.Add(go);
         }
@@ -125,6 +126,7 @@ public class AnimationManager : Singleton<AnimationManager>
         Vector3 pos = new Vector3(0, 0, 0);
         GameObject go = new GameObject("ScenarAnimation");
         AnimationBox box = go.AddComponent<AnimationBox>();
+        box.allowCameraMovement = false; //unactive parallax
         box.initScenar(sceneId, partId, pos);
         _bdElemList.Add(go);
     }
@@ -135,6 +137,7 @@ public class AnimationManager : Singleton<AnimationManager>
         Vector3 pos = new Vector3(0, 0, 0);
         GameObject go = new GameObject("FinalScenarAnimation");
         AnimationBox box = go.AddComponent<AnimationBox>();
+        box.allowCameraMovement = false; //unactive parallax
         box.initScenarFinal(sceneId, success, pos, textAssociated);
         _bdElemList.Add(go);
     }
@@ -144,6 +147,7 @@ public class AnimationManager : Singleton<AnimationManager>
         Vector3 pos = new Vector3(0, 0, 0);
         GameObject go = new GameObject("Intro"+partId);
         AnimationBox box = go.AddComponent<AnimationBox>();
+        box.allowCameraMovement = false; //unactive parallax
         box.initIntro(partId, pos);
         _bdElemList.Add(go);
     }
