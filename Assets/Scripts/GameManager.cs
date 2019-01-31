@@ -44,8 +44,8 @@ public class GameManager : Singleton<GameManager> {
     public GameObject textsGroup;
     public GameObject badGuyTurnGroup;
     public GameObject goodGuyTurnGroup;
-    public GameObject endScreenGroup;
-    public GameObject endScreenGroup_WinnerText;
+    public GameObject endScreenGoodGuyWinGroup;
+    public GameObject endScreenBadGuyWinGroup;
     public GameObject animationGroup;
 
     public bool scanOnlyThreats = false; //Used to allow or not game cards scanning
@@ -362,7 +362,8 @@ public class GameManager : Singleton<GameManager> {
         cardsScanCanvas.SetActive(false);
         ARThreatsCanvas.SetActive(false);
 
-        endScreenGroup.SetActive(false);
+        endScreenBadGuyWinGroup.SetActive(false);
+        endScreenGoodGuyWinGroup.SetActive(false);
     }
 
     private void ManageStatusAction() {
@@ -425,14 +426,13 @@ public class GameManager : Singleton<GameManager> {
                 }
                 else //If someone won
                 {
-                    endScreenGroup.SetActive(true);
                     if (badGuyHasWon())
                     {
-                        endScreenGroup_WinnerText.GetComponent<Text>().text = "Le méchant a gagné";
+                        endScreenBadGuyWinGroup.SetActive(true);
                     }
                     else
                     {
-                        endScreenGroup_WinnerText.GetComponent<Text>().text = "Les gentils ont gagné";
+                        endScreenGoodGuyWinGroup.SetActive(true);
                     }
                 }
                 break;
