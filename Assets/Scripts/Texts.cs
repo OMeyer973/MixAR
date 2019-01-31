@@ -62,9 +62,9 @@ public class Texts : Singleton<Texts> {
         CharactersFailure[2] = "Lara glisse sur un fond d'huile dans la remorque, c'est raté pour cette fois...";
 
 
-        Threats[0] = "état de la Jeep";
-        Threats[1] = "stabilité de la nitro";
-        Threats[2] = "distance au tank";
+        Threats[0] = "L'état de la Jeep";
+        Threats[1] = "La stabilité de la nitro";
+        Threats[2] = "La distance au tank";
 
         ThreatPlus[0] = "Le moteur de notre Jeep a pris un sale coup !";
         ThreatPlus[1] = "Le bidon de nitro s'agite de plus en plus... J'espère qu'il ne va pas exploser !";

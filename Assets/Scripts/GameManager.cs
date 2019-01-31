@@ -130,15 +130,16 @@ public class GameManager : Singleton<GameManager> {
     public void ResetVariables()
     {
         for (int i=0; i<nbThreats; i++)
+        {
             threats[i] = 0;
-        
+        }
+        nbTurn = 1;
     }
 
     public void backToMenu()
     {
         _gameStatus = State.Menu;
         ResetVariables();
-        nbTurn = 1;
         ManageStatusAction();
     }
 
@@ -180,7 +181,7 @@ public class GameManager : Singleton<GameManager> {
         // handicap applied on the scenario sucess -> comes from a player doing nothing
         float totalHandicap = 0.0f;
         currentScenarioSucess = 0.0f;
-
+        
         for (int i = 0; i < nbCharacters; i++)
         {
             // roll dice
@@ -288,8 +289,11 @@ public class GameManager : Singleton<GameManager> {
                 //Debug.Log("character " + i + " sucess of " + currentCharacterSucess[i] + " allowed his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
                 currentActionCards[i].GetComponent<ActionCard>()._message += "\n" + ("Grace à l'action de " + Texts.Characters[i] + ", " + Texts.ThreatMinus[currentActionCards[i].ThreatToChange]);
             }
-            //Debug.Log("character " + i + " failure of " + currentCharacterSucess[i] + " prevented his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
-            currentActionCards[i].GetComponent<ActionCard>()._message += "\n" + ("L'action de " + Texts.Characters[i] + " n'a pas été très utile, " + Texts.ThreatStay);
+            else
+            {
+                //Debug.Log("character " + i + " failure of " + currentCharacterSucess[i] + " prevented his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
+                currentActionCards[i].GetComponent<ActionCard>()._message += "\n" + ("L'action de " + Texts.Characters[i] + " n'a pas été très utile, " + Texts.ThreatStay);
+            }
         }
     }
 
@@ -330,14 +334,24 @@ public class GameManager : Singleton<GameManager> {
     {
         if (currentItemCard.InfluenceThreat)
         {
+            Debug.Log("item will influence threat");
             // bad guy Item card, will make threat increase
             if (currentItemCard.InfluenceThreatBy > 0)
             {
+                currentItemCard.GetComponent<ItemCard>()._message = ("Le caporal a posé un piège ! " + Texts.Threats[currentItemCard.ThreatToInfluence] + " est menacé(e) !");
+
                 // has an influence only if the characters fail their scenario
                 // and if this influence doesn't end the game (hence the "< nbThreatsStates - 1")
-                if (currentScenarioSucess <= failureValue && threats[currentScenarioCard.ThreatToChange] + currentItemCard.InfluenceThreatBy < nbThreatsStates - 1)
-                currentItemCard.GetComponent<ItemCard>()._message += "\n" + ("Bad guy item has been played ! Threat " + currentItemCard.ThreatToInfluence + " will increase by " + currentItemCard.InfluenceThreatBy);
-                threats[currentItemCard.ThreatToInfluence] += currentItemCard.InfluenceThreatBy;
+                Debug.Log("nouvelle menace : " + threats[currentItemCard.ThreatToInfluence] + " " + currentItemCard.InfluenceThreatBy + " --- " + nbThreatsStates);
+                if (currentScenarioSucess > neutralValue && threats[currentItemCard.ThreatToInfluence] + currentItemCard.InfluenceThreatBy + 1 < nbThreatsStates)
+                {
+                    currentItemCard.GetComponent<ItemCard>()._message += "\n" + (Texts.ThreatPlus[currentItemCard.ThreatToInfluence]);
+                    threats[currentItemCard.ThreatToInfluence] += currentItemCard.InfluenceThreatBy;
+                }
+                else
+                {
+                    currentItemCard.GetComponent<ItemCard>()._message += "\n" + ("Par chance, le piège a été évité !");
+                }
             }
         }
 
@@ -345,7 +359,7 @@ public class GameManager : Singleton<GameManager> {
         if (currentItemCard.InfluenceThreatBy < 0)
         {
             // always has an influence (only does nothing if the threat is allready at 0
-            currentItemCard.GetComponent<ItemCard>()._message += "\n" + ("Good guy item has been played ! Threat " + currentItemCard.ThreatToInfluence + " will decrease by " + currentItemCard.InfluenceThreatBy);
+            currentItemCard.GetComponent<ItemCard>()._message = ("Les aventuriers posent un objet ! " + Texts.ThreatMinus[currentItemCard.ThreatToInfluence]);
             threats[currentItemCard.ThreatToInfluence] = Math.Max(0, threats[currentItemCard.ThreatToInfluence] + currentItemCard.InfluenceThreatBy);
         }
     }
@@ -461,16 +475,24 @@ public class GameManager : Singleton<GameManager> {
         }
         catch (EntryPointNotFoundException) { }
         
-        //Item
-        if (currentItemCard != null)
+
+        //Action
+        foreach (ActionCard c in currentActionCards){
+            //Item that influence character
+            if (currentItemCard != null && currentItemCard.InfluenceCharacter && currentItemCard.CharacterToInfluence == c.CharacterId)
+            {
+                AnimationManager.Instance.addTrapAnimationToList(currentItemCard.GetComponent<ItemCard>().ItemId, currentItemCard.GetComponent<ItemCard>()._message);
+            }
+
+            AnimationManager.Instance.addActionAnimationToList(c.GetComponent<ActionCard>().CharacterId, c.GetComponent<ActionCard>().ActionId , 0, c.GetComponent<ActionCard>()._message);
+        }
+
+        //Item that influence threats
+        if (currentItemCard != null && currentItemCard.InfluenceThreat)
         {
             AnimationManager.Instance.addTrapAnimationToList(currentItemCard.GetComponent<ItemCard>().ItemId, currentItemCard.GetComponent<ItemCard>()._message);
         }
 
-        //Action
-        foreach (ActionCard c in currentActionCards){
-            AnimationManager.Instance.addActionAnimationToList(c.GetComponent<ActionCard>().CharacterId, c.GetComponent<ActionCard>().ActionId , 0, c.GetComponent<ActionCard>()._message);
-        }
 
         //Result of scenario
         if (currentScenarioSucess <= sucessValue)

@@ -7472,7 +7472,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.8
-  m_Text: "Eloignez la cam\xE9ra du plateau puis essayez de bien scanner"
+  m_Text: "Eloignez la cam\xE9ra du plateau puis reessayez de bien scanner"
 --- !u!222 &1221806064
 CanvasRenderer:
   m_ObjectHideFlags: 0
