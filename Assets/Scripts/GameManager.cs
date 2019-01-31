@@ -334,7 +334,6 @@ public class GameManager : Singleton<GameManager> {
     {
         if (currentItemCard.InfluenceThreat)
         {
-            Debug.Log("item will influence threat");
             // bad guy Item card, will make threat increase
             if (currentItemCard.InfluenceThreatBy > 0)
             {
@@ -342,7 +341,6 @@ public class GameManager : Singleton<GameManager> {
 
                 // has an influence only if the characters fail their scenario
                 // and if this influence doesn't end the game (hence the "< nbThreatsStates - 1")
-                Debug.Log("nouvelle menace : " + threats[currentItemCard.ThreatToInfluence] + " " + currentItemCard.InfluenceThreatBy + " --- " + nbThreatsStates);
                 if (currentScenarioSucess > neutralValue && threats[currentItemCard.ThreatToInfluence] + currentItemCard.InfluenceThreatBy + 1 < nbThreatsStates)
                 {
                     currentItemCard.GetComponent<ItemCard>()._message += "\n" + (Texts.ThreatPlus[currentItemCard.ThreatToInfluence]);
