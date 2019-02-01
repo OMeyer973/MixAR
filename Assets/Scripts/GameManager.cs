@@ -35,7 +35,7 @@ public class GameManager : Singleton<GameManager> {
     public static readonly int nbItems = 7;
     public static readonly int noItemId = nbItems - 1;
 
-    public static readonly int nbTurnsMax = 5;
+    public static readonly int nbTurnsMax = 2;
 
     public PlayerSettings settings;
 
@@ -96,7 +96,7 @@ public class GameManager : Singleton<GameManager> {
         Outro //End animation
     }
     private State _gameStatus = State.Menu;
-    private uint nbTurn = 1;
+    private uint nbTurn = 0;
 
     #endregion // PRIVATE_MEMBERS
 
@@ -133,7 +133,7 @@ public class GameManager : Singleton<GameManager> {
         {
             threats[i] = 0;
         }
-        nbTurn = 1;
+        nbTurn = 0;
     }
 
     public void backToMenu()
@@ -395,7 +395,7 @@ public class GameManager : Singleton<GameManager> {
             case State.NumTour:
                 AnimationManager.Instance.clear();
                 textsGroup.SetActive(true);
-                bigTextToChange.GetComponent<Text>().text = "Tour "+nbTurn;
+                bigTextToChange.GetComponent<Text>().text = "Tour "+ (nbTurn + 1);
                 smallTextToChange.GetComponent<Text>().text = "Plus que " + (nbTurnsMax - nbTurn) + " tours et les aventuriers s'échappent !";
                 break;
             case State.Draw:
@@ -528,7 +528,7 @@ public class GameManager : Singleton<GameManager> {
 
     private bool goodGuysHasWon()
     {
-        if (nbTurn >= nbTurnsMax)
+        if (nbTurn >= nbTurnsMax - 1)
             return true;
         return false;
     }
