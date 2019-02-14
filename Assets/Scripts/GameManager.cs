@@ -194,7 +194,7 @@ public class GameManager : Singleton<GameManager> {
             if (currCharacterAction == doNothingId)
             {
                 currentActionCards[i].GetComponent<ActionCard>()._message = (Texts.Characters[i] + " " + Texts.Actions[i, doNothingId] +
-                " Il gêne ses coéquipiers et leur donne à tous un handicap de " + (100f * doNothingHandicap) + "% sur leur action !");
+                " " + Texts.HandicapPlayer  + " " + (100f * doNothingHandicap) + Texts.HandicapResult);
                 totalHandicap += doNothingHandicap;
                 currCharacterScore = 0.5f;
             }
@@ -232,7 +232,7 @@ public class GameManager : Singleton<GameManager> {
                 (currentCharacterSucess[i] <= sucessValue ? Texts.CharactersSucess[i] : Texts.CharactersFailure[i]) +
                 (currentCharacterSucess[i] <= criticalSucessValue ? " " + Texts.CriticalSucess : "") +
                 (currentCharacterSucess[i] >= criticalFailureValue ? " " + Texts.CriticalFailure : "") +
-                (currentCharacterSucess[i] != neutralValue ? " (" + (int)(100f-100f*currCharacterScore) + "% de réussite du scénario)" : "")
+                (currentCharacterSucess[i] != neutralValue ? " (" + (int)(100f-100f*currCharacterScore) + Texts.ScenarioResult + ")" : "")
             );
         }
 
@@ -252,9 +252,9 @@ public class GameManager : Singleton<GameManager> {
         {
             // *0.01 because influence is between 0-100 on the json
             float itemCharacterHandicap = 0.01f * currentItemCard.InfluenceCharacterBy;
-            currentItemCard.GetComponent<ItemCard>()._message = (Texts.Items[currentItemCard.ItemId] + " " + Texts.Characters[charId] + " a un " +
-                (itemCharacterHandicap < 0 ? "bonus de " : "handicap de ") +
-                (int)(100f * -itemCharacterHandicap) + "% sur son action !");
+            currentItemCard.GetComponent<ItemCard>()._message = (Texts.Items[currentItemCard.ItemId] + " " + Texts.Characters[charId] + " " + Texts.Has + " " +
+                (itemCharacterHandicap < 0 ? (Texts.Bonus + " ") : (Texts.Handicap + " ")) +
+                (int)(100f * -itemCharacterHandicap) + Texts.HandicapResult);
             /*Debug.Log("a item has been activated ! character " + charId + " has a " +
                 (itemCharacterHandicap < 0 ? ("bonus of " + -itemCharacterHandicap) : ("handicap of " + itemCharacterHandicap)) +
                 " on his roll");*/
@@ -287,12 +287,12 @@ public class GameManager : Singleton<GameManager> {
             {
                 threats[currentActionCards[i].ThreatToChange] = Math.Max(0, threats[currentActionCards[i].ThreatToChange] - 1);
                 //Debug.Log("character " + i + " sucess of " + currentCharacterSucess[i] + " allowed his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
-                currentActionCards[i].GetComponent<ActionCard>()._message += "\n" + ("Grace à l'action de " + Texts.Characters[i] + ", " + Texts.ThreatMinus[currentActionCards[i].ThreatToChange]);
+                currentActionCards[i].GetComponent<ActionCard>()._message += "\n" + (Texts.PositiveAction + " " + Texts.Characters[i] + ", " + Texts.ThreatMinus[currentActionCards[i].ThreatToChange]);
             }
             else
             {
                 //Debug.Log("character " + i + " failure of " + currentCharacterSucess[i] + " prevented his action to diminish threat " + currentActionCards[i].ThreatToChange + "by one");
-                currentActionCards[i].GetComponent<ActionCard>()._message += "\n" + ("L'action de " + Texts.Characters[i] + " n'a pas été très utile, " + Texts.ThreatStay);
+                currentActionCards[i].GetComponent<ActionCard>()._message += "\n" + (Texts.NeutralAction1 + " " + Texts.Characters[i] + " " + Texts.NeutralAction2 + " " + Texts.ThreatStay);
             }
         }
     }
@@ -305,27 +305,27 @@ public class GameManager : Singleton<GameManager> {
         { // critical success : variable get -1
             threats[currentScenarioCard.ThreatToChange] = Math.Max(0, threats[currentScenarioCard.ThreatToChange] - 1);
             //Debug.Log("critical Scenario success of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " diminishe by one");
-            currentScenarioCard.GetComponent<ScenarioCard>()._message = ("Succès critique du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !! " + Texts.ThreatMinus[currentScenarioCard.ThreatToChange]);
+            currentScenarioCard.GetComponent<ScenarioCard>()._message = (Texts.ScenarioCriticalSucess + " " + (int)(100f - 100f * currentScenarioSucess) + "% !! " + Texts.ThreatMinus[currentScenarioCard.ThreatToChange]);
             return;
         }
         else if (currentScenarioSucess <= neutralValue)
         { // normal sucess : no change
           //Debug.Log("Scenario success of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " not change");
-            currentScenarioCard.GetComponent<ScenarioCard>()._message = ("Succès du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% ! " + Texts.ThreatStay);
+            currentScenarioCard.GetComponent<ScenarioCard>()._message = (Texts.ScenarioSucess + " " + (int)(100f - 100f * currentScenarioSucess) + "% ! " + Texts.ThreatStay);
             return;
         }
         else if (currentScenarioSucess <= failureValue)
         { // normal failure : variable get +1
             threats[currentScenarioCard.ThreatToChange] += 1;
             //Debug.Log("Scenario failure of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
-            currentScenarioCard.GetComponent<ScenarioCard>()._message = ("Echec du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !! " + Texts.ThreatPlus[currentScenarioCard.ThreatToChange]);
+            currentScenarioCard.GetComponent<ScenarioCard>()._message = (Texts.ScenarioFailure + " " + (int)(100f - 100f * currentScenarioSucess) + "% !! " + Texts.ThreatPlus[currentScenarioCard.ThreatToChange]);
             return;
         }
         else
         { // critical failure : variable get +1
             threats[currentScenarioCard.ThreatToChange] += 1;
             //Debug.Log("critical Scenario failure of " + currentScenarioSucess + " made threat " + currentScenarioCard.ThreatToChange + " increase by one");
-            currentScenarioCard.GetComponent<ScenarioCard>()._message = ("Echec critique du scenario à " + (int)(100f - 100f * currentScenarioSucess) + "% !!! " + Texts.ThreatPlus[currentScenarioCard.ThreatToChange]);
+            currentScenarioCard.GetComponent<ScenarioCard>()._message = (Texts.ScenarioCriticalFailure + " " + (int)(100f - 100f * currentScenarioSucess) + "% !!! " + Texts.ThreatPlus[currentScenarioCard.ThreatToChange]);
             return;
         }
     }
@@ -337,7 +337,7 @@ public class GameManager : Singleton<GameManager> {
             // bad guy Item card, will make threat increase
             if (currentItemCard.InfluenceThreatBy > 0)
             {
-                currentItemCard.GetComponent<ItemCard>()._message = ("Le caporal a posé un piège ! " + Texts.Threats[currentItemCard.ThreatToInfluence] + " est menacé(e) !");
+                currentItemCard.GetComponent<ItemCard>()._message = (Texts.TrapHasBeenPlayed + " " + Texts.Threats[currentItemCard.ThreatToInfluence] + " " + Texts.ThreatDanger);
 
                 // has an influence only if the characters fail their scenario
                 // and if this influence doesn't end the game (hence the "< nbThreatsStates - 1")
@@ -348,7 +348,7 @@ public class GameManager : Singleton<GameManager> {
                 }
                 else
                 {
-                    currentItemCard.GetComponent<ItemCard>()._message += "\n" + ("Par chance, le piège a été évité !");
+                    currentItemCard.GetComponent<ItemCard>()._message += "\n" + (Texts.TrapAvoided);
                 }
             }
         }
@@ -357,7 +357,7 @@ public class GameManager : Singleton<GameManager> {
         if (currentItemCard.InfluenceThreatBy < 0)
         {
             // always has an influence (only does nothing if the threat is allready at 0
-            currentItemCard.GetComponent<ItemCard>()._message = ("Les aventuriers posent un objet ! " + Texts.ThreatMinus[currentItemCard.ThreatToInfluence]);
+            currentItemCard.GetComponent<ItemCard>()._message = (Texts.ObjectHaBeenPlayed + " " + Texts.ThreatMinus[currentItemCard.ThreatToInfluence]);
             threats[currentItemCard.ThreatToInfluence] = Math.Max(0, threats[currentItemCard.ThreatToInfluence] + currentItemCard.InfluenceThreatBy);
         }
     }
@@ -395,13 +395,13 @@ public class GameManager : Singleton<GameManager> {
             case State.NumTour:
                 AnimationManager.Instance.clear();
                 textsGroup.SetActive(true);
-                bigTextToChange.GetComponent<Text>().text = "Tour "+ (nbTurn + 1);
-                smallTextToChange.GetComponent<Text>().text = "Plus que " + (nbTurnsMax - nbTurn) + " tours et les aventuriers s'échappent !";
+                bigTextToChange.GetComponent<Text>().text = Texts.Turn + " "+ (nbTurn + 1);
+                smallTextToChange.GetComponent<Text>().text = Texts.TurnsLeft1 + " " + (nbTurnsMax - nbTurn) + " " + Texts.TurnsLeft2;
                 break;
             case State.Draw:
                 textsGroup.SetActive(true);
-                bigTextToChange.GetComponent<Text>().text = "Pioche";
-                smallTextToChange.GetComponent<Text>().text = "- Le Colonel pioche 2 cartes scénario et 2 cartes objet\n- Les aventuriers piochent 2 cartes par personnage";
+                bigTextToChange.GetComponent<Text>().text = Texts.PickCard;
+                smallTextToChange.GetComponent<Text>().text = Texts.PickCardInstructions;
                 break;
             case State.BadGuyPlaying:
                 badGuyTurnGroup.SetActive(true);

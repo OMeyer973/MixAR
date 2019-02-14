@@ -20,6 +20,39 @@ public class Texts : Singleton<Texts> {
 
     public static string ThreatStay = "Aucune menace n'a changé...";
 
+    public static string Has = "a un";
+    public static string HandicapPlayer = "Il gêne ses coéquipiers et leur donne à tous un";
+    public static string Handicap = "handicap de";
+    public static string Bonus = "bonus de";
+    public static string HandicapResult = "% sur leur action !";
+
+    public static string ScenarioResult = "% de réussite du scénario";
+
+    public static string PositiveAction = "Grace à l'action de";
+
+    public static string NeutralAction1 = "L'action de";
+    public static string NeutralAction2 = "n'a pas été très utile,";
+
+    public static string ScenarioCriticalSucess = "Succès critique du scenario à";
+    public static string ScenarioSucess = "Succès du scenario à";
+    public static string ScenarioFailure = "Echec du scenario à";
+    public static string ScenarioCriticalFailure = "Echec critique du scenario à";
+
+    public static string TrapHasBeenPlayed = "Le caporal a posé un piège !";
+    public static string ThreatDanger = "est menacé(e) !";
+
+    public static string TrapAvoided = "Par chance, le piège a été évité !";
+
+    public static string ObjectHaBeenPlayed = "Les aventuriers posent un objet !";
+
+
+    public static string Turn = "Tour";
+    public static string TurnsLeft1 = "Plus que";
+    public static string TurnsLeft2 = "tours et les aventuriers s'échappent !";
+
+    public static string PickCard = "Pioche";
+    public static string PickCardInstructions = "- Le Colonel pioche 2 cartes scénario et 2 cartes objet\n- Les aventuriers piochent 2 cartes par personnage";
+
     public void Init()
     {
         Characters[0] = "Joe le chauffeur";
