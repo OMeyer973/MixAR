@@ -81,6 +81,7 @@ public class DynamicDataSetLoader : MonoBehaviour
         // required vuforia component
         target.AddComponent<TurnOffBehaviour>();
     }
+
     void InitializeMainTarget(GameObject target)
     {
         target.AddComponent<MainTarget>();
@@ -96,7 +97,6 @@ public class DynamicDataSetLoader : MonoBehaviour
     {
         scenarioCard.AddComponent<ScenarioCard>();     
         scenarioCard.GetComponent<ScenarioCard>().Initialize(cardsScanner, cardStatsLoader.GetScenarioStats(scenarioCard.name));
-
     }
 
     void InitializeItemCard(GameObject itemCard)

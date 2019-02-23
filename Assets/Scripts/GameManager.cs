@@ -30,7 +30,7 @@ public class GameManager : Singleton<GameManager> {
 
 
     public static readonly int nbThreats = 3;
-    public static readonly int nbThreatsStates = 3;
+    public static readonly int nbThreatsStates = 4;
 
     public static readonly int nbItems = 7;
     public static readonly int noItemId = nbItems - 1;

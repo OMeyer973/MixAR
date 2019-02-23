@@ -13351,7 +13351,7 @@ MonoBehaviour:
     type: 2}
   scenarioCardPrefab: {fileID: 1234927498814554, guid: 800cc1a8e1ddecc4e8beb4a823bb3b20,
     type: 2}
-  threatsPrefab: {fileID: 1777207503584396, guid: cb473b65fa542294ba9a230d1e70c4eb,
+  threatsPrefab: {fileID: 1307207663910898, guid: cb473b65fa542294ba9a230d1e70c4eb,
     type: 2}
 --- !u!1 &1966936314
 GameObject:
