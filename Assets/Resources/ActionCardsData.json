@@ -88,14 +88,14 @@
 	 "CharacterId": 2,
 	 "actionId": 2,
 	 "changeThreat": true,
-	 "ThreatToChange": 0
+	 "ThreatToChange": 1
 	},
 	{
 	 "cardName": "actionTireur_Mitrailleuse",
 	 "CharacterId": 2,
 	 "actionId": 3,
 	 "changeThreat": false,
-	 "ThreatToChange": 1
+	 "ThreatToChange": 0
 	},
 	{
 	 "cardName": "actionTireur_NeRienFaire",
