@@ -47,6 +47,8 @@ public class GameManager : Singleton<GameManager> {
     public GameObject endScreenGoodGuyWinGroup;
     public GameObject endScreenBadGuyWinGroup;
     public GameObject animationGroup;
+    public Timer timer; //Timer if asked in settings
+
 
     public bool scanOnlyThreats = false; //Used to allow or not game cards scanning
 
@@ -408,6 +410,18 @@ public class GameManager : Singleton<GameManager> {
                 break;
             case State.PlayersPlaying:
                 goodGuyTurnGroup.SetActive(true);
+                if (settings.timerButton.isOn)
+                {
+                    Debug.Log("Timer is starting");
+                    try
+                    {
+                        timer.launch(30.0f);
+                    }
+                    catch (TimerFinished e)
+                    {
+                        Debug.Log("Time is up");
+                    }
+                }
                 break;
             case State.Scan:
                 scanGroup.SetActive(true);
