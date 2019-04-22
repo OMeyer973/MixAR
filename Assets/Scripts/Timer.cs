@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Timer : MonoBehaviour {
-    public GameManager GM; 
+    public GameManager GM;
+    public Text timerText;
     private float beginTime = 0.0f;
     private float timeToWait;
     private bool isFinished = false;
@@ -34,6 +36,7 @@ public class Timer : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         Debug.Log(timeLeft());
+        timerText.text = ((int) timeLeft()) + "s";
         if (beginTime != 0.0f && !isFinished && timeLeft() <= 0)
         {
             stop();

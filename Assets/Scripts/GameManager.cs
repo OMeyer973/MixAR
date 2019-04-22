@@ -44,6 +44,7 @@ public class GameManager : Singleton<GameManager> {
     public GameObject textsGroup;
     public GameObject badGuyTurnGroup;
     public GameObject goodGuyTurnGroup;
+    public GameObject goodGuyTimerGroup;
     public GameObject endScreenGoodGuyWinGroup;
     public GameObject endScreenBadGuyWinGroup;
     public GameObject animationGroup;
@@ -409,18 +410,22 @@ public class GameManager : Singleton<GameManager> {
                 badGuyTurnGroup.SetActive(true);
                 break;
             case State.PlayersPlaying:
-                goodGuyTurnGroup.SetActive(true);
                 if (settings.timerButton.isOn)
                 {
-                    Debug.Log("Timer is starting");
                     try
                     {
                         timer.launch(30.0f);
+                        goodGuyTimerGroup.SetActive(true);
+                        Debug.Log("Timer is starting");
                     }
                     catch (TimerFinished e)
                     {
                         Debug.Log("Time is up");
                     }
+                }
+                else
+                {
+                    goodGuyTurnGroup.SetActive(true);
                 }
                 break;
             case State.Scan:
