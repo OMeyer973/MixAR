@@ -366,6 +366,9 @@ public class GameManager : Singleton<GameManager> {
     }
 
     private void ResetDisplay() {
+        timer.stop();
+        goodGuyTimerGroup.SetActive(false);
+
         menuGroup.SetActive(false);
         animationGroup.SetActive(false);
 
@@ -412,16 +415,9 @@ public class GameManager : Singleton<GameManager> {
             case State.PlayersPlaying:
                 if (settings.timerButton.isOn)
                 {
-                    try
-                    {
-                        timer.launch(30.0f);
-                        goodGuyTimerGroup.SetActive(true);
-                        Debug.Log("Timer is starting");
-                    }
-                    catch (TimerFinished e)
-                    {
-                        Debug.Log("Time is up");
-                    }
+                    timer.launch(30.0f);
+                    goodGuyTimerGroup.SetActive(true);
+                    Debug.Log("Timer is starting");
                 }
                 else
                 {

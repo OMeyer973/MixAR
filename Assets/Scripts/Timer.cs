@@ -16,6 +16,7 @@ public class Timer : MonoBehaviour {
     public void launch(float timeToWait)
     {
         beginTime = Time.time;
+        isFinished = false;
         this.timeToWait = timeToWait;
     }
 
@@ -35,11 +36,17 @@ public class Timer : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Debug.Log(timeLeft());
         timerText.text = ((int) timeLeft()) + "s";
-        if (beginTime != 0.0f && !isFinished && timeLeft() <= 0)
+        if (timeLeft() <= 6.0f)
+        {
+            timerText.color = Color.red;
+            timerText.fontSize = 18;
+            timerText.fontStyle = FontStyle.Bold;
+        }
+        if (beginTime != 0.0f && !isFinished && timeLeft() <= 0.0f)
         {
             stop();
+            GM.nextState();
         }
     }
 
@@ -47,12 +54,6 @@ public class Timer : MonoBehaviour {
     {
         isFinished = true;
         beginTime = 0;
-        GM.nextState();
     }
     #endregion
-}
-
-public class TimerFinished : System.Exception
-{
-
 }
