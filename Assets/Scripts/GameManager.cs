@@ -48,6 +48,7 @@ public class GameManager : Singleton<GameManager> {
     public GameObject endScreenGoodGuyWinGroup;
     public GameObject endScreenBadGuyWinGroup;
     public GameObject animationGroup;
+    public GameObject tutoScreenGroup;
     public Timer timer; //Timer if asked in settings
 
 
@@ -87,6 +88,7 @@ public class GameManager : Singleton<GameManager> {
     private enum State
     {
         Menu,
+        Tuto,
         Intro, //Animating introduction
         NumTour,
         Draw, //Ask player to draw cards
@@ -371,6 +373,7 @@ public class GameManager : Singleton<GameManager> {
 
         menuGroup.SetActive(false);
         animationGroup.SetActive(false);
+        tutoScreenGroup.SetActive(false);
 
         textsGroup.SetActive(false);
         badGuyTurnGroup.SetActive(false);
@@ -392,6 +395,9 @@ public class GameManager : Singleton<GameManager> {
         {
             case State.Menu:
                 menuGroup.SetActive(true);
+                break;
+            case State.Tuto:
+                tutoScreenGroup.SetActive(true);
                 break;
             case State.Intro:
                 animationGroup.SetActive(true);
