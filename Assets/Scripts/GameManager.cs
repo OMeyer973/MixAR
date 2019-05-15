@@ -40,6 +40,7 @@ public class GameManager : Singleton<GameManager> {
     public PlayerSettings settings;
 
     public GameObject menuGroup;
+    public GameObject gameAudio;
     public GameObject scanGroup;
     public GameObject textsGroup;
     public GameObject badGuyTurnGroup;
@@ -395,8 +396,10 @@ public class GameManager : Singleton<GameManager> {
         {
             case State.Menu:
                 menuGroup.SetActive(true);
+                gameAudio.SetActive(false);
                 break;
             case State.Tuto:
+                gameAudio.SetActive(true);
                 tutoScreenGroup.SetActive(true);
                 break;
             case State.Intro:
